@@ -3,179 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KATHI & STEPHAN | THE ROYAL WEDDING APP</title>
+    <title>KATHI & STEPHAN | ULTIMATE WEDDING APP</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #b89149; --dark: #0f0f0f; --light: #fdfcf9; --white: #ffffff; 
-            --accent: #f4ece0; --glass: rgba(255, 255, 255, 0.8); --shadow: 0 20px 40px rgba(0,0,0,0.15);
+            --gold: #b89149; --dark: #121212; --light: #fdfcf9; --white: #ffffff; 
+            --accent: #f4ece0; --glass: rgba(255, 255, 255, 0.95); --shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 100px; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
 
-        /* Splash Screen Animation */
+        /* Splash Screen */
         #splash { position: fixed; inset: 0; background: var(--dark); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: 0.8s ease-in-out; }
         .loader-ring { width: 80px; height: 80px; border: 2px solid var(--gold); border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Navigation Bar - Frosted Glass */
-        nav { position: fixed; bottom: 20px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px; border-radius: 30px; box-shadow: var(--shadow); z-index: 3000; border: 1px solid rgba(255,255,255,0.3); }
-        nav button { background: none; border: none; color: #777; font-size: 0.6rem; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
-        nav button.active { color: var(--gold); transform: scale(1.2); }
-        nav button .icon { font-size: 1.6rem; margin-bottom: 4px; }
+        /* Navigation */
+        nav { position: fixed; bottom: 15px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: var(--shadow); z-index: 4000; border: 1px solid var(--accent); }
+        nav button { background: none; border: none; color: #999; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: 0.3s; flex: 1; }
+        nav button.active { color: var(--gold); transform: translateY(-3px); }
+        nav button span { display: block; font-size: 1.3rem; margin-bottom: 3px; }
 
-        /* Page Layouts */
-        .page { display: none; padding: 25px; animation: pageIn 0.5s ease-out; max-width: 700px; margin: 0 auto; }
+        /* Page System */
+        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
-        @keyframes pageIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Cards & Glassmorphism */
-        .card { background: var(--white); border-radius: 30px; padding: 30px; margin-bottom: 30px; box-shadow: var(--shadow); border: 1px solid var(--accent); position: relative; }
+        /* Cards & Typography */
+        .card { background: var(--white); border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--accent); }
         .card-gold { background: linear-gradient(135deg, var(--gold), #8c6d31); color: white; border: none; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; margin-top: 0; }
+        .white-text h3, .white-text p { color: white; }
         
-        h1, h2, h3 { font-family: 'Playfair Display', serif; margin-top: 0; text-align: center; }
-        .gold-text { color: var(--gold); }
+        .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 10px; }
 
-        /* Interactive Elements */
-        .btn-action { background: var(--gold); color: white; border: none; padding: 18px; border-radius: 20px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; box-shadow: 0 10px 20px rgba(184, 145, 73, 0.3); }
-        .badge { background: var(--accent); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; color: var(--gold); }
+        /* Hero & Home Elements */
+        .hero { text-align: center; padding: 60px 20px; background: var(--accent); border-radius: 0 0 40px 40px; margin-bottom: 30px; }
+        #timer { font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-top: 10px; }
+        .prog-item { display: flex; gap: 15px; margin-bottom: 15px; border-left: 2px solid var(--accent); padding-left: 15px; }
+        .prog-item.active { border-color: var(--gold); color: var(--gold); font-weight: bold; }
 
-        /* Program Tracker */
-        .program-step { display: flex; gap: 20px; margin-bottom: 20px; opacity: 0.5; transition: 0.5s; }
-        .program-step.current { opacity: 1; transform: scale(1.05); color: var(--gold); font-weight: bold; }
-        .time { min-width: 60px; font-weight: 800; }
+        /* Input Fields */
+        .search-input { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--gold); margin-bottom: 10px; font-family: inherit; font-size: 1rem; }
+        #search-res { text-align: center; font-weight: bold; color: var(--gold); min-height: 40px; }
 
-        /* Song Voting */
-        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .vote-count { background: var(--gold); color: white; padding: 2px 10px; border-radius: 10px; cursor: pointer; }
-
+        /* Bingo Grid */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .tile { aspect-ratio: 1; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.6rem; font-weight: 700; padding: 5px; cursor: pointer; transition: 0.2s; }
     </style>
 </head>
-<body onload="setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000)">
+<body onload="setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 1500)">
 
     <div id="splash">
-        <h1 style="color: white; font-size: 3rem;">K & S</h1>
+        <h1 style="color: white; font-size: 2.5rem;">Kathi & Stephan</h1>
         <div class="loader-ring"></div>
-        <p style="margin-top: 20px; letter-spacing: 5px;">23.05.2026</p>
     </div>
 
-    <main id="home" class="page active">
-        <header style="text-align: center; margin-bottom: 40px;">
-            <p class="badge">LIVE AUS DEM SCHLOSS</p>
-            <h1 style="font-size: 3rem; margin: 10px 0;">Kathi & Stephan</h1>
-            <div id="countdown" style="font-weight: 800; letter-spacing: 2px; color: var(--gold);">Lädt...</div>
-        </header>
+    <nav>
+        <button onclick="showP('home')" id="btn-home" class="active"><span>🏠</span>Home</button>
+        <button onclick="showP('guests')" id="btn-guests"><span>📍</span>Platz</button>
+        <button onclick="showP('fun')" id="btn-fun"><span>🎮</span>Fun</button>
+        <button onclick="showP('story')" id="btn-story"><span>📖</span>Story</button>
+        <button onclick="showP('info')" id="btn-info"><span>ℹ️</span>Info</button>
+    </nav>
 
-        <div class="card card-gold">
-            <h3>📸 Das Live-Album</h3>
-            <p>Sei unser Fotograf! Alle Bilder landen direkt auf der großen Leinwand und in der Dropbox.</p>
-            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-action" style="background: white; color: var(--gold);">JETZT HOCHLADEN</a>
+    <main id="home" class="page active">
+        <div class="hero">
+            <p style="letter-spacing: 3px; font-weight: 600;">DER SCHÖNSTE TAG VON</p>
+            <h1 style="font-size: 2.5rem; margin: 10px 0;">Kathi & Stephan</h1>
+            <div id="timer">Lädt Countdown...</div>
+        </div>
+
+        <div class="card card-gold white-text">
+            <h3>📸 Foto-Zentrale</h3>
+            <p>Helft uns, den Tag unvergesslich zu machen! Alle Fotos direkt hier hochladen:</p>
+            <a href="DEIN_DROPBOX_LINK" target="_blank" style="display:block; background:white; color:var(--gold); text-align:center; padding:15px; border-radius:15px; text-decoration:none; font-weight:800; margin-top: 15px;">FOTOS HOCHLADEN</a>
         </div>
 
         <div class="card">
-            <h3>📢 Was passiert gerade?</h3>
-            <div id="program-list">
-                <div class="program-step"><span class="time">14:00</span><span>Trauung & Ja-Wort</span></div>
-                <div class="program-step current"><span class="time">16:00</span><span>Sektempfang & Fotos</span></div>
-                <div class="program-step"><span class="time">18:30</span><span>Dinner-Party</span></div>
-                <div class="program-step"><span class="time">22:00</span><span>Eröffnungstanz</span></div>
+            <h3>🕒 Der Tag im Überblick</h3>
+            <div id="program">
+                <div class="prog-item"><b>14:00</b> Trauung & Ja-Wort</div>
+                <div class="prog-item active"><b>16:00</b> Sektempfang & Torte</div>
+                <div class="prog-item"><b>18:30</b> Dinner-Party</div>
+                <div class="prog-item"><b>22:00</b> Eröffnungstanz</div>
+                <div class="prog-item"><b>00:00</b> Mitternachtssnack</div>
             </div>
         </div>
     </main>
 
     <main id="guests" class="page">
-        <h2>Dein Platz & Menü</h2>
+        <h2>Sitzplatz & Menü</h2>
         <div class="card">
-            <input type="text" id="guestSearch" placeholder="Deinen Namen suchen..." oninput="searchGuest()" style="width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--gold);">
-            <div id="guestResult" style="margin-top: 20px; text-align: center;"></div>
+            <p style="text-align: center;">Gib deinen Namen ein, um deinen Tisch zu finden:</p>
+            <input type="text" class="search-input" id="guestIn" oninput="doSearch()" placeholder="Z.B. Max...">
+            <div id="search-res"></div>
         </div>
         
         <div class="card">
             <h3>🍽 Das Hochzeitsmenü</h3>
-            <p><b>Vorspeise:</b> Trüffel-Ravioli an Salbeibutter</p>
-            <p><b>Hauptgang:</b> Rinderfilet oder Veganes Risotto</p>
-            <p><b>Dessert:</b> Schoko-Traum & Hochzeitstorte</p>
-            <hr>
-            <p style="font-size: 0.8rem; color: #777;">Bei Allergien bitte kurz dem Service Bescheid geben!</p>
+            <p><b>Vorspeise:</b> Variation vom Lachs an Wildkräutern</p>
+            <p><b>Hauptgang:</b> Rinderfilet oder Steinpilz-Risotto (Veggie)</p>
+            <p><b>Dessert:</b> Sorbet-Variation & Hochzeitstorte</p>
+            <hr style="border: 0.5px solid var(--accent); margin: 15px 0;">
+            <p style="font-size: 0.75rem; text-align: center; color: #888;">Bitte gebt dem Servicepersonal bei Allergien rechtzeitig Bescheid!</p>
         </div>
     </main>
 
     <main id="fun" class="page">
         <h2>Entertainment</h2>
+        
         <div class="card">
-            <h3>🎵 DJ Wunschliste</h3>
-            <p>Votet eure Lieblingssongs nach oben!</p>
-            <div class="song-item"><span>Abba - Dancing Queen</span> <span class="vote-count" onclick="this.innerText++">12</span></div>
-            <div class="song-item"><span>Roland Kaiser - Joana</span> <span class="vote-count" onclick="this.innerText++">8</span></div>
-            <div class="song-item"><span>AC/DC - Highway to Hell</span> <span class="vote-count" onclick="this.innerText++">24</span></div>
+            <h3>🎯 Das Brautpaar-Quiz</h3>
+            <div id="quiz-container">
+                <p id="quiz-question" style="text-align: center; font-weight: 600;">Bereit für 10 knifflige Fragen über Kathi & Stephan?</p>
+                <div id="quiz-options">
+                    <button class="btn-action" onclick="loadNextQuestion()">QUIZ STARTEN</button>
+                </div>
+                <p id="quiz-stat" style="font-size: 0.8rem; text-align: center; margin-top: 10px;"></p>
+            </div>
         </div>
 
-        <div class="card" style="background: var(--dark); color: white; text-align: center;">
-            <h3 style="color: var(--gold);">⚡️ Schnappschuss-Jagd</h3>
-            <p>Wer macht zuerst ein Foto mit:</p>
-            <ul style="text-align: left; list-style: none; padding: 0;">
-                <li onclick="this.style.color='var(--gold)'">✅ Einem Gast mit roter Krawatte</li>
-                <li onclick="this.style.color='var(--gold)'">✅ Den Brautschuhen</li>
-                <li onclick="this.style.color='var(--gold)'">✅ Drei Generationen auf einem Bild</li>
+        <div class="card">
+            <h3>⚖️ Wer würde eher...?</h3>
+            <p style="text-align: center; font-size: 0.8rem;">Verschiebe den Regler zu der Person, auf die es eher zutrifft!</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                <span style="font-weight: 800; color: var(--gold);">KATHI</span>
+                <input type="range" min="0" max="100" value="50" style="flex: 1; margin: 0 15px; accent-color: var(--gold);">
+                <span style="font-weight: 800; color: var(--gold);">STEPHAN</span>
+            </div>
+            <p id="baro-q" style="text-align: center; font-weight: 600; min-height: 40px;">...morgens als Erster den Kaffee kochen?</p>
+            <button onclick="nextBaroQ()" class="btn-action" style="background: var(--accent); color: var(--gold);">NÄCHSTE FRAGE</button>
+        </div>
+
+        <div class="card" style="background: var(--dark); color: white;">
+            <h3 style="color: var(--gold);">🍻 Party-Trinkspiel</h3>
+            <p id="drink-task" style="text-align: center; min-height: 50px; font-style: italic;">Bereit für eine Aufgabe? Klick unten!</p>
+            <button class="btn-action" style="background: white; color: var(--dark);" onclick="generateDrinkTask()">NÄCHSTE RUNDE</button>
+        </div>
+
+        <div class="card">
+            <h3>🎰 Wedding Bingo</h3>
+            <p style="text-align: center; font-size: 0.8rem;">Tippe die Felder an, wenn du sie auf der Hochzeit entdeckst!</p>
+            <div class="bingo-grid">
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Kuss!</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">"Prost"</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Lachtränen</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Selfie-Alarm</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Tanz-Solo</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Jemand hält eine Rede</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Trauzeuge weint</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">Glas klirrt</div>
+                <div class="tile" onclick="this.style.background='var(--gold)'; this.style.color='white'">"Atemlos" läuft</div>
+            </div>
+        </div>
+    </main>
+
+    <main id="story" class="page">
+        <h2>Unsere Lovestory</h2>
+        <div class="card">
+            <h3>Wie alles begann...</h3>
+            <p>Es fing alles an einem verregneten Dienstag an. Ein zufälliger Blick, ein erstes Gespräch – und der Rest ist Geschichte. Von den ersten aufregenden Dates bis zum Zusammenziehen war es ein absoluter Traum (abgesehen von der Diskussion, wer den Müll rausbringt).</p>
+        </div>
+
+        <div class="card">
+            <h3>📍 Meilensteine</h3>
+            <ul style="list-style: none; padding: 0; line-height: 1.6;">
+                <li style="margin-bottom: 15px;">💍 <b>Der Antrag:</b> Im Urlaub, unter Sternen. Kathi hat sofort "Ja" gesagt (nachdem sie endlich aufgehört hat zu weinen).</li>
+                <li style="margin-bottom: 15px;">🏠 <b>Die erste Wohnung:</b> 2022. Der größte Streitpunkt war die Farbe der Couch. Stephan hat verloren.</li>
+                <li style="margin-bottom: 15px;">🐶 <b>Familienzuwachs:</b> Ein Hund kam in unser Leben und stellt seitdem alles auf den Kopf.</li>
             </ul>
         </div>
+
+        <div class="card card-gold white-text">
+            <h3>✅ Bucket List für die Ehe</h3>
+            <p style="margin-bottom: 15px;">Was wir uns für die Zukunft vorgenommen haben:</p>
+            <div style="font-size: 0.95rem; font-weight: 600;">
+                <p>☐ Einmal komplett um die Welt reisen</p>
+                <p>☐ Ein Haus im Grünen bauen</p>
+                <p>☐ Mindestens 50 Hochzeitstage feiern</p>
+                <p>☐ Gemeinsam alt, grau und glücklich werden</p>
+            </div>
+        </div>
     </main>
 
-    <main id="help" class="page">
-        <h2>Erste Hilfe & Info</h2>
+    <main id="info" class="page">
+        <h2>Gäste-Infos</h2>
         <div class="card">
-            <h3>🆘 Die Notfall-Tasche</h3>
-            <p>Blasenpflaster, Deo, Kaugummis oder Sicherheitsnadeln findest du in den Körbchen auf den WCs!</p>
+            <h3>📶 WLAN & Netz</h3>
+            <p>Netzwerkname: <b>Schloss_Gast_2026</b></p>
+            <p>Passwort: <b>liebe2026</b></p>
         </div>
+
         <div class="card">
-            <h3>🚖 Ab nach Hause?</h3>
-            <button class="btn-action" onclick="window.location.href='tel:012345678'">TAXI RUFEN</button>
+            <h3>🚖 Taxi & Heimweg</h3>
+            <p>Trinkt, tanzt und feiert! Wir wollen, dass alle sicher nach Hause oder ins Hotel kommen:</p>
+            <button class="btn-action" onclick="window.location.href='tel:01701234567'">🚕 TAXI-ZENTRALE ANRUFEN</button>
+            <p style="font-size: 0.8rem; text-align: center; margin-top: 15px;">Oder fragt das Personal nach dem kostenlosen Shuttle-Service zur vollen Stunde!</p>
+        </div>
+
+        <div class="card">
+            <h3>🆘 Das Notfall-Kit</h3>
+            <p>Blasenpflaster, Kopfschmerztabletten, Deo, Haarspray und Kaugummis findet ihr in unseren "Notfall-Körbchen" auf den Toiletten. Bitte bedient euch reichlich!</p>
         </div>
     </main>
-
-    <nav>
-        <button onclick="showP('home')" id="n-home" class="active"><span class="icon">🏠</span>Home</button>
-        <button onclick="showP('guests')" id="n-guests"><span class="icon">📍</span>Platz</button>
-        <button onclick="showP('fun')" id="n-fun"><span class="icon">🎮</span>Fun</button>
-        <button onclick="showP('help')" id="n-help"><span class="icon">🆘</span>Hilfe</button>
-    </nav>
 
     <script>
-        // NAVIGATION
+        // 1. NAVIGATION
         function showP(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.getElementById('n-' + id).classList.add('active');
+            document.getElementById('btn-' + id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        // COUNTDOWN
-        function updateTimer() {
-            const wedding = new Date("May 23, 2026 14:00:00").getTime();
+        // 2. COUNTDOWN LOGIK (Trauung: 23. Mai 2026)
+        const weddingDate = new Date("May 23, 2026 14:00:00").getTime();
+        setInterval(() => {
             const now = new Date().getTime();
-            const diff = wedding - now;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("countdown").innerHTML = d + " TAGE & " + h + " STUNDEN";
-        }
-        setInterval(updateTimer, 1000);
+            const diff = weddingDate - now;
+            
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("timer").innerHTML = `${d} Tage | ${h} Std | ${m} Min`;
+            } else {
+                document.getElementById("timer").innerHTML = "WIR SIND VERHEIRATET! ❤️";
+            }
+        }, 1000);
 
-        // SEARCH GUEST
-        const guestData = [
-            { name: "Max", table: "Tisch 1 - Goldrausch", info: "Direkt neben der Tanzfläche!" },
-            { name: "Sarah", table: "Tisch 4 - Sternenhimmel", info: "Beste Sicht auf das Buffet!" }
+        // 3. SITZPLAN SUCHE
+        const allGuests = [
+            {n: "Max Mustermann", t: "Tisch 1 (Ehrentisch)"},
+            {n: "Julia", t: "Tisch 3 (Blumenwiese)"},
+            {n: "Oma Erna", t: "Tisch 2 (Familie)"},
+            {n: "Stephan", t: "Tisch 1 (Bräutigam)"},
+            {n: "Kathi", t: "Tisch 1 (Braut)"}
+            // Hier weitere Namen eintragen!
         ];
+        function doSearch() {
+            const val = document.getElementById('guestIn').value.toLowerCase();
+            const res = document.getElementById('search-res');
+            if(val.length < 2) { res.innerHTML = ""; return; }
+            const found = allGuests.find(g => g.n.toLowerCase().includes(val));
+            res.innerHTML = found ? `✨ Du sitzt an: <br><b style="font-size: 1.2rem;">${found.t}</b>` : "Nicht gefunden... Frag den Trauzeugen!";
+        }
 
-        function searchGuest() {
-            const s = document.getElementById('guestSearch').value.toLowerCase();
-            const res = document.getElementById('guestResult');
-            if(s.length < 2) return;
-            const g = guestData.find(x => x.name.toLowerCase().includes(s));
-            if(g) res.innerHTML = `<h3>${g.table}</h3><p>${g.info}</p>`;
-            else res.innerHTML = "Suche läuft...";
+        // 4. QUIZ DATEN & LOGIK
+        const questions = [
+            {q: "Wer hat zuerst 'Ich liebe dich' gesagt?", o: ["Kathi", "Stephan"], a: 1},
+            {q: "Was ist Stephans heimliches Laster?", o: ["Schokolade", "Zocken", "Shoppen"], a: 0},
+            {q: "Wo war der erste gemeinsame Urlaub?", o: ["Italien", "Spanien", "Ostsee"], a: 0},
+            {q: "Wer ist ordentlicher im Haushalt?", o: ["Kathi", "Stephan", "Der Staubsauger-Roboter"], a: 0},
+            {q: "Was ist Kathis absolutes Lieblingsessen?", o: ["Sushi", "Pasta", "Pizza"], a: 1},
+            {q: "Wer braucht morgens länger im Bad?", o: ["Kathi", "Stephan"], a: 1},
+            {q: "Wie heißt das gemeinsame Haustier?", o: ["Bello", "Luna", "Charlie"], a: 1},
+            {q: "Wer kann besser rückwärts einparken?", o: ["Kathi", "Stephan", "Keiner von beiden"], a: 0},
+            {q: "Wer ist der größere Morgenmuffel?", o: ["Kathi", "Stephan"], a: 1},
+            {q: "Was war ihr erstes gemeinsames Konzert?", o: ["Coldplay", "Ed Sheeran", "Roland Kaiser"], a: 2}
+        ];
+        let qIdx = 0; let score = 0;
+
+        function loadNextQuestion() {
+            const cont = document.getElementById('quiz-options');
+            const qText = document.getElementById('quiz-question');
+            const stat = document.getElementById('quiz-stat');
+            
+            if(qIdx < questions.length) {
+                const q = questions[qIdx];
+                qText.innerText = q.q;
+                cont.innerHTML = "";
+                q.o.forEach((opt, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = "btn-action";
+                    btn.style.marginBottom = "10px";
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "var(--dark)";
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        if(i === q.a) score++;
+                        qIdx++;
+                        loadNextQuestion();
+                    };
+                    cont.appendChild(btn);
+                });
+                stat.innerText = `Frage ${qIdx + 1} von ${questions.length}`;
+            } else {
+                qText.innerText = "Quiz beendet!";
+                cont.innerHTML = `<h3 style="margin-top: 20px;">Du hast ${score} von ${questions.length} Punkten!</h3>`;
+                stat.innerText = score >= 8 ? "Wahnsinn! Du bist ein absoluter Insider! ✨" : "Das geht besser! Zeit für einen gemeinsamen Drink. 😉";
+            }
+        }
+
+        // 5. BAROMETER LOGIK
+        const baroQs = [
+            "...öfter zu spät zu Verabredungen kommen?", 
+            "...den nächsten großen Urlaub planen?", 
+            "...zuerst auf der Tanzfläche eskalieren?", 
+            "...beim Film schauen auf der Couch einschlafen?",
+            "...nach dem Weg fragen, wenn ihr euch verfahren habt?"
+        ];
+        let bIdx = 0;
+        function nextBaroQ() {
+            bIdx = (bIdx + 1) % baroQs.length;
+            document.getElementById('baro-q').innerText = baroQs[bIdx];
+            document.querySelector('input[type="range"]').value = 50; // Setzt den Regler wieder in die Mitte
+        }
+
+        // 6. TRINKSPIEL TASKS
+        const tasks = [
+            "Trink einen Schluck mit der Person, die links von dir sitzt!",
+            "Alle, die das Brautpaar schon über 5 Jahre kennen: PROST!",
+            "Wer heute noch nicht getanzt hat: Ein großer Schluck!",
+            "Verteile 3 Schlucke an jemanden, der gerade sein Handy in der Hand hat.",
+            "Stimm ein lautes 'Hoch sollen sie leben' an oder trinke!",
+            "Trinke einen Schluck, wenn du heute schon geweint hast.",
+            "Alle Männer trinken auf den Bräutigam!",
+            "Alle Frauen trinken auf die Braut!"
+        ];
+        function generateDrinkTask() {
+            document.getElementById('drink-task').innerText = tasks[Math.floor(Math.random() * tasks.length)];
         }
     </script>
 </body>
 </html>
-

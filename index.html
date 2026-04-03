@@ -2,217 +2,191 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kathi & Stephan | 23.05.2026 - The Digital Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kathi & Stephan | Digital Premium Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a059; --dark: #1a1a1a; --light: #fdfcf9; --white: #ffffff; --accent: #e9e0d2; }
-        * { box-sizing: border-box; }
-        body { font-family: 'Lato', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; scroll-behavior: smooth; }
+        :root { --gold: #b89149; --dark: #121212; --light: #fdfcf9; --white: #ffffff; --soft-gold: #f4ece0; --shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 70px; overflow-x: hidden; }
         
-        /* Navigation / Progress Bar */
-        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: var(--gold); width: 0%; z-index: 1000; }
+        /* Loading Screen */
+        #loader { position: fixed; inset: 0; background: var(--white); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
+        .heart { color: var(--gold); font-size: 50px; animation: beat 1.2s infinite; }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
 
-        /* Hero Section */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; 
-                background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=80');
-                background-size: cover; background-position: center; color: white; padding: 20px; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 12vw, 6rem); margin: 0; }
-        .hero p { font-size: 1.5rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 10px; }
-        .countdown { margin-top: 30px; display: flex; gap: 20px; font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+        /* Navigation Bottom Bar */
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 10px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 1000; }
+        nav button { background: none; border: none; color: #888; font-size: 0.7rem; text-transform: uppercase; font-weight: 600; cursor: pointer; }
+        nav button.active { color: var(--gold); }
+        nav button i { display: block; font-size: 1.2rem; margin-bottom: 3px; }
 
-        /* Content Container */
-        .container { max-width: 1100px; margin: 0 auto; padding: 50px 20px; }
-        .section-card { background: var(--white); padding: 40px; margin-bottom: 50px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-        .section-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gold); }
+        /* Sections Visibility */
+        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Global UI Elements */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+        .card { background: var(--white); border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid var(--soft-gold); }
+        .btn-gold { background: var(--gold); color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 600; width: 100%; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }
+
+        /* Home Header */
+        .header-box { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80'); background-size: cover; border-radius: 0 0 40px 40px; margin-bottom: 30px; }
+        .names { font-size: 2.5rem; margin: 10px 0; }
+
+        /* Timeline */
+        .tl-container { border-left: 2px solid var(--gold); margin-left: 10px; padding-left: 20px; }
+        .tl-item { margin-bottom: 25px; position: relative; }
+        .tl-item::before { content: "❤"; position: absolute; left: -29px; background: var(--light); padding: 2px; color: var(--gold); font-size: 0.8rem; }
+
+        /* Game Elements */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .bingo-tile { aspect-ratio: 1; background: var(--soft-gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.65rem; padding: 5px; cursor: pointer; font-weight: 600; }
+        .bingo-tile.marked { background: var(--gold); color: white; }
+
+        .trink-spiel { background: var(--dark); color: white; border-radius: 15px; padding: 20px; text-align: center; }
         
-        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); text-align: center; margin-bottom: 40px; }
+        /* Forms */
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--soft-gold); border-radius: 8px; font-family: inherit; }
 
-        /* Timeline Styling */
-        .timeline { position: relative; padding: 20px 0; }
-        .timeline-item { border-left: 2px solid var(--gold); padding-left: 30px; margin-bottom: 30px; position: relative; }
-        .timeline-item::after { content: ""; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
-        .timeline-year { font-weight: bold; color: var(--gold); font-size: 1.2rem; }
-
-        /* Grid for Interactive Elements */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-
-        /* Interactive Buttons */
-        .btn { background: var(--gold); color: white; padding: 15px 30px; text-decoration: none; border: none; cursor: pointer; font-size: 1rem; border-radius: 2px; transition: 0.3s; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
-        .btn:hover { background: var(--dark); transform: translateY(-3px); }
-        .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
-
-        /* Bingo Board */
-        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .bingo-item { background: var(--accent); padding: 15px; font-size: 0.8rem; text-align: center; border-radius: 4px; cursor: pointer; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .bingo-item.active { background: var(--gold); color: white; }
-
-        /* Inputs for Crossword */
-        .cw-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px; }
-        .cw-row input { width: 100px; padding: 5px; border: 1px solid var(--gold); text-align: center; }
-        .success { color: green; font-weight: bold; text-align: center; }
-
-        footer { text-align: center; padding: 50px; background: var(--dark); color: white; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .section-card { padding: 20px; }
-        }
+        /* Footer Info */
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
     </style>
 </head>
-<body>
+<body onload="document.getElementById('loader').style.opacity='0'; setTimeout(()=>document.getElementById('loader').style.display='none', 500)">
 
-    <div id="progress-bar"></div>
+    <div id="loader"><div class="heart">❤</div></div>
 
-    <header class="hero">
-        <p>Sonderausgabe zur Hochzeit</p>
-        <h1>Kathi & Stephan</h1>
-        <div class="countdown" id="timer">
-            <div id="days">00</div><span>Tage bis zum Ja!</span>
-        </div>
-        <div style="margin-top: 40px;">
-            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn">📸 Fotos hochladen</a>
-        </div>
-    </header>
-
-    <div class="container">
-
-        <section class="section-card">
-            <h2>Unsere Reise</h2>
-            <div class="timeline">
-                <div class="timeline-item"><div class="timeline-year">2020</div><p>Das erste Treffen im Park – Es hat sofort gefunkt!</p></div>
-                <div class="timeline-item"><div class="timeline-year">2022</div><p>Die erste gemeinsame Wohnung (und der erste Streit um die Spülmaschine).</p></div>
-                <div class="timeline-item"><div class="timeline-year">2024</div><p>Der magische Antrag im Urlaub – Kathi hat JA gesagt!</p></div>
-                <div class="timeline-item"><div class="timeline-year">2026</div><p>Heute: Wir feiern das Fest unseres Lebens mit euch!</p></div>
-            </div>
-        </section>
-
-        <div class="grid-2">
-            <section class="section-card">
-                <h2>Brautpaar-Quiz</h2>
-                <div id="quiz-box" style="text-align: center;">
-                    <p id="q-text" style="font-size: 1.2rem; min-height: 60px;">Bist du bereit?</p>
-                    <div id="q-options">
-                        <button class="btn" onclick="startQuiz()">Starten</button>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-card">
-                <h2>Hochzeits-Bingo</h2>
-                <p style="font-size: 0.9rem; text-align: center;">Finde diese Momente und tippe sie an!</p>
-                <div class="bingo-grid">
-                    <div class="bingo-item" onclick="toggleBingo(this)">Jemand weint</div>
-                    <div class="bingo-item" onclick="toggleBingo(this)">"Ein Prosit"</div>
-                    <div class="bingo-item" onclick="toggleBingo(this)">Schlechte Witze</div>
-                    <div class="bingo-item" onclick="toggleBingo(this)">Kuss!</div>
-                    <div class="bingo-item" onclick="toggleBingo(this)">Selfie-Stick</div>
-                    <div class="bingo-item" onclick="toggleBingo(this)">Tanzfläche voll</div>
-                </div>
-            </section>
+    <main id="home" class="page active">
+        <div class="header-box">
+            <p>WILLKOMMEN ZUR HOCHZEIT VON</p>
+            <h1 class="names">Kathi & Stephan</h1>
+            <p>23.05.2026</p>
         </div>
 
-        <section class="section-card">
-            <h2>Insider-Check</h2>
-            <div id="crossword">
-                <div class="cw-row"><span>1. Lieblingsessen von Kathi (5)</span><input type="text" data-ans="pasta" oninput="checkCw(this)"></div>
-                <div class="cw-row"><span>2. Stephans Spitzname (5)</span><input type="text" data-ans="steve" oninput="checkCw(this)"></div>
-                <div class="cw-row"><span>3. Wo war der erste Kuss? (4)</span><input type="text" data-ans="auto" oninput="checkCw(this)"></div>
-                <div id="cw-res" class="success"></div>
+        <div class="card">
+            <h3>📸 Foto-Zentrale</h3>
+            <p>Helft uns, den Tag aus eurer Sicht festzuhalten!</p>
+            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-gold">JETZT FOTOS HOCHLADEN</a>
+        </div>
+
+        <div class="card">
+            <h3>💌 Zufälliger Glückwunsch</h3>
+            <p id="wish-display"><i>Klicke für eine Idee...</i></p>
+            <button class="btn-gold" style="background: var(--dark);" onclick="generateWish()">GLÜCKWUNSCH GENERIEREN</button>
+        </div>
+    </main>
+
+    <main id="story" class="page">
+        <h2>Unsere Geschichte</h2>
+        <div class="card">
+            <div class="tl-container">
+                <div class="tl-item"><b>2020:</b> Der erste Funke beim Grillabend.</div>
+                <div class="tl-item"><b>2021:</b> Fernbeziehung überlebt (Rekord!).</div>
+                <div class="tl-item"><b>2023:</b> Einzug in das erste gemeinsame Nest.</div>
+                <div class="tl-item"><b>2024:</b> Er hat gefragt! Sie hat nicht nein gesagt.</div>
+                <div class="tl-item"><b>2026:</b> Das große JA.</div>
             </div>
-        </section>
+        </div>
+        <div class="card">
+            <h3>Das "Insider" Kreuzworträtsel</h3>
+            <p>Was liebt Stephan mehr als Kathi? (Späßle)</p>
+            <input type="text" placeholder="Lösungswort 1..." data-ans="fussball" oninput="checkInput(this)">
+            <input type="text" placeholder="Lösungswort 2..." data-ans="italien" oninput="checkInput(this)">
+            <p id="cw-feedback"></p>
+        </div>
+    </main>
 
-        <section class="section-card" style="text-align: center;">
-            <h2>Battle: Wer würde eher?</h2>
-            <p id="battle-q" style="font-size: 1.3rem;">...einem Fremden die Ohren vollquatschen?</p>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <button class="btn btn-outline" onclick="battle('Kathi')">Kathi 👰</button>
-                <button class="btn btn-outline" onclick="battle('Stephan')">Stephan 🤵</button>
+    <main id="fun" class="page">
+        <h2>Entertainment Area</h2>
+        
+        <div class="card">
+            <h3>Wedding Bingo</h3>
+            <div class="bingo-grid">
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Trauzeuge weint</div>
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Falscher Name</div>
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Tanzfläche bebt</div>
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Buffet eröffnet</div>
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Opa schläft</div>
+                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Kuss-Alarm</div>
             </div>
-            <p id="battle-msg" style="margin-top: 20px; font-style: italic; color: var(--gold);"></p>
-        </section>
+        </div>
 
-        <section class="section-card" style="text-align: center; background: var(--accent);">
-            <h2>Eure Wünsche</h2>
-            <p>Hinterlasst uns eine Nachricht für die Ewigkeit!</p>
-            <a href="DEIN_GOOGLE_FORMS_LINK" target="_blank" class="btn">✍️ Ins Gästebuch schreiben</a>
-        </section>
+        <div class="trink-spiel">
+            <h3>🍻 Hochzeits-Trinkspiel</h3>
+            <p id="drink-task">Bereit? Klick für eine Aufgabe!</p>
+            <button class="btn-gold" onclick="nextDrink()">NÄCHSTE RUNDE</button>
+        </div>
 
-    </div>
+        <div class="card" style="margin-top: 20px;">
+            <h3>🎧 DJ-Wunschbox</h3>
+            <input type="text" id="song" placeholder="Dein Wunschsong...">
+            <button class="btn-gold" onclick="alert('Wunsch wurde (symbolisch) an den DJ gesendet!')">SENDEN</button>
+        </div>
+    </main>
 
-    <footer>
-        <p>&copy; 2026 - Für immer Kathi & Stephan</p>
-        <p style="font-size: 0.8rem;">Mit Liebe digitalisiert.</p>
-    </footer>
+    <main id="info" class="page">
+        <h2>Wichtige Infos</h2>
+        <div class="card">
+            <div class="info-row"><span>Tischzuordnung</span><b>Siehe Tafel am Eingang</b></div>
+            <div class="info-row"><span>Taxi-Zentrale</span><b>0123-456789</b></div>
+            <div class="info-row"><span>WLAN</span><b>Hochzeit2026 / liebe123</b></div>
+        </div>
+        
+        <div class="card">
+            <h3>🎁 Geschenke</h3>
+            <p>Eure Anwesenheit ist uns Geschenk genug. Wer dennoch etwas geben möchte: Unser Sparschwein freut sich auf die Flitterwochen!</p>
+        </div>
+    </main>
+
+    <nav>
+        <button onclick="showPage('home')" id="btn-home" class="active">🏠<br>Home</button>
+        <button onclick="showPage('story')" id="btn-story">📖<br>Story</button>
+        <button onclick="showPage('fun')" id="btn-fun">🎮<br>Fun</button>
+        <button onclick="showPage('info')" id="btn-info">ℹ️<br>Info</button>
+    </nav>
 
     <script>
-        // Progress Bar
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-        };
-
-        // Countdown
-        const weddingDate = new Date("May 23, 2026 14:00:00").getTime();
-        setInterval(function() {
-            let now = new Date().getTime();
-            let distance = weddingDate - now;
-            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("days").innerHTML = days > 0 ? days : "HEUTE!";
-        }, 1000);
-
-        // Quiz Logic
-        const questions = [
-            {q: "Wo haben sie sich kennengelernt?", o: ["Online", "Park", "Club"], a: "Park"},
-            {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan"], a: "Stephan"},
-            {q: "Was ist ihr gemeinsames Hobby?", o: ["Kochen", "Reisen", "Netflix"], a: "Reisen"}
-        ];
-        let currentQ = 0;
-        function startQuiz() {
-            renderQuiz();
-        }
-        function renderQuiz() {
-            const box = document.getElementById('quiz-box');
-            if(currentQ < questions.length) {
-                let q = questions[currentQ];
-                box.innerHTML = `<h3>${q.q}</h3><div id="opts"></div>`;
-                q.o.forEach(opt => {
-                    let b = document.createElement('button');
-                    b.className = "btn"; b.style.margin = "5px";
-                    b.innerText = opt;
-                    b.onclick = () => {
-                        currentQ++;
-                        renderQuiz();
-                    };
-                    box.querySelector('#opts').appendChild(b);
-                });
-            } else {
-                box.innerHTML = "<h3>Team Brautpaar! ❤️</h3><p>Danke fürs Mitmachen!</p>";
-            }
+        // Navigation Logic
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('btn-' + pageId).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        // Bingo Logic
-        function toggleBingo(el) {
-            el.classList.toggle('active');
+        // Random Wish Generator
+        function generateWish() {
+            const wishes = [
+                "Alles Gute für eure gemeinsame Zukunft!",
+                "Möget ihr immer so verliebt sein wie heute.",
+                "Zwei Herzen, ein Schlag – Alles Liebe!",
+                "Viel Glück, Liebe und ganz viele Kinder (oder Hunde)!"
+            ];
+            document.getElementById('wish-display').innerText = wishes[Math.floor(Math.random() * wishes.length)];
+        }
+
+        // Drinking Game Logic
+        function nextDrink() {
+            const tasks = [
+                "Alle, die das Brautpaar über 10 Jahre kennen: Trinken!",
+                "Trink einen Schluck mit der Person links von dir.",
+                "Wenn du schon mal mit Stephan ein Bier getrunken hast: Prost!",
+                "Alle Singles: Ein kurzer Schluck!"
+            ];
+            document.getElementById('drink-task').innerText = tasks[Math.floor(Math.random() * tasks.length)];
         }
 
         // Crossword Logic
-        function checkCw(el) {
+        function checkInput(el) {
             if(el.value.toLowerCase() === el.dataset.ans) {
-                el.style.background = "#d4edda";
-                el.disabled = true;
-                if([...document.querySelectorAll('#crossword input')].every(i => i.disabled)) {
-                    document.getElementById('cw-res').innerText = "Alles richtig! Ihr seid Profis!";
-                }
+                el.style.borderColor = "green";
+                el.style.background = "#e8f5e9";
             }
-        }
-
-        // Battle Logic
-        function battle(name) {
-            document.getElementById('battle-msg').innerText = "Stimme für " + name + " erhalten!";
         }
     </script>
 </body>
 </html>
+

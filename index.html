@@ -3,188 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kathi & Stephan | Digital Premium Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>KATHI & STEPHAN | DAS HOCHZEITSPORTAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #b89149; --dark: #121212; --light: #fdfcf9; --white: #ffffff; --soft-gold: #f4ece0; --shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 70px; overflow-x: hidden; }
+        :root { --gold: #b89149; --dark: #1a1a1a; --light: #fdfcf9; --white: #ffffff; --accent: #f4ece0; --rose: #e9d5d5; --shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
         
-        /* Loading Screen */
-        #loader { position: fixed; inset: 0; background: var(--white); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
-        .heart { color: var(--gold); font-size: 50px; animation: beat 1.2s infinite; }
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+        /* App Navigation */
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 5px; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); z-index: 2000; border-top: 1px solid var(--accent); }
+        nav button { background: none; border: none; color: #aaa; font-size: 0.6rem; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.3s ease; flex: 1; }
+        nav button.active { color: var(--gold); transform: translateY(-5px); }
+        nav button .icon { display: block; font-size: 1.5rem; margin-bottom: 5px; }
 
-        /* Navigation Bottom Bar */
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 10px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 1000; }
-        nav button { background: none; border: none; color: #888; font-size: 0.7rem; text-transform: uppercase; font-weight: 600; cursor: pointer; }
-        nav button.active { color: var(--gold); }
-        nav button i { display: block; font-size: 1.2rem; margin-bottom: 3px; }
-
-        /* Sections Visibility */
-        .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+        /* Page Layout */
+        .page { display: none; padding: 20px; animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1); max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Global UI Elements */
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
-        .card { background: var(--white); border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid var(--soft-gold); }
-        .btn-gold { background: var(--gold); color: white; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 600; width: 100%; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }
-
-        /* Home Header */
-        .header-box { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80'); background-size: cover; border-radius: 0 0 40px 40px; margin-bottom: 30px; }
-        .names { font-size: 2.5rem; margin: 10px 0; }
-
-        /* Timeline */
-        .tl-container { border-left: 2px solid var(--gold); margin-left: 10px; padding-left: 20px; }
-        .tl-item { margin-bottom: 25px; position: relative; }
-        .tl-item::before { content: "❤"; position: absolute; left: -29px; background: var(--light); padding: 2px; color: var(--gold); font-size: 0.8rem; }
-
-        /* Game Elements */
-        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .bingo-tile { aspect-ratio: 1; background: var(--soft-gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.65rem; padding: 5px; cursor: pointer; font-weight: 600; }
-        .bingo-tile.marked { background: var(--gold); color: white; }
-
-        .trink-spiel { background: var(--dark); color: white; border-radius: 15px; padding: 20px; text-align: center; }
+        /* Cards & Content */
+        .card { background: var(--white); border-radius: 25px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); position: relative; overflow: hidden; border: 1px solid rgba(184, 145, 73, 0.1); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; }
+        .btn-main { background: linear-gradient(135deg, var(--gold), #d4af37); color: white; border: none; padding: 16px; border-radius: 50px; font-weight: 700; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 20px rgba(184, 145, 73, 0.3); transition: 0.3s; text-decoration: none; display: block; text-align: center; }
         
-        /* Forms */
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--soft-gold); border-radius: 8px; font-family: inherit; }
+        /* Hero & Countdown */
+        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800'); background-size: cover; border-radius: 0 0 50px 50px; margin-bottom: 30px; border-bottom: 5px solid var(--gold); }
+        #countdown-box { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--dark); font-weight: bold; margin-top: 15px; }
 
-        /* Footer Info */
-        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        /* Sitzplan-Suche */
+        .search-box { width: 100%; padding: 15px; border: 2px solid var(--accent); border-radius: 15px; font-size: 1rem; margin-bottom: 15px; transition: 0.3s; }
+        .search-box:focus { border-color: var(--gold); }
+        #seat-result { margin-top: 15px; text-align: center; font-weight: 600; min-height: 50px; color: var(--gold); }
+
+        /* Bingo Grid */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .tile { aspect-ratio: 1; background: var(--accent); border-radius: 15px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.65rem; font-weight: 700; padding: 8px; cursor: pointer; transition: 0.2s; }
+        .tile.marked { background: var(--gold); color: white; transform: scale(0.95) rotate(-2deg); }
+
+        /* Drinking Game */
+        .drink-card { background: var(--dark); color: white; text-align: center; border-radius: 25px; padding: 30px; }
     </style>
 </head>
-<body onload="document.getElementById('loader').style.opacity='0'; setTimeout(()=>document.getElementById('loader').style.display='none', 500)">
-
-    <div id="loader"><div class="heart">❤</div></div>
+<body>
 
     <main id="home" class="page active">
-        <div class="header-box">
-            <p>WILLKOMMEN ZUR HOCHZEIT VON</p>
-            <h1 class="names">Kathi & Stephan</h1>
-            <p>23.05.2026</p>
+        <div class="hero">
+            <p style="letter-spacing: 4px; font-weight: 700; color: #888;">23. MAI 2026</p>
+            <h1 style="font-size: 2.8rem; margin: 10px 0;">Kathi & Stephan</h1>
+            <div id="countdown-label">Wir zählen die Sekunden...</div>
+            <div id="countdown-box">Lade Countdown...</div>
         </div>
 
         <div class="card">
-            <h3>📸 Foto-Zentrale</h3>
-            <p>Helft uns, den Tag aus eurer Sicht festzuhalten!</p>
-            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-gold">JETZT FOTOS HOCHLADEN</a>
+            <h3>🔍 Sitzplatz-Finder</h3>
+            <p style="text-align: center; font-size: 0.9rem;">Gib deinen Namen ein, um deinen Tisch zu finden:</p>
+            <input type="text" class="search-box" id="nameInput" placeholder="Dein Name..." oninput="findSeat()">
+            <div id="seat-result">Beginne zu tippen...</div>
         </div>
 
         <div class="card">
-            <h3>💌 Zufälliger Glückwunsch</h3>
-            <p id="wish-display"><i>Klicke für eine Idee...</i></p>
-            <button class="btn-gold" style="background: var(--dark);" onclick="generateWish()">GLÜCKWUNSCH GENERIEREN</button>
-        </div>
-    </main>
-
-    <main id="story" class="page">
-        <h2>Unsere Geschichte</h2>
-        <div class="card">
-            <div class="tl-container">
-                <div class="tl-item"><b>2020:</b> Der erste Funke beim Grillabend.</div>
-                <div class="tl-item"><b>2021:</b> Fernbeziehung überlebt (Rekord!).</div>
-                <div class="tl-item"><b>2023:</b> Einzug in das erste gemeinsame Nest.</div>
-                <div class="tl-item"><b>2024:</b> Er hat gefragt! Sie hat nicht nein gesagt.</div>
-                <div class="tl-item"><b>2026:</b> Das große JA.</div>
-            </div>
-        </div>
-        <div class="card">
-            <h3>Das "Insider" Kreuzworträtsel</h3>
-            <p>Was liebt Stephan mehr als Kathi? (Späßle)</p>
-            <input type="text" placeholder="Lösungswort 1..." data-ans="fussball" oninput="checkInput(this)">
-            <input type="text" placeholder="Lösungswort 2..." data-ans="italien" oninput="checkInput(this)">
-            <p id="cw-feedback"></p>
+            <h3>📸 Gemeinsames Album</h3>
+            <p>Lade deine Schnappschüsse direkt hoch und teile sie mit allen!</p>
+            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-main">FOTOS HOCHLADEN</a>
         </div>
     </main>
 
     <main id="fun" class="page">
-        <h2>Entertainment Area</h2>
+        <h2>Entertainment</h2>
         
         <div class="card">
-            <h3>Wedding Bingo</h3>
+            <h3>🎮 Wedding Bingo</h3>
             <div class="bingo-grid">
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Trauzeuge weint</div>
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Falscher Name</div>
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Tanzfläche bebt</div>
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Buffet eröffnet</div>
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Opa schläft</div>
-                <div class="bingo-tile" onclick="this.classList.toggle('marked')">Kuss-Alarm</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">Trauzeuge weint</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">Selfie mit Braut</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">"Atemlos" läuft</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">Kuss auf Ansage</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">Lustige Rede</div>
+                <div class="tile" onclick="this.classList.toggle('marked')">Torte wird geschnitten</div>
             </div>
         </div>
 
-        <div class="trink-spiel">
-            <h3>🍻 Hochzeits-Trinkspiel</h3>
-            <p id="drink-task">Bereit? Klick für eine Aufgabe!</p>
-            <button class="btn-gold" onclick="nextDrink()">NÄCHSTE RUNDE</button>
+        <div class="drink-card">
+            <h3 style="color: var(--gold);">🍻 Party-Modus</h3>
+            <p id="drink-task" style="min-height: 60px; font-style: italic;">Bereit für eine Aufgabe?</p>
+            <button class="btn-main" onclick="nextDrink()">NÄCHSTE RUNDE</button>
         </div>
+    </main>
 
-        <div class="card" style="margin-top: 20px;">
-            <h3>🎧 DJ-Wunschbox</h3>
-            <input type="text" id="song" placeholder="Dein Wunschsong...">
-            <button class="btn-gold" onclick="alert('Wunsch wurde (symbolisch) an den DJ gesendet!')">SENDEN</button>
+    <main id="story" class="page">
+        <h2>Unsere Reise</h2>
+        <div class="card">
+            <h3>Wie wir wurden, was wir sind</h3>
+            <p>Hier ist Platz für die epische Story von Kathi und Stephan. Vom ersten Date bis zum heutigen Tag.</p>
+            <div style="border-left: 3px solid var(--gold); padding-left: 15px; font-style: italic; margin-top: 20px;">
+                "Liebe ist nicht das, was man erwartet zu bekommen, sondern das, was man bereit ist zu geben."
+            </div>
         </div>
     </main>
 
     <main id="info" class="page">
-        <h2>Wichtige Infos</h2>
+        <h2>Gäste-Infos</h2>
         <div class="card">
-            <div class="info-row"><span>Tischzuordnung</span><b>Siehe Tafel am Eingang</b></div>
-            <div class="info-row"><span>Taxi-Zentrale</span><b>0123-456789</b></div>
-            <div class="info-row"><span>WLAN</span><b>Hochzeit2026 / liebe123</b></div>
-        </div>
-        
-        <div class="card">
-            <h3>🎁 Geschenke</h3>
-            <p>Eure Anwesenheit ist uns Geschenk genug. Wer dennoch etwas geben möchte: Unser Sparschwein freut sich auf die Flitterwochen!</p>
+            <p><b>📍 Ort:</b> Muster-Schloss, Schlossallee 1</p>
+            <p><b>🕒 Zeit:</b> Empfang ab 14:00 Uhr</p>
+            <p><b>🚕 Taxi:</b> 089 / 1234567</p>
+            <p><b>📶 Gäste-WLAN:</b> KathiStephan2026</p>
         </div>
     </main>
 
     <nav>
-        <button onclick="showPage('home')" id="btn-home" class="active">🏠<br>Home</button>
-        <button onclick="showPage('story')" id="btn-story">📖<br>Story</button>
-        <button onclick="showPage('fun')" id="btn-fun">🎮<br>Fun</button>
-        <button onclick="showPage('info')" id="btn-info">ℹ️<br>Info</button>
+        <button onclick="showP('home')" id="nav-home" class="active"><span class="icon">🏠</span>Home</button>
+        <button onclick="showP('fun')" id="nav-fun"><span class="icon">🎉</span>Fun</button>
+        <button onclick="showP('story')" id="nav-story"><span class="icon">📖</span>Story</button>
+        <button onclick="showP('info')" id="nav-info"><span class="icon">ℹ️</span>Info</button>
     </nav>
 
     <script>
-        // Navigation Logic
-        function showPage(pageId) {
+        // PAGE NAVIGATION
+        function showP(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.getElementById('btn-' + pageId).classList.add('active');
+            document.getElementById(id).classList.add('active');
+            document.getElementById('nav-' + id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        // Random Wish Generator
-        function generateWish() {
-            const wishes = [
-                "Alles Gute für eure gemeinsame Zukunft!",
-                "Möget ihr immer so verliebt sein wie heute.",
-                "Zwei Herzen, ein Schlag – Alles Liebe!",
-                "Viel Glück, Liebe und ganz viele Kinder (oder Hunde)!"
-            ];
-            document.getElementById('wish-display').innerText = wishes[Math.floor(Math.random() * wishes.length)];
+        // COUNTDOWN LOGIC
+        const weddingDate = new Date("May 23, 2026 14:00:00").getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const isAfter = diff < 0;
+            const absDiff = Math.abs(diff);
+
+            const d = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((absDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((absDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((absDiff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown-label").innerText = isAfter ? "WIR SIND VERHEIRATET SEIT:" : "NOCH BIS ZUM JA-WORT:";
+            document.getElementById("countdown-box").innerHTML = `${d} Tage, ${h}h ${m}m ${s}s`;
+        }
+        setInterval(updateTimer, 1000);
+
+        // SEATING PLAN LOGIC
+        const guests = [
+            { name: "Max Mustermann", table: "Tisch 1 (Ehrentisch)", neighbors: "Kathi, Stephan, Lisa" },
+            { name: "Lisa Müller", table: "Tisch 2", neighbors: "Hans, Peter, Helga" },
+            { name: "Oma Erna", table: "Tisch 3", neighbors: "Onkel Bob, Tante Mitzi" }
+            // HIER WEITERE GÄSTE EINTRAGEN
+        ];
+
+        function findSeat() {
+            const input = document.getElementById('nameInput').value.toLowerCase();
+            const res = document.getElementById('seat-result');
+            if(input.length < 2) { res.innerText = "Beginne zu tippen..."; return; }
+            
+            const guest = guests.find(g => g.name.toLowerCase().includes(input));
+            if(guest) {
+                res.innerHTML = `✨ <b>${guest.table}</b><br><small>Sitznachbarn: ${guest.neighbors}</small>`;
+            } else {
+                res.innerText = "Name nicht gefunden... schau mal auf die Liste am Eingang!";
+            }
         }
 
-        // Drinking Game Logic
+        // DRINKING GAME
         function nextDrink() {
             const tasks = [
-                "Alle, die das Brautpaar über 10 Jahre kennen: Trinken!",
-                "Trink einen Schluck mit der Person links von dir.",
-                "Wenn du schon mal mit Stephan ein Bier getrunken hast: Prost!",
-                "Alle Singles: Ein kurzer Schluck!"
+                "Trinke einen Schluck mit jemandem, den du heute erst kennengelernt hast!",
+                "Alle, die jünger sind als die Braut: PROST!",
+                "Wenn du ein blaues Kleidungsstück trägst, nimm einen Schluck!",
+                "Suche Stephan und stoße mit ihm an!",
+                "Die ganze Tischrunde muss jetzt einmal anstoßen!"
             ];
-            document.getElementById('drink-task').innerText = tasks[Math.floor(Math.random() * tasks.length)];
-        }
-
-        // Crossword Logic
-        function checkInput(el) {
-            if(el.value.toLowerCase() === el.dataset.ans) {
-                el.style.borderColor = "green";
-                el.style.background = "#e8f5e9";
-            }
+            document.getElementById('drink-task').innerText = tasks[Math.floor(Math.random()*tasks.length)];
         }
     </script>
 </body>

@@ -4,53 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hochzeitszeitung | Kathi & Stephan</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a059; --dark: #2c3e50; --light: #f9f7f2; --white: #ffffff; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; line-height: 1.6; }
+        
+        /* Header */
+        .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; 
+                background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1500&q=80');
+                background-size: cover; border-bottom: 8px double var(--gold); }
+        .names { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--gold); margin: 10px 0; font-style: italic; }
+        
+        /* Main Layout */
+        .magazine-container { max-width: 1000px; margin: -50px auto 50px; padding: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .card { background: var(--white); padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-top: 3px solid var(--gold); }
+        .span-full { grid-column: span 2; }
+
+        /* Quiz Styling */
+        .quiz-container { background: var(--dark); color: var(--white); text-align: center; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
+        .quiz-option { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 25px; margin: 10px; cursor: pointer; transition: 0.3s; font-size: 1rem; border-radius: 5px; min-width: 150px; }
+        .quiz-option:hover { background: var(--gold); color: var(--white); }
+        #quiz-feedback { margin-top: 15px; font-weight: bold; min-height: 24px; color: var(--gold); }
+        
+        /* Dropbox Button */
+        .dropbox-section { text-align: center; border: 2px dashed var(--gold); background: #fffdf9; }
+        .btn-action { background: var(--gold); color: white; border: none; padding: 15px 30px; font-size: 1rem; cursor: pointer; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; }
+
+        @media (max-width: 700px) { .magazine-container { grid-template-columns: 1fr; } .span-full { grid-column: span 1; } }
+    </style>
 </head>
 <body>
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Die Hochzeitsausgabe</h1>
-            <p class="date">23. Mai 2026</p>
+            <p>23. Mai 2026</p>
             <div class="names">Kathi & Stephan</div>
-            <p class="subtitle">Ein neues Kapitel beginnt</p>
+            <p>Die digitale Hochzeitszeitung</p>
         </div>
     </header>
 
-    <main class="magazine-grid">
-        <section class="article featured">
-            <h2>Wie alles begann...</h2>
-            <p>Hier kommt eure Lovestory rein. Von der ersten Begegnung bis zum Ja-Wort am 23.05.2026.</p>
-            <img src="https://via.placeholder.com/600x400" alt="Brautpaar">
+    <main class="magazine-container">
+        
+        <section class="card">
+            <h2>Willkommen!</h2>
+            <p>Schön, dass ihr diesen besonderen Tag mit uns feiert. In dieser digitalen Zeitung findet ihr Infos, Spiele und könnt eure Fotos teilen.</p>
         </section>
 
-        <section class="article side">
-            <h3>Insider-News</h3>
-            <ul>
-                <li>Wer hat wen zuerst angesprochen?</li>
-                <li>Das erste Date: Ein Desaster oder Magie?</li>
-                <li>Die lustigsten Macken von Stephan</li>
-            </ul>
+        <section class="card dropbox-section">
+            <h2>Foto-Upload</h2>
+            <p>Lade deine Schnappschüsse direkt in unsere Dropbox hoch!</p>
+            <a href="HIER_DEINEN_DROPBOX_LINK_EINFÜGEN" target="_blank" class="btn-action">📸 Foto hochladen</a>
         </section>
 
-        <section class="article quote">
-            <blockquote>"Liebe ist nicht das, was man erwartet zu bekommen, sondern das, was man bereit ist zu geben."</blockquote>
+        <section class="card span-full quiz-container" id="quiz-box">
+            <h2 style="color: white;">Das Große Hochzeits-Quiz</h2>
+            <p id="quiz-question" style="font-size: 1.2rem;">Frage lädt...</p>
+            <div id="quiz-options"></div>
+            <p id="quiz-feedback"></p>
         </section>
 
-        <section class="article photo-spread">
-            <h3>Momente in Bildern</h3>
-            <div class="gallery">
-                <div class="photo-placeholder">Foto 1</div>
-                <div class="photo-placeholder">Foto 2</div>
-                <div class="photo-placeholder">Foto 3</div>
-            </div>
-        </section>
     </main>
 
-    <footer>
-        <p>Erstellt mit Herz für Kathi & Stephan | 2026</p>
-    </footer>
+    <script>
+        const questions = [
+            { q: "Wer hat den ersten Antrag gemacht?", options: ["Kathi", "Stephan"], correct: "Stephan", msg: "Klassisch im Urlaub!" },
+            { q: "Wer kann schlechter verlieren?", options: ["Kathi", "Stephan"], correct: "Kathi", msg: "Bei Monopoly fliegen die Fetzen!" },
+            { q: "Wo war das erste Date?", options: ["Kino", "Pizzeria", "Park"], correct: "Pizzeria", msg: "Es gab Pizza Hawaii (trotz Streit darüber)." },
+            { q: "Wer braucht morgens länger im Bad?", options: ["Kathi", "Stephan"], correct: "Stephan", msg: "Die Frisur muss perfekt sitzen!" },
+            { q: "Wer hat den ersten Kuss initiiert?", options: ["Kathi", "Stephan"], correct: "Kathi", msg: "Kathi hat die Initiative ergriffen!" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                document.getElementById('quiz-question').innerText = q.q;
+                const optionsDiv = document.getElementById('quiz-options');
+                optionsDiv.innerHTML = "";
+                
+                q.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = "quiz-option";
+                    btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(opt);
+                    optionsDiv.appendChild(btn);
+                });
+                document.getElementById('quiz-feedback').innerText = "";
+            } else {
+                showResult();
+            }
+        }
+
+        function checkAnswer(answer) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('quiz-feedback');
+            
+            if (answer === q.correct) {
+                score++;
+                feedback.innerText = "Richtig! " + q.msg;
+            } else {
+                feedback.innerText = "Falsch! " + q.msg;
+            }
+
+            currentQuestion++;
+            setTimeout(displayQuestion, 2500); // Wartet 2.5 Sek bevor nächste Frage kommt
+        }
+
+        function showResult() {
+            const quizBox = document.getElementById('quiz-box');
+            quizBox.innerHTML = `
+                <h2 style="color:white">Quiz beendet!</h2>
+                <p style="font-size: 1.5rem">Du hast ${score} von ${questions.length} Punkten erreicht.</p>
+                <button onclick="location.reload()" class="quiz-option">Nochmal spielen</button>
+            `;
+        }
+
+        // Start
+        displayQuestion();
+    </script>
 
 </body>
 </html>
+

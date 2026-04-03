@@ -3,128 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hochzeitszeitung | Kathi & Stephan</title>
+    <title>Kathi & Stephan | 23.05.2026 - The Digital Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a059; --dark: #2c3e50; --light: #f9f7f2; --white: #ffffff; }
-        body { font-family: 'Lato', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; line-height: 1.6; }
+        :root { --gold: #c5a059; --dark: #1a1a1a; --light: #fdfcf9; --white: #ffffff; --accent: #e9e0d2; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; scroll-behavior: smooth; }
         
-        /* Header */
-        .hero { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; 
-                background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1500&q=80');
-                background-size: cover; border-bottom: 8px double var(--gold); }
-        .names { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--gold); margin: 10px 0; font-style: italic; }
-        
-        /* Main Layout */
-        .magazine-container { max-width: 1000px; margin: -50px auto 50px; padding: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
-        .card { background: var(--white); padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-top: 3px solid var(--gold); }
-        .span-full { grid-column: span 2; }
+        /* Navigation / Progress Bar */
+        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: var(--gold); width: 0%; z-index: 1000; }
 
-        /* Quiz Styling */
-        .quiz-container { background: var(--dark); color: var(--white); text-align: center; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
-        .quiz-option { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 25px; margin: 10px; cursor: pointer; transition: 0.3s; font-size: 1rem; border-radius: 5px; min-width: 150px; }
-        .quiz-option:hover { background: var(--gold); color: var(--white); }
-        #quiz-feedback { margin-top: 15px; font-weight: bold; min-height: 24px; color: var(--gold); }
-        
-        /* Dropbox Button */
-        .dropbox-section { text-align: center; border: 2px dashed var(--gold); background: #fffdf9; }
-        .btn-action { background: var(--gold); color: white; border: none; padding: 15px 30px; font-size: 1rem; cursor: pointer; text-decoration: none; display: inline-block; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; }
+        /* Hero Section */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; 
+                background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=80');
+                background-size: cover; background-position: center; color: white; padding: 20px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 12vw, 6rem); margin: 0; }
+        .hero p { font-size: 1.5rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 10px; }
+        .countdown { margin-top: 30px; display: flex; gap: 20px; font-family: 'Playfair Display', serif; font-size: 1.5rem; }
 
-        @media (max-width: 700px) { .magazine-container { grid-template-columns: 1fr; } .span-full { grid-column: span 1; } }
+        /* Content Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 50px 20px; }
+        .section-card { background: var(--white); padding: 40px; margin-bottom: 50px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .section-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gold); }
+        
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); text-align: center; margin-bottom: 40px; }
+
+        /* Timeline Styling */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline-item { border-left: 2px solid var(--gold); padding-left: 30px; margin-bottom: 30px; position: relative; }
+        .timeline-item::after { content: ""; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
+        .timeline-year { font-weight: bold; color: var(--gold); font-size: 1.2rem; }
+
+        /* Grid for Interactive Elements */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        /* Interactive Buttons */
+        .btn { background: var(--gold); color: white; padding: 15px 30px; text-decoration: none; border: none; cursor: pointer; font-size: 1rem; border-radius: 2px; transition: 0.3s; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
+        .btn:hover { background: var(--dark); transform: translateY(-3px); }
+        .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); }
+
+        /* Bingo Board */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .bingo-item { background: var(--accent); padding: 15px; font-size: 0.8rem; text-align: center; border-radius: 4px; cursor: pointer; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .bingo-item.active { background: var(--gold); color: white; }
+
+        /* Inputs for Crossword */
+        .cw-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px; }
+        .cw-row input { width: 100px; padding: 5px; border: 1px solid var(--gold); text-align: center; }
+        .success { color: green; font-weight: bold; text-align: center; }
+
+        footer { text-align: center; padding: 50px; background: var(--dark); color: white; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .section-card { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="progress-bar"></div>
+
     <header class="hero">
-        <div class="hero-content">
-            <p>23. Mai 2026</p>
-            <div class="names">Kathi & Stephan</div>
-            <p>Die digitale Hochzeitszeitung</p>
+        <p>Sonderausgabe zur Hochzeit</p>
+        <h1>Kathi & Stephan</h1>
+        <div class="countdown" id="timer">
+            <div id="days">00</div><span>Tage bis zum Ja!</span>
+        </div>
+        <div style="margin-top: 40px;">
+            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn">📸 Fotos hochladen</a>
         </div>
     </header>
 
-    <main class="magazine-container">
-        
-        <section class="card">
-            <h2>Willkommen!</h2>
-            <p>Schön, dass ihr diesen besonderen Tag mit uns feiert. In dieser digitalen Zeitung findet ihr Infos, Spiele und könnt eure Fotos teilen.</p>
+    <div class="container">
+
+        <section class="section-card">
+            <h2>Unsere Reise</h2>
+            <div class="timeline">
+                <div class="timeline-item"><div class="timeline-year">2020</div><p>Das erste Treffen im Park – Es hat sofort gefunkt!</p></div>
+                <div class="timeline-item"><div class="timeline-year">2022</div><p>Die erste gemeinsame Wohnung (und der erste Streit um die Spülmaschine).</p></div>
+                <div class="timeline-item"><div class="timeline-year">2024</div><p>Der magische Antrag im Urlaub – Kathi hat JA gesagt!</p></div>
+                <div class="timeline-item"><div class="timeline-year">2026</div><p>Heute: Wir feiern das Fest unseres Lebens mit euch!</p></div>
+            </div>
         </section>
 
-        <section class="card dropbox-section">
-            <h2>Foto-Upload</h2>
-            <p>Lade deine Schnappschüsse direkt in unsere Dropbox hoch!</p>
-            <a href="HIER_DEINEN_DROPBOX_LINK_EINFÜGEN" target="_blank" class="btn-action">📸 Foto hochladen</a>
+        <div class="grid-2">
+            <section class="section-card">
+                <h2>Brautpaar-Quiz</h2>
+                <div id="quiz-box" style="text-align: center;">
+                    <p id="q-text" style="font-size: 1.2rem; min-height: 60px;">Bist du bereit?</p>
+                    <div id="q-options">
+                        <button class="btn" onclick="startQuiz()">Starten</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card">
+                <h2>Hochzeits-Bingo</h2>
+                <p style="font-size: 0.9rem; text-align: center;">Finde diese Momente und tippe sie an!</p>
+                <div class="bingo-grid">
+                    <div class="bingo-item" onclick="toggleBingo(this)">Jemand weint</div>
+                    <div class="bingo-item" onclick="toggleBingo(this)">"Ein Prosit"</div>
+                    <div class="bingo-item" onclick="toggleBingo(this)">Schlechte Witze</div>
+                    <div class="bingo-item" onclick="toggleBingo(this)">Kuss!</div>
+                    <div class="bingo-item" onclick="toggleBingo(this)">Selfie-Stick</div>
+                    <div class="bingo-item" onclick="toggleBingo(this)">Tanzfläche voll</div>
+                </div>
+            </section>
+        </div>
+
+        <section class="section-card">
+            <h2>Insider-Check</h2>
+            <div id="crossword">
+                <div class="cw-row"><span>1. Lieblingsessen von Kathi (5)</span><input type="text" data-ans="pasta" oninput="checkCw(this)"></div>
+                <div class="cw-row"><span>2. Stephans Spitzname (5)</span><input type="text" data-ans="steve" oninput="checkCw(this)"></div>
+                <div class="cw-row"><span>3. Wo war der erste Kuss? (4)</span><input type="text" data-ans="auto" oninput="checkCw(this)"></div>
+                <div id="cw-res" class="success"></div>
+            </div>
         </section>
 
-        <section class="card span-full quiz-container" id="quiz-box">
-            <h2 style="color: white;">Das Große Hochzeits-Quiz</h2>
-            <p id="quiz-question" style="font-size: 1.2rem;">Frage lädt...</p>
-            <div id="quiz-options"></div>
-            <p id="quiz-feedback"></p>
+        <section class="section-card" style="text-align: center;">
+            <h2>Battle: Wer würde eher?</h2>
+            <p id="battle-q" style="font-size: 1.3rem;">...einem Fremden die Ohren vollquatschen?</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="battle('Kathi')">Kathi 👰</button>
+                <button class="btn btn-outline" onclick="battle('Stephan')">Stephan 🤵</button>
+            </div>
+            <p id="battle-msg" style="margin-top: 20px; font-style: italic; color: var(--gold);"></p>
         </section>
 
-    </main>
+        <section class="section-card" style="text-align: center; background: var(--accent);">
+            <h2>Eure Wünsche</h2>
+            <p>Hinterlasst uns eine Nachricht für die Ewigkeit!</p>
+            <a href="DEIN_GOOGLE_FORMS_LINK" target="_blank" class="btn">✍️ Ins Gästebuch schreiben</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Für immer Kathi & Stephan</p>
+        <p style="font-size: 0.8rem;">Mit Liebe digitalisiert.</p>
+    </footer>
 
     <script>
+        // Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // Countdown
+        const weddingDate = new Date("May 23, 2026 14:00:00").getTime();
+        setInterval(function() {
+            let now = new Date().getTime();
+            let distance = weddingDate - now;
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("days").innerHTML = days > 0 ? days : "HEUTE!";
+        }, 1000);
+
+        // Quiz Logic
         const questions = [
-            { q: "Wer hat den ersten Antrag gemacht?", options: ["Kathi", "Stephan"], correct: "Stephan", msg: "Klassisch im Urlaub!" },
-            { q: "Wer kann schlechter verlieren?", options: ["Kathi", "Stephan"], correct: "Kathi", msg: "Bei Monopoly fliegen die Fetzen!" },
-            { q: "Wo war das erste Date?", options: ["Kino", "Pizzeria", "Park"], correct: "Pizzeria", msg: "Es gab Pizza Hawaii (trotz Streit darüber)." },
-            { q: "Wer braucht morgens länger im Bad?", options: ["Kathi", "Stephan"], correct: "Stephan", msg: "Die Frisur muss perfekt sitzen!" },
-            { q: "Wer hat den ersten Kuss initiiert?", options: ["Kathi", "Stephan"], correct: "Kathi", msg: "Kathi hat die Initiative ergriffen!" }
+            {q: "Wo haben sie sich kennengelernt?", o: ["Online", "Park", "Club"], a: "Park"},
+            {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan"], a: "Stephan"},
+            {q: "Was ist ihr gemeinsames Hobby?", o: ["Kochen", "Reisen", "Netflix"], a: "Reisen"}
         ];
-
-        let currentQuestion = 0;
-        let score = 0;
-
-        function displayQuestion() {
-            if (currentQuestion < questions.length) {
-                const q = questions[currentQuestion];
-                document.getElementById('quiz-question').innerText = q.q;
-                const optionsDiv = document.getElementById('quiz-options');
-                optionsDiv.innerHTML = "";
-                
-                q.options.forEach(opt => {
-                    const btn = document.createElement('button');
-                    btn.className = "quiz-option";
-                    btn.innerText = opt;
-                    btn.onclick = () => checkAnswer(opt);
-                    optionsDiv.appendChild(btn);
+        let currentQ = 0;
+        function startQuiz() {
+            renderQuiz();
+        }
+        function renderQuiz() {
+            const box = document.getElementById('quiz-box');
+            if(currentQ < questions.length) {
+                let q = questions[currentQ];
+                box.innerHTML = `<h3>${q.q}</h3><div id="opts"></div>`;
+                q.o.forEach(opt => {
+                    let b = document.createElement('button');
+                    b.className = "btn"; b.style.margin = "5px";
+                    b.innerText = opt;
+                    b.onclick = () => {
+                        currentQ++;
+                        renderQuiz();
+                    };
+                    box.querySelector('#opts').appendChild(b);
                 });
-                document.getElementById('quiz-feedback').innerText = "";
             } else {
-                showResult();
+                box.innerHTML = "<h3>Team Brautpaar! ❤️</h3><p>Danke fürs Mitmachen!</p>";
             }
         }
 
-        function checkAnswer(answer) {
-            const q = questions[currentQuestion];
-            const feedback = document.getElementById('quiz-feedback');
-            
-            if (answer === q.correct) {
-                score++;
-                feedback.innerText = "Richtig! " + q.msg;
-            } else {
-                feedback.innerText = "Falsch! " + q.msg;
+        // Bingo Logic
+        function toggleBingo(el) {
+            el.classList.toggle('active');
+        }
+
+        // Crossword Logic
+        function checkCw(el) {
+            if(el.value.toLowerCase() === el.dataset.ans) {
+                el.style.background = "#d4edda";
+                el.disabled = true;
+                if([...document.querySelectorAll('#crossword input')].every(i => i.disabled)) {
+                    document.getElementById('cw-res').innerText = "Alles richtig! Ihr seid Profis!";
+                }
             }
-
-            currentQuestion++;
-            setTimeout(displayQuestion, 2500); // Wartet 2.5 Sek bevor nächste Frage kommt
         }
 
-        function showResult() {
-            const quizBox = document.getElementById('quiz-box');
-            quizBox.innerHTML = `
-                <h2 style="color:white">Quiz beendet!</h2>
-                <p style="font-size: 1.5rem">Du hast ${score} von ${questions.length} Punkten erreicht.</p>
-                <button onclick="location.reload()" class="quiz-option">Nochmal spielen</button>
-            `;
+        // Battle Logic
+        function battle(name) {
+            document.getElementById('battle-msg').innerText = "Stimme für " + name + " erhalten!";
         }
-
-        // Start
-        displayQuestion();
     </script>
-
 </body>
 </html>
-

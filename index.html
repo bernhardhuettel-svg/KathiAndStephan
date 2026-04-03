@@ -3,180 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KATHI & STEPHAN | DAS HOCHZEITSPORTAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>KATHI & STEPHAN | THE ROYAL WEDDING APP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #b89149; --dark: #1a1a1a; --light: #fdfcf9; --white: #ffffff; --accent: #f4ece0; --rose: #e9d5d5; --shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
-        
-        /* App Navigation */
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 5px; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); z-index: 2000; border-top: 1px solid var(--accent); }
-        nav button { background: none; border: none; color: #aaa; font-size: 0.6rem; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: all 0.3s ease; flex: 1; }
-        nav button.active { color: var(--gold); transform: translateY(-5px); }
-        nav button .icon { display: block; font-size: 1.5rem; margin-bottom: 5px; }
+        :root { 
+            --gold: #b89149; --dark: #0f0f0f; --light: #fdfcf9; --white: #ffffff; 
+            --accent: #f4ece0; --glass: rgba(255, 255, 255, 0.8); --shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding-bottom: 100px; }
 
-        /* Page Layout */
-        .page { display: none; padding: 20px; animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1); max-width: 600px; margin: 0 auto; }
+        /* Splash Screen Animation */
+        #splash { position: fixed; inset: 0; background: var(--dark); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: 0.8s ease-in-out; }
+        .loader-ring { width: 80px; height: 80px; border: 2px solid var(--gold); border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Navigation Bar - Frosted Glass */
+        nav { position: fixed; bottom: 20px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px; border-radius: 30px; box-shadow: var(--shadow); z-index: 3000; border: 1px solid rgba(255,255,255,0.3); }
+        nav button { background: none; border: none; color: #777; font-size: 0.6rem; font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
+        nav button.active { color: var(--gold); transform: scale(1.2); }
+        nav button .icon { font-size: 1.6rem; margin-bottom: 4px; }
+
+        /* Page Layouts */
+        .page { display: none; padding: 25px; animation: pageIn 0.5s ease-out; max-width: 700px; margin: 0 auto; }
         .page.active { display: block; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pageIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        /* Cards & Content */
-        .card { background: var(--white); border-radius: 25px; padding: 25px; margin-bottom: 25px; box-shadow: var(--shadow); position: relative; overflow: hidden; border: 1px solid rgba(184, 145, 73, 0.1); }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; }
-        .btn-main { background: linear-gradient(135deg, var(--gold), #d4af37); color: white; border: none; padding: 16px; border-radius: 50px; font-weight: 700; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 20px rgba(184, 145, 73, 0.3); transition: 0.3s; text-decoration: none; display: block; text-align: center; }
+        /* Cards & Glassmorphism */
+        .card { background: var(--white); border-radius: 30px; padding: 30px; margin-bottom: 30px; box-shadow: var(--shadow); border: 1px solid var(--accent); position: relative; }
+        .card-gold { background: linear-gradient(135deg, var(--gold), #8c6d31); color: white; border: none; }
         
-        /* Hero & Countdown */
-        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800'); background-size: cover; border-radius: 0 0 50px 50px; margin-bottom: 30px; border-bottom: 5px solid var(--gold); }
-        #countdown-box { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--dark); font-weight: bold; margin-top: 15px; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; margin-top: 0; text-align: center; }
+        .gold-text { color: var(--gold); }
 
-        /* Sitzplan-Suche */
-        .search-box { width: 100%; padding: 15px; border: 2px solid var(--accent); border-radius: 15px; font-size: 1rem; margin-bottom: 15px; transition: 0.3s; }
-        .search-box:focus { border-color: var(--gold); }
-        #seat-result { margin-top: 15px; text-align: center; font-weight: 600; min-height: 50px; color: var(--gold); }
+        /* Interactive Elements */
+        .btn-action { background: var(--gold); color: white; border: none; padding: 18px; border-radius: 20px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; box-shadow: 0 10px 20px rgba(184, 145, 73, 0.3); }
+        .badge { background: var(--accent); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; color: var(--gold); }
 
-        /* Bingo Grid */
-        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .tile { aspect-ratio: 1; background: var(--accent); border-radius: 15px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.65rem; font-weight: 700; padding: 8px; cursor: pointer; transition: 0.2s; }
-        .tile.marked { background: var(--gold); color: white; transform: scale(0.95) rotate(-2deg); }
+        /* Program Tracker */
+        .program-step { display: flex; gap: 20px; margin-bottom: 20px; opacity: 0.5; transition: 0.5s; }
+        .program-step.current { opacity: 1; transform: scale(1.05); color: var(--gold); font-weight: bold; }
+        .time { min-width: 60px; font-weight: 800; }
 
-        /* Drinking Game */
-        .drink-card { background: var(--dark); color: white; text-align: center; border-radius: 25px; padding: 30px; }
+        /* Song Voting */
+        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .vote-count { background: var(--gold); color: white; padding: 2px 10px; border-radius: 10px; cursor: pointer; }
+
     </style>
 </head>
-<body>
+<body onload="setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000)">
+
+    <div id="splash">
+        <h1 style="color: white; font-size: 3rem;">K & S</h1>
+        <div class="loader-ring"></div>
+        <p style="margin-top: 20px; letter-spacing: 5px;">23.05.2026</p>
+    </div>
 
     <main id="home" class="page active">
-        <div class="hero">
-            <p style="letter-spacing: 4px; font-weight: 700; color: #888;">23. MAI 2026</p>
-            <h1 style="font-size: 2.8rem; margin: 10px 0;">Kathi & Stephan</h1>
-            <div id="countdown-label">Wir zählen die Sekunden...</div>
-            <div id="countdown-box">Lade Countdown...</div>
+        <header style="text-align: center; margin-bottom: 40px;">
+            <p class="badge">LIVE AUS DEM SCHLOSS</p>
+            <h1 style="font-size: 3rem; margin: 10px 0;">Kathi & Stephan</h1>
+            <div id="countdown" style="font-weight: 800; letter-spacing: 2px; color: var(--gold);">Lädt...</div>
+        </header>
+
+        <div class="card card-gold">
+            <h3>📸 Das Live-Album</h3>
+            <p>Sei unser Fotograf! Alle Bilder landen direkt auf der großen Leinwand und in der Dropbox.</p>
+            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-action" style="background: white; color: var(--gold);">JETZT HOCHLADEN</a>
         </div>
 
         <div class="card">
-            <h3>🔍 Sitzplatz-Finder</h3>
-            <p style="text-align: center; font-size: 0.9rem;">Gib deinen Namen ein, um deinen Tisch zu finden:</p>
-            <input type="text" class="search-box" id="nameInput" placeholder="Dein Name..." oninput="findSeat()">
-            <div id="seat-result">Beginne zu tippen...</div>
+            <h3>📢 Was passiert gerade?</h3>
+            <div id="program-list">
+                <div class="program-step"><span class="time">14:00</span><span>Trauung & Ja-Wort</span></div>
+                <div class="program-step current"><span class="time">16:00</span><span>Sektempfang & Fotos</span></div>
+                <div class="program-step"><span class="time">18:30</span><span>Dinner-Party</span></div>
+                <div class="program-step"><span class="time">22:00</span><span>Eröffnungstanz</span></div>
+            </div>
         </div>
+    </main>
 
+    <main id="guests" class="page">
+        <h2>Dein Platz & Menü</h2>
         <div class="card">
-            <h3>📸 Gemeinsames Album</h3>
-            <p>Lade deine Schnappschüsse direkt hoch und teile sie mit allen!</p>
-            <a href="DEIN_DROPBOX_LINK" target="_blank" class="btn-main">FOTOS HOCHLADEN</a>
+            <input type="text" id="guestSearch" placeholder="Deinen Namen suchen..." oninput="searchGuest()" style="width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--gold);">
+            <div id="guestResult" style="margin-top: 20px; text-align: center;"></div>
+        </div>
+        
+        <div class="card">
+            <h3>🍽 Das Hochzeitsmenü</h3>
+            <p><b>Vorspeise:</b> Trüffel-Ravioli an Salbeibutter</p>
+            <p><b>Hauptgang:</b> Rinderfilet oder Veganes Risotto</p>
+            <p><b>Dessert:</b> Schoko-Traum & Hochzeitstorte</p>
+            <hr>
+            <p style="font-size: 0.8rem; color: #777;">Bei Allergien bitte kurz dem Service Bescheid geben!</p>
         </div>
     </main>
 
     <main id="fun" class="page">
         <h2>Entertainment</h2>
-        
         <div class="card">
-            <h3>🎮 Wedding Bingo</h3>
-            <div class="bingo-grid">
-                <div class="tile" onclick="this.classList.toggle('marked')">Trauzeuge weint</div>
-                <div class="tile" onclick="this.classList.toggle('marked')">Selfie mit Braut</div>
-                <div class="tile" onclick="this.classList.toggle('marked')">"Atemlos" läuft</div>
-                <div class="tile" onclick="this.classList.toggle('marked')">Kuss auf Ansage</div>
-                <div class="tile" onclick="this.classList.toggle('marked')">Lustige Rede</div>
-                <div class="tile" onclick="this.classList.toggle('marked')">Torte wird geschnitten</div>
-            </div>
+            <h3>🎵 DJ Wunschliste</h3>
+            <p>Votet eure Lieblingssongs nach oben!</p>
+            <div class="song-item"><span>Abba - Dancing Queen</span> <span class="vote-count" onclick="this.innerText++">12</span></div>
+            <div class="song-item"><span>Roland Kaiser - Joana</span> <span class="vote-count" onclick="this.innerText++">8</span></div>
+            <div class="song-item"><span>AC/DC - Highway to Hell</span> <span class="vote-count" onclick="this.innerText++">24</span></div>
         </div>
 
-        <div class="drink-card">
-            <h3 style="color: var(--gold);">🍻 Party-Modus</h3>
-            <p id="drink-task" style="min-height: 60px; font-style: italic;">Bereit für eine Aufgabe?</p>
-            <button class="btn-main" onclick="nextDrink()">NÄCHSTE RUNDE</button>
-        </div>
-    </main>
-
-    <main id="story" class="page">
-        <h2>Unsere Reise</h2>
-        <div class="card">
-            <h3>Wie wir wurden, was wir sind</h3>
-            <p>Hier ist Platz für die epische Story von Kathi und Stephan. Vom ersten Date bis zum heutigen Tag.</p>
-            <div style="border-left: 3px solid var(--gold); padding-left: 15px; font-style: italic; margin-top: 20px;">
-                "Liebe ist nicht das, was man erwartet zu bekommen, sondern das, was man bereit ist zu geben."
-            </div>
+        <div class="card" style="background: var(--dark); color: white; text-align: center;">
+            <h3 style="color: var(--gold);">⚡️ Schnappschuss-Jagd</h3>
+            <p>Wer macht zuerst ein Foto mit:</p>
+            <ul style="text-align: left; list-style: none; padding: 0;">
+                <li onclick="this.style.color='var(--gold)'">✅ Einem Gast mit roter Krawatte</li>
+                <li onclick="this.style.color='var(--gold)'">✅ Den Brautschuhen</li>
+                <li onclick="this.style.color='var(--gold)'">✅ Drei Generationen auf einem Bild</li>
+            </ul>
         </div>
     </main>
 
-    <main id="info" class="page">
-        <h2>Gäste-Infos</h2>
+    <main id="help" class="page">
+        <h2>Erste Hilfe & Info</h2>
         <div class="card">
-            <p><b>📍 Ort:</b> Muster-Schloss, Schlossallee 1</p>
-            <p><b>🕒 Zeit:</b> Empfang ab 14:00 Uhr</p>
-            <p><b>🚕 Taxi:</b> 089 / 1234567</p>
-            <p><b>📶 Gäste-WLAN:</b> KathiStephan2026</p>
+            <h3>🆘 Die Notfall-Tasche</h3>
+            <p>Blasenpflaster, Deo, Kaugummis oder Sicherheitsnadeln findest du in den Körbchen auf den WCs!</p>
+        </div>
+        <div class="card">
+            <h3>🚖 Ab nach Hause?</h3>
+            <button class="btn-action" onclick="window.location.href='tel:012345678'">TAXI RUFEN</button>
         </div>
     </main>
 
     <nav>
-        <button onclick="showP('home')" id="nav-home" class="active"><span class="icon">🏠</span>Home</button>
-        <button onclick="showP('fun')" id="nav-fun"><span class="icon">🎉</span>Fun</button>
-        <button onclick="showP('story')" id="nav-story"><span class="icon">📖</span>Story</button>
-        <button onclick="showP('info')" id="nav-info"><span class="icon">ℹ️</span>Info</button>
+        <button onclick="showP('home')" id="n-home" class="active"><span class="icon">🏠</span>Home</button>
+        <button onclick="showP('guests')" id="n-guests"><span class="icon">📍</span>Platz</button>
+        <button onclick="showP('fun')" id="n-fun"><span class="icon">🎮</span>Fun</button>
+        <button onclick="showP('help')" id="n-help"><span class="icon">🆘</span>Hilfe</button>
     </nav>
 
     <script>
-        // PAGE NAVIGATION
+        // NAVIGATION
         function showP(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.getElementById('nav-' + id).classList.add('active');
+            document.getElementById('n-' + id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        // COUNTDOWN LOGIC
-        const weddingDate = new Date("May 23, 2026 14:00:00").getTime();
+        // COUNTDOWN
         function updateTimer() {
+            const wedding = new Date("May 23, 2026 14:00:00").getTime();
             const now = new Date().getTime();
-            const diff = weddingDate - now;
-            const isAfter = diff < 0;
-            const absDiff = Math.abs(diff);
-
-            const d = Math.floor(absDiff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((absDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((absDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((absDiff % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown-label").innerText = isAfter ? "WIR SIND VERHEIRATET SEIT:" : "NOCH BIS ZUM JA-WORT:";
-            document.getElementById("countdown-box").innerHTML = `${d} Tage, ${h}h ${m}m ${s}s`;
+            const diff = wedding - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("countdown").innerHTML = d + " TAGE & " + h + " STUNDEN";
         }
         setInterval(updateTimer, 1000);
 
-        // SEATING PLAN LOGIC
-        const guests = [
-            { name: "Max Mustermann", table: "Tisch 1 (Ehrentisch)", neighbors: "Kathi, Stephan, Lisa" },
-            { name: "Lisa Müller", table: "Tisch 2", neighbors: "Hans, Peter, Helga" },
-            { name: "Oma Erna", table: "Tisch 3", neighbors: "Onkel Bob, Tante Mitzi" }
-            // HIER WEITERE GÄSTE EINTRAGEN
+        // SEARCH GUEST
+        const guestData = [
+            { name: "Max", table: "Tisch 1 - Goldrausch", info: "Direkt neben der Tanzfläche!" },
+            { name: "Sarah", table: "Tisch 4 - Sternenhimmel", info: "Beste Sicht auf das Buffet!" }
         ];
 
-        function findSeat() {
-            const input = document.getElementById('nameInput').value.toLowerCase();
-            const res = document.getElementById('seat-result');
-            if(input.length < 2) { res.innerText = "Beginne zu tippen..."; return; }
-            
-            const guest = guests.find(g => g.name.toLowerCase().includes(input));
-            if(guest) {
-                res.innerHTML = `✨ <b>${guest.table}</b><br><small>Sitznachbarn: ${guest.neighbors}</small>`;
-            } else {
-                res.innerText = "Name nicht gefunden... schau mal auf die Liste am Eingang!";
-            }
-        }
-
-        // DRINKING GAME
-        function nextDrink() {
-            const tasks = [
-                "Trinke einen Schluck mit jemandem, den du heute erst kennengelernt hast!",
-                "Alle, die jünger sind als die Braut: PROST!",
-                "Wenn du ein blaues Kleidungsstück trägst, nimm einen Schluck!",
-                "Suche Stephan und stoße mit ihm an!",
-                "Die ganze Tischrunde muss jetzt einmal anstoßen!"
-            ];
-            document.getElementById('drink-task').innerText = tasks[Math.floor(Math.random()*tasks.length)];
+        function searchGuest() {
+            const s = document.getElementById('guestSearch').value.toLowerCase();
+            const res = document.getElementById('guestResult');
+            if(s.length < 2) return;
+            const g = guestData.find(x => x.name.toLowerCase().includes(s));
+            if(g) res.innerHTML = `<h3>${g.table}</h3><p>${g.info}</p>`;
+            else res.innerHTML = "Suche läuft...";
         }
     </script>
 </body>

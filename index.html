@@ -36,9 +36,12 @@
         .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; }
 
         #splash { position: fixed; inset: 0; background: #121212; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: 0.8s; }
+        
+        /* Song/Wunsch Liste Styling */
+        .entry-item { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.9rem; animation: fadeIn 0.3s ease; }
     </style>
 </head>
-<body onload="initApp()">
+<body>
 
     <div id="splash"><h1>KATHI & STEPHAN</h1><p>Wird geladen...</p></div>
 
@@ -68,19 +71,19 @@
         <div class="card card-gold">
             <h3>📸 Foto-Upload</h3>
             <p style="text-align: center;">Teilt eure Momente mit uns!</p>
-            <button class="btn-action" style="background: white; color: var(--gold);" onclick="window.open('DEIN_LINK')">ZUM ALBUM</button>
+            <button class="btn-action" style="background: white; color: var(--gold);" onclick="window.open('https://dein-foto-link.com')">ZUM ALBUM</button>
         </div>
 
         <div class="card">
             <h3>📅 Kalender</h3>
-            <button class="btn-action" onclick="saveDate()">TERMIN SPEICHERN (.ics)</button>
+            <button class="btn-action" id="btnSaveDate">TERMIN SPEICHERN (.ics)</button>
         </div>
     </main>
 
     <main id="guests" class="page">
         <h2>Sitzplatz & Menü</h2>
         <div class="card">
-            <input type="text" id="gIn" oninput="findG()" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); background:var(--bg); color:var(--text);">
+            <input type="text" id="gIn" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); background:var(--bg); color:var(--text);">
             <div id="gRes" style="text-align: center; margin-top: 15px; font-weight: 800; color: var(--gold);"></div>
         </div>
         <div class="card">
@@ -106,19 +109,19 @@
         <div class="card" id="qBox">
             <h3>Brautpaar-Quiz</h3>
             <p id="qTxt" style="text-align:center;">Bist du ein Insider?</p>
-            <div id="qOpts"><button class="btn-action" onclick="startQ()">QUIZ STARTEN</button></div>
+            <div id="qOpts"><button class="btn-action" id="btnStartQuiz">QUIZ STARTEN</button></div>
         </div>
 
         <div class="card-gold">
             <h3>🥂 Icebreaker</h3>
             <p id="iceTxt" style="text-align:center; font-weight:600; min-height:40px;">Klick für eine Party-Aufgabe!</p>
-            <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextIce()">NÄCHSTE AUFGABE</button>
+            <button class="btn-action" style="background:white; color:var(--gold);" id="btnIce">NÄCHSTE AUFGABE</button>
         </div>
 
         <div class="card">
             <h3>🎵 Jukebox</h3>
             <input type="text" id="songIn" placeholder="Wunschlied & Interpret..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border);">
-            <button class="btn-action" onclick="addSong()">SONG WÜNSCHEN</button>
+            <button class="btn-action" id="btnAddSong">SONG WÜNSCHEN</button>
             <div id="songList" style="margin-top:10px; font-size:0.8rem; color:var(--gold);"></div>
         </div>
 
@@ -142,7 +145,7 @@
         <div class="card">
             <h3>📸 Photobooth</h3>
             <button class="btn-action" onclick="document.getElementById('cam').click()">FOTO MACHEN</button>
-            <input type="file" id="cam" accept="image/*" capture="environment" style="display:none;" onchange="doPhoto(event)">
+            <input type="file" id="cam" accept="image/*" capture="environment" style="display:none;">
             <div id="pol" style="display:none; background:white; padding:10px 10px 30px; box-shadow:0 10px 20px rgba(0,0,0,0.1); margin-top:15px; transform:rotate(-2deg);">
                 <img id="pImg" style="width:100%; aspect-ratio:1; object-fit:cover;">
                 <p style="font-family:'Caveat'; text-align:center; font-size:1.2rem; color:black; margin:10px 0 0;">K & S | 2026</p>
@@ -157,8 +160,8 @@
 
         <div class="card">
             <h3>✍️ Gästebuch</h3>
-            <textarea id="wMsg" placeholder="Eure Wünsche..." style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px;"></textarea>
-            <button class="btn-action" onclick="addWish()">POSTEN</button>
+            <textarea id="wMsg" placeholder="Eure Wünsche..." style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px; font-family:sans-serif;"></textarea>
+            <button class="btn-action" id="btnAddWish">POSTEN</button>
             <div id="wList" style="margin-top:10px;"></div>
         </div>
 
@@ -168,123 +171,170 @@
         </div>
     </main>
 
-    <script>
-        // --- GRUNDFUNKTIONEN ---
-        function initApp() { 
-            setTimeout(() => document.getElementById('splash').style.display='none', 1500); 
-            buildBingo();
-            initScratch();
-            updateLiveStatus();
-        }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        function showP(id){
+        // Deine Konfiguration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBenRmxIC5g1dHGF1d6zqsRrjVJR5FsgqA",
+            authDomain: "hochzeitkathiundstephan-d9c8f.firebaseapp.com",
+            databaseURL: "https://hochzeitkathiundstephan-d9c8f-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "hochzeitkathiundstephan-d9c8f",
+            storageBucket: "hochzeitkathiundstephan-d9c8f.firebasestorage.app",
+            messagingSenderId: "72862147972",
+            appId: "1:72862147972:web:60e6c4cd27af8119f469d1",
+            measurementId: "G-HEN0PRFGRL"
+        };
+
+        // Init
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- NAVIGATION ---
+        window.showP = (id) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('b-'+id).classList.add('active');
             window.scrollTo(0,0);
-        }
+        };
 
-        // --- COUNTDOWN & STATUS ---
+        // --- SPLASH HIDE ---
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('splash').style.opacity='0', 1000);
+            setTimeout(() => document.getElementById('splash').style.display='none', 1800);
+        });
+
+        // --- FIREBASE: JUKEBOX ---
+        const btnAddSong = document.getElementById('btnAddSong');
+        btnAddSong.onclick = async () => {
+            const input = document.getElementById('songIn');
+            if(!input.value) return;
+            await addDoc(collection(db, "jukebox"), {
+                song: input.value,
+                time: serverTimestamp()
+            });
+            input.value = "";
+        };
+
+        onSnapshot(query(collection(db, "jukebox"), orderBy("time", "desc")), (snap) => {
+            const list = document.getElementById('songList');
+            list.innerHTML = "";
+            snap.forEach(doc => {
+                const d = document.createElement("div");
+                d.className = "entry-item";
+                d.innerText = "🎵 " + doc.data().song;
+                list.appendChild(d);
+            });
+        });
+
+        // --- FIREBASE: GÄSTEBUCH ---
+        const btnAddWish = document.getElementById('btnAddWish');
+        btnAddWish.onclick = async () => {
+            const input = document.getElementById('wMsg');
+            if(!input.value) return;
+            await addDoc(collection(db, "guestbook"), {
+                msg: input.value,
+                time: serverTimestamp()
+            });
+            input.value = "";
+        };
+
+        onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
+            const list = document.getElementById('wList');
+            list.innerHTML = "";
+            snap.forEach(doc => {
+                const d = document.createElement("div");
+                d.className = "card";
+                d.style.padding = "10px";
+                d.style.marginBottom = "10px";
+                d.innerText = doc.data().msg;
+                list.appendChild(d);
+            });
+        });
+
+        // --- COUNTDOWN ---
         const eventDate = new Date("May 23, 2026 14:00:00").getTime();
         setInterval(() => {
             const diff = eventDate - new Date().getTime();
             document.getElementById("timer").innerHTML = Math.floor(diff/(1000*60*60*24))+"T : "+Math.floor((diff%(1000*60*60*24))/(1000*60*60))+"H : "+Math.floor((diff%(1000*60*60))/(1000*60))+"M";
         }, 1000);
 
-        function updateLiveStatus() {
-            const tasks = [
-                {h:14, m:0, l:"Trauung läuft"}, {h:16, m:0, l:"Sektempfang & Torte"}, 
-                {h:18, m:30, l:"Dinner & Reden"}, {h:22, m:0, l:"Party & Tanz"}
-            ];
-            const now = new Date();
-            let current = tasks.reverse().find(t => {
-                let d = new Date(); d.setHours(t.h, t.m); return now >= d;
-            });
-            if(current) {
-                document.getElementById('curr-task').innerText = current.l;
-                document.getElementById('prog-bar').style.width = "70%"; 
-            } else { document.getElementById('curr-task').innerText = "Vorbereitungen laufen..."; }
-        }
-
-        // --- GÄSTE & SITZPLAN ---
-        const gs = [{n:"Max",t:"Tisch 1"},{n:"Julia",t:"Tisch 2"},{n:"Stephan",t:"Tisch 1"}];
-        function findG(){
-            const v = document.getElementById("gIn").value.toLowerCase();
-            const r = gs.find(x => x.n.toLowerCase().includes(v));
+        // --- SITZPLAN (Local Search für Demo) ---
+        const guests = [{n:"Max",t:"Tisch 1"},{n:"Julia",t:"Tisch 2"}];
+        document.getElementById('gIn').oninput = (e) => {
+            const v = e.target.value.toLowerCase();
+            const r = guests.find(x => x.n.toLowerCase().includes(v));
             document.getElementById("gRes").innerText = v.length>1 && r ? "DU SITZT AN: "+r.t : "";
-        }
+        };
 
         // --- QUIZ ---
-        const quiz = [{q:"Wer kocht besser?", o:["Kathi","Stephan"], a:0}, {q:"Wer ist ordentlicher?", o:["Kathi","Stephan"], a:1}];
+        const quiz = [{q:"Wer kocht besser?", o:["Kathi","Stephan"]}, {q:"Wer ist ordentlicher?", o:["Kathi","Stephan"]}];
         let qIdx = 0;
-        function startQ(){
+        const startQuizBtn = document.getElementById('btnStartQuiz');
+        if(startQuizBtn) startQuizBtn.onclick = () => runQuiz();
+
+        function runQuiz(){
             if(qIdx < quiz.length){
                 let q = quiz[qIdx];
                 document.getElementById("qTxt").innerText = q.q;
                 document.getElementById("qOpts").innerHTML = "";
                 q.o.forEach(o => {
                     let b = document.createElement("button"); b.className="btn-action"; b.innerText=o;
-                    b.onclick = () => { qIdx++; startQ(); };
+                    b.onclick = () => { qIdx++; runQuiz(); };
                     document.getElementById("qOpts").appendChild(b);
                 });
-            } else { document.getElementById("qBox").innerHTML = "<h3>🏆 Toll gemacht!</h3>"; }
+            } else { document.getElementById("qBox").innerHTML = "<h3>🏆 Super!</h3>"; }
         }
 
         // --- ICEBREAKER ---
-        const tasks = ["Selfie mit Brautvater!", "Finde jemanden mit gleicher Augenfarbe.", "Stoße mit dem Nachbartisch an!"];
-        function nextIce() { document.getElementById('iceTxt').innerText = tasks[Math.floor(Math.random()*tasks.length)]; }
-
-        // --- JUKEBOX ---
-        function addSong() {
-            let s = document.getElementById('songIn').value; if(!s) return;
-            let d = document.createElement("div"); d.innerText = "🎵 " + s;
-            document.getElementById('songList').prepend(d); document.getElementById('songIn').value="";
-        }
+        const iceTasks = ["Selfie mit Brautvater!", "Finde jemanden mit gleicher Augenfarbe.", "Stoße mit dem Nachbartisch an!"];
+        document.getElementById('btnIce').onclick = () => {
+            document.getElementById('iceTxt').innerText = iceTasks[Math.floor(Math.random()*iceTasks.length)];
+        };
 
         // --- BINGO ---
-        function buildBingo() {
-            const bItems = ["Kuss","Tanz","Prost","Lachen","Selfie","Torte","Wein","Rede","DJ"];
-            bItems.forEach(i => {
-                let d = document.createElement("div"); d.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.7rem; text-align:center; cursor:pointer;";
-                d.innerText = i; d.onclick = () => d.style.background = "var(--gold)";
-                document.getElementById("bingoGrid").appendChild(d);
-            });
-        }
+        const bItems = ["Kuss","Tanz","Prost","Lachen","Selfie","Torte","Wein","Rede","DJ"];
+        const grid = document.getElementById("bingoGrid");
+        bItems.forEach(i => {
+            let d = document.createElement("div"); 
+            d.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.7rem; text-align:center; cursor:pointer;";
+            d.innerText = i; 
+            d.onclick = () => d.style.background = "#b89149";
+            grid.appendChild(d);
+        });
+
+        // --- RUBBELLOS ---
+        const can = document.getElementById("scratch");
+        const ctx = can.getContext("2d");
+        can.width = 300; can.height = 100; ctx.fillStyle="#b89149"; ctx.fillRect(0,0,300,100);
+        const draw = (e) => {
+            const r = can.getBoundingClientRect();
+            const x = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
+            const y = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
+            ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,15,0,Math.PI*2); ctx.fill();
+        };
+        can.addEventListener("mousemove", (e)=>{if(e.buttons===1) draw(e);});
+        can.addEventListener("touchmove", draw);
+
+        // --- PHOTOBOOTH ---
+        document.getElementById('cam').onchange = (e) => {
+            let r = new FileReader(); 
+            r.onload=(f)=>{
+                document.getElementById("pImg").src=f.target.result; 
+                document.getElementById("pol").style.display="block";
+            };
+            r.readAsDataURL(e.target.files[0]);
+        };
 
         // --- KALENDER ---
-        function saveDate() {
+        document.getElementById('btnSaveDate').onclick = () => {
             const ics = ["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260523T140000Z","SUMMARY:Kathi & Stephan Hochzeit","END:VEVENT","END:VCALENDAR"].join("\n");
             const blob = new Blob([ics], {type:'text/calendar'});
             const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='hochzeit.ics'; a.click();
-        }
+        };
 
-        // --- FOTO & GÄSTEBUCH ---
-        function doPhoto(e){
-            let r = new FileReader(); r.onload=(f)=>{document.getElementById("pImg").src=f.target.result; document.getElementById("pol").style.display="block";};
-            r.readAsDataURL(e.target.files[0]);
-        }
-        function addWish(){
-            let m = document.getElementById("wMsg").value; if(!m) return;
-            let d = document.createElement("div"); d.style="padding:5px; border-bottom:1px solid var(--border); font-size:0.9rem;"; d.innerText=m;
-            document.getElementById("wList").prepend(d); document.getElementById("wMsg").value="";
-        }
-
-        // --- RUBBELLOS ---
-        function initScratch() {
-            const can = document.getElementById("scratch"); const ctx = can.getContext("2d");
-            can.width = 300; can.height = 100; ctx.fillStyle="#b89149"; ctx.fillRect(0,0,300,100);
-            const draw = (e) => {
-                const r = can.getBoundingClientRect();
-                const x = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
-                const y = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
-                ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,15,0,Math.PI*2); ctx.fill();
-            };
-            can.addEventListener("mousemove", (e)=>{if(e.buttons===1) draw(e);});
-            can.addEventListener("touchmove", draw);
-        }
     </script>
 </body>
 </html>
-
-

@@ -6,41 +6,37 @@
     <title>KATHI & STEPHAN | THE WEDDING APP</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* --- DESIGN SYSTEM --- */
-        :root {
-            --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9);
-        }
-        [data-theme="dark"] {
-            --bg: #121212; --text: #fdfcf9; --card: #1e1e1e; --border: #333; --glass: rgba(30, 30, 30, 0.9);
-        }
+        /* --- DESIGN & FARBEN --- */
+        :root { --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9); }
+        [data-theme="dark"] { --bg: #121212; --text: #fdfcf9; --card: #1e1e1e; --border: #333; --glass: rgba(30, 30, 30, 0.9); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
 
         /* --- LIVE TICKER --- */
-        #ticker-wrap { position: fixed; top: 0; width: 100%; background: var(--gold); color: white; z-index: 6000; height: 35px; display: none; overflow: hidden; font-weight: 800; line-height: 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.3); }
-        .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 18s linear infinite; text-transform: uppercase; letter-spacing: 1px; }
+        #ticker-wrap { position: fixed; top: 0; width: 100%; background: var(--gold); color: white; z-index: 6000; height: 35px; display: none; overflow: hidden; font-weight: 800; line-height: 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
         /* --- NAVIGATION --- */
         nav { position: fixed; bottom: 15px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 4000; border: 1px solid var(--border); }
-        nav button { background: none; border: none; color: #888; font-size: 0.65rem; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; text-align: center; }
+        nav button { background: none; border: none; color: #888; font-size: 0.6rem; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; }
         nav button.active { color: var(--gold); transform: translateY(-3px); }
-        nav button span { display: block; font-size: 1.4rem; margin-bottom: 2px; }
+        nav button span { display: block; font-size: 1.3rem; margin-bottom: 2px; }
 
-        /* --- LAYOUT ELEMENTE --- */
-        .page { display: none; padding: 60px 20px 40px; animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; }
+        /* --- ALLGEMEINE ELEMENTE --- */
+        .page { display: none; padding: 60px 20px 20px; animation: fadeIn 0.4s ease; max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .card { background: var(--card); border-radius: 25px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .card-gold { background: linear-gradient(135deg, var(--gold), #8c6d31); color: white; border: none; }
         .admin-card { border: 2px dashed #ff4444 !important; background: #fff5f5; }
         
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; margin-top: 0; }
-        .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; box-shadow: 0 4px 10px rgba(184, 145, 73, 0.3); }
-        .btn-action:active { transform: scale(0.96); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; }
+        .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        .btn-action:active { transform: scale(0.98); }
         
-        .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; font-size: 0.9rem; }
+        .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; }
         .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; }
 
         #splash { position: fixed; inset: 0; background: #121212; z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: 0.8s; }
@@ -48,9 +44,9 @@
 </head>
 <body>
 
-    <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ HERZLICH WILLKOMMEN +++</div></div>
+    <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ LÄDT... +++</div></div>
 
-    <div id="splash"><h1 id="splashName">LÄDT...</h1><p>Einen Moment Geduld</p></div>
+    <div id="splash"><h1 id="splashName">LÄDT...</h1></div>
 
     <nav id="mainNav"></nav>
 
@@ -61,49 +57,46 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // ==========================================
-        // 1. ZENTRALE KONFIGURATION (HIER BEARBEITEN)
+        // 1. CONFIG: DEINE TEXTE & EINSTELLUNGEN
         // ==========================================
         const CONFIG = {
-            adminPW: "1234", 
+            adminPW: "1234",
             names: "Kathi & Stephan",
             date: "2026-05-23T14:00:00",
             photoLink: "https://dein-foto-link.com",
             wlan: { ssid: "Hochzeit-Gast", pw: "liebe2026" },
             taxi: "01234 56789",
-            location: "Schloss Musterberg, Schlossweg 1, 12345 Beispielstadt",
+            location: "Schloss Musterberg, Musterstraße 1",
             
-            timeline: [
-                { time: "14:00", title: "Trauung", desc: "Zusammenkunft vor der Kapelle" },
-                { time: "15:30", title: "Sektempfang", desc: "Häppchen & Drinks im Garten" },
-                { time: "18:30", title: "Dinner", desc: "Eröffnung des Buffets" },
-                { time: "22:00", title: "Party", desc: "Tanzfläche ist eröffnet!" }
+            // Story Timeline
+            story: [
+                { year: "2020", text: "Das erste Treffen im Café." },
+                { year: "2022", text: "Die erste gemeinsame Wohnung." },
+                { year: "2024", text: "Der Antrag im Urlaub." }
             ],
 
-            missions: [
-                "📸 Ein Selfie mit jemandem, den du heute erst kennengelernt hast.",
-                "🕺 Den 'King of the Dancefloor' heimlich filmen.",
-                "🥂 Das schönste Lächeln beim Anstoßen einfangen.",
-                "🤵 Ein Foto vom Bräutigam mit seiner neuen Schwiegermutter.",
-                "💍 Die Ringe aus nächster Nähe fotografieren."
-            ],
-
+            // Menü
             menu: {
-                v: "Lachs-Carpaccio mit Wildkräutern",
-                h: "Rinderfilet am Stück oder Trüffel-Pasta",
-                d: "Dessert-Buffet & Mitternachtstorte"
+                v: "Variation vom Lachs an Wildkräutern",
+                h: "Rinderfilet oder Steinpilz-Risotto",
+                d: "Dessert-Buffet & Hochzeitstorte"
             },
 
+            // Fun & Spiele
             quiz: [
                 { q: "Wer kocht besser?", o: ["Kathi", "Stephan"] },
-                { q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan"] },
-                { q: "Wer hat den ersten Schritt gemacht?", o: ["Kathi", "Stephan"] }
+                { q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan"] }
             ],
-
-            bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Selfie", "Torte", "Wein", "Rede", "DJ", "Träne", "Brautstrauß"]
+            iceTasks: [
+                "Selfie mit dem Brautvater!", 
+                "Finde jemanden mit gleicher Augenfarbe.", 
+                "Stoße mit dem Nachbartisch an!"
+            ],
+            bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Selfie", "Torte", "Wein", "Rede", "DJ"]
         };
 
         // ==========================================
-        // 2. FIREBASE INITIALISIERUNG
+        // 2. FIREBASE SETUP
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyBenRmxIC5g1dHGF1d6zqsRrjVJR5FsgqA",
@@ -113,12 +106,11 @@
             messagingSenderId: "72862147972",
             appId: "1:72862147972:web:60e6c4cd27af8119f469d1"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         // ==========================================
-        // 3. APP ENGINE (LOGIK)
+        // 3. APP LOGIK
         // ==========================================
         let adminClicks = 0;
 
@@ -126,10 +118,10 @@
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
             renderPages();
+            attachDynamicEvents();
             setupFirebaseListeners();
             startCountdown();
             
-            // Splash ausblenden
             setTimeout(() => {
                 document.getElementById('splash').style.opacity = '0';
                 setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
@@ -137,111 +129,189 @@
         }
 
         function renderNav() {
-            const items = [
+            const tabs = [
                 { id: 'home', icon: '🏠', label: 'Home' },
                 { id: 'guests', icon: '📍', label: 'Platz' },
+                { id: 'story', icon: '📖', label: 'Story' },
                 { id: 'fun', icon: '🎉', label: 'Fun' },
                 { id: 'info', icon: '🆘', label: 'Info' }
             ];
-            document.getElementById('mainNav').innerHTML = items.map(i => `
-                <button onclick="showPage('${i.id}')" id="b-${i.id}"><span>${i.icon}</span>${i.label}</button>
+            document.getElementById('mainNav').innerHTML = tabs.map(t => `
+                <button onclick="showPage('${t.id}')" id="b-${t.id}"><span>${t.icon}</span>${t.label}</button>
             `).join('');
         }
 
         function renderPages() {
-            const container = document.getElementById('content-area');
-            container.innerHTML = `
+            document.getElementById('content-area').innerHTML = `
                 <main id="home" class="page active">
                     <div style="text-align: center; margin-bottom: 20px;">
                         <p style="letter-spacing: 4px; font-weight: 700; color: var(--gold); text-transform:uppercase;">${new Date(CONFIG.date).toLocaleDateString('de-DE', {day:'2-digit', month:'long', year:'numeric'})}</p>
-                        <h1 onclick="handleAdminTrigger()" style="font-size: 2.2rem; cursor:pointer;">${CONFIG.names}</h1>
-                        <div id="timer" style="font-weight: 800; font-size: 1.1rem; color: var(--gold);"></div>
+                        <h1 onclick="handleAdminTrigger()" style="font-size: 2.5rem; cursor:pointer;">${CONFIG.names}</h1>
+                        <div id="timer" style="font-weight: 800; font-size: 1.2rem; color: var(--text);"></div>
                     </div>
 
                     <div class="card">
-                        <h3>⏳ Tagesablauf</h3>
-                        ${CONFIG.timeline.map(t => `
-                            <div class="timeline-item">
-                                <span style="color:var(--gold); font-weight:800;">${t.time}</span> <b>${t.title}</b><br>
-                                <small>${t.desc}</small>
-                            </div>
-                        `).join('')}
+                        <h3>⏳ Programm-Status</h3>
+                        <div style="background: var(--border); height: 12px; border-radius: 10px; overflow: hidden; margin-top: 10px;">
+                            <div id="prog-bar" style="background: var(--gold); height: 100%; width: 0%; transition: 1s;"></div>
+                        </div>
+                        <p id="curr-task" style="text-align: center; font-size: 0.9rem; margin-top: 10px; font-weight: 600;">Lädt...</p>
                     </div>
 
                     <div class="card card-gold">
-                        <h3>🕵️ Foto-Mission</h3>
-                        <p id="mission-text" style="text-align:center; font-weight:600; font-style:italic;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextMission()">NÄCHSTE MISSION</button>
-                        <button class="btn-action" style="margin-top:15px; border:2px solid white; background:transparent;" onclick="window.open('${CONFIG.photoLink}')">📸 ZUM FOTO-ALBUM</button>
+                        <h3>📸 Foto-Upload</h3>
+                        <p style="text-align: center;">Teilt eure Momente mit uns!</p>
+                        <button class="btn-action" style="background: white; color: var(--gold);" onclick="window.open('${CONFIG.photoLink}')">ZUM ALBUM</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📅 Kalender</h3>
+                        <button class="btn-action" id="saveDateBtn">TERMIN SPEICHERN (.ics)</button>
                     </div>
                 </main>
 
                 <main id="guests" class="page">
-                    <h2>Sitzplatz-Suche</h2>
+                    <h2>Sitzplatz & Menü</h2>
                     <div class="card">
-                        <p style="text-align:center;">Gib deinen Vornamen ein:</p>
                         <input type="text" id="guestSearch" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); outline:none;">
-                        <div id="searchResult" style="text-align:center; margin-top:20px; font-weight:800; color:var(--gold); min-height:50px;"></div>
+                        <div id="searchResult" style="text-align:center; margin-top:15px; font-weight:800; color:var(--gold); min-height:30px;"></div>
                     </div>
                     <div class="card">
-                        <h3>🍽 Menü</h3>
+                        <h3>🍽 Das Hochzeitsmenü</h3>
                         <p><b>Vorspeise:</b> ${CONFIG.menu.v}</p>
                         <p><b>Hauptgang:</b> ${CONFIG.menu.h}</p>
                         <p><b>Dessert:</b> ${CONFIG.menu.d}</p>
                     </div>
                 </main>
 
+                <main id="story" class="page">
+                    <h2>Unsere Geschichte</h2>
+                    <div class="card">
+                        ${CONFIG.story.map(s => `<div class="timeline-item"><b>${s.year}:</b> ${s.text}</div>`).join('')}
+                    </div>
+                </main>
+
                 <main id="fun" class="page">
-                    <div class="card" id="quizBox">
+                    <div class="card" id="qBox">
                         <h3>Brautpaar-Quiz</h3>
-                        <p id="qText" style="text-align:center;">Wie gut kennst du uns?</p>
-                        <div id="qOptions"><button class="btn-action" onclick="startQuiz()">QUIZ STARTEN</button></div>
+                        <p id="qTxt" style="text-align:center;">Bist du ein Insider?</p>
+                        <div id="qOpts"><button class="btn-action" onclick="runQuiz()">QUIZ STARTEN</button></div>
+                    </div>
+
+                    <div class="card-gold">
+                        <h3>🥂 Icebreaker</h3>
+                        <p id="iceTxt" style="text-align:center; font-weight:600; min-height:40px;">Klick für eine Party-Aufgabe!</p>
+                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextIce()">NÄCHSTE AUFGABE</button>
                     </div>
 
                     <div class="card">
                         <h3>🎵 Jukebox</h3>
-                        <p style="font-size:0.8rem; text-align:center;">Welches Lied darf heute nicht fehlen?</p>
-                        <input type="text" id="songInput" placeholder="Titel & Interpret..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border);">
-                        <button class="btn-action" onclick="submitSong()">WUNSCH ABSCHICKEN</button>
-                        <div id="songDisplay" style="margin-top:15px; font-size:0.85rem; max-height:200px; overflow-y:auto;"></div>
+                        <input type="text" id="songIn" placeholder="Wunschlied & Interpret..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border);">
+                        <button class="btn-action" onclick="addSong()">SONG WÜNSCHEN</button>
+                        <div id="songList" style="margin-top:10px; font-size:0.8rem; color:var(--gold);"></div>
                     </div>
 
                     <div class="card">
-                        <h3>🎰 Hochzeit-Bingo</h3>
-                        <div id="bingoGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;"></div>
+                        <h3>🎰 Wedding Bingo</h3>
+                        <div id="bingoGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>🎁 Rubbellos</h3>
+                        <div style="position:relative; height:100px; background:#eee; border-radius:15px; overflow:hidden;">
+                            <div style="padding:35px; text-align:center; font-weight:bold; color:var(--gold);">Gewinn: 1x Schnaps!</div>
+                            <canvas id="scratch" style="position:absolute; top:0; left:0; cursor:pointer;"></canvas>
+                        </div>
                     </div>
                 </main>
 
                 <main id="info" class="page">
                     <div class="card">
-                        <h3>✍️ Digitales Gästebuch</h3>
-                        <textarea id="wishInput" placeholder="Hinterlasst uns ein paar liebe Worte..." style="width:100%; height:80px; border-radius:10px; border:1px solid var(--border); padding:10px; font-family:inherit;"></textarea>
-                        <button class="btn-action" onclick="submitWish()">NACHRICHT SENDEN</button>
-                        <div id="wishDisplay" style="margin-top:15px;"></div>
+                        <h3>📸 Photobooth</h3>
+                        <button class="btn-action" onclick="document.getElementById('cam').click()">FOTO MACHEN</button>
+                        <input type="file" id="cam" accept="image/*" capture="environment" style="display:none;">
+                        <div id="pol" style="display:none; background:white; padding:10px 10px 30px; box-shadow:0 10px 20px rgba(0,0,0,0.1); margin-top:15px; transform:rotate(-2deg);">
+                            <img id="pImg" style="width:100%; aspect-ratio:1; object-fit:cover;">
+                            <p style="font-family:'Caveat', cursive; text-align:center; font-size:1.5rem; color:black; margin:10px 0 0;">${CONFIG.names} | 2026</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📍 Anreise</h3>
+                        <p style="text-align:center;">${CONFIG.location}</p>
+                        <button class="btn-action" onclick="window.open('http://googleusercontent.com/maps.google.com/?q=${encodeURIComponent(CONFIG.location)}')">MAPS ÖFFNEN</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>✍️ Gästebuch</h3>
+                        <textarea id="wMsg" placeholder="Eure Wünsche..." style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px;"></textarea>
+                        <button class="btn-action" onclick="addWish()">POSTEN</button>
+                        <div id="wList" style="margin-top:10px;"></div>
                     </div>
 
                     <div class="card" style="text-align:center;">
-                        <h3>🆘 Infos</h3>
-                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b><br>PW: <b>${CONFIG.wlan.pw}</b></p>
-                        <p>📍 Adresse:<br><small>${CONFIG.location}</small></p>
-                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">🚕 TAXI RUFEN</button>
+                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b> | PW: <b>${CONFIG.wlan.pw}</b></p>
+                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">TAXI RUFEN</button>
                     </div>
                 </main>
 
                 <main id="admin" class="page">
                     <div class="card admin-card">
                         <h2>⚠️ Admin Konsole</h2>
-                        <p style="text-align:center;">Live-Ticker für alle Gäste:</p>
-                        <input type="text" id="tickerInput" placeholder="Eilmeldung eingeben..." style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px;">
+                        <input type="text" id="tickerInput" placeholder="Eilmeldung eingeben..." style="width:100%; padding:10px; margin-bottom:10px;">
                         <button class="btn-action" onclick="setTicker(true)">TICKER AKTIVIEREN</button>
-                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">AUSSCHALTEN</button>
-                        <hr style="margin:20px 0; border:0; border-top:1px solid #ddd;">
-                        <button class="btn-action" style="background:#ff4444;" onclick="showPage('home')">ADMIN VERLASSEN</button>
+                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">TICKER STOPP</button>
+                        <button class="btn-action" style="background:#ff4444; margin-top:30px;" onclick="showPage('home')">SCHLIESSEN</button>
                     </div>
                 </main>
             `;
-            initGames();
             showPage('home');
+        }
+
+        function attachDynamicEvents() {
+            // Bingo
+            const grid = document.getElementById('bingoGrid');
+            CONFIG.bingo.forEach(b => {
+                const c = document.createElement('div');
+                c.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.7rem; text-align:center; cursor:pointer;";
+                c.innerText = b;
+                c.onclick = () => { c.style.background = "var(--gold)"; c.style.color = "white"; };
+                grid.appendChild(c);
+            });
+
+            // Rubbellos
+            const can = document.getElementById("scratch");
+            if(can) {
+                const ctx = can.getContext("2d");
+                can.width = 300; can.height = 100; ctx.fillStyle="#b89149"; ctx.fillRect(0,0,300,100);
+                const draw = (e) => {
+                    const r = can.getBoundingClientRect();
+                    const x = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
+                    const y = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
+                    ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,15,0,Math.PI*2); ctx.fill();
+                };
+                can.addEventListener("mousemove", (e)=>{if(e.buttons===1) draw(e);});
+                can.addEventListener("touchmove", draw);
+            }
+
+            // Photobooth
+            const cam = document.getElementById('cam');
+            if(cam) {
+                cam.onchange = (e) => {
+                    let r = new FileReader(); 
+                    r.onload=(f)=>{
+                        document.getElementById("pImg").src=f.target.result; 
+                        document.getElementById("pol").style.display="block";
+                    };
+                    if(e.target.files[0]) r.readAsDataURL(e.target.files[0]);
+                };
+            }
+
+            // ICS Kalender
+            document.getElementById('saveDateBtn').onclick = () => {
+                const ics = ["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260523T140000Z","SUMMARY:Hochzeit "+CONFIG.names,"END:VEVENT","END:VCALENDAR"].join("\n");
+                const a = document.createElement('a'); a.href=URL.createObjectURL(new Blob([ics], {type:'text/calendar'})); a.download='hochzeit.ics'; a.click();
+            };
         }
 
         // --- NAVIGATION ---
@@ -264,120 +334,99 @@
             }
         };
 
-        // --- FIREBASE LISTENERS (LIVE UPDATE) ---
-        function setupFirebaseListeners() {
-            // Live Ticker
-            onSnapshot(doc(db, "settings", "ticker"), (d) => {
-                const ticker = d.data();
-                const wrap = document.getElementById('ticker-wrap');
-                if(ticker && ticker.active) {
-                    document.getElementById('ticker-content').innerText = "+++ " + ticker.text + " +++";
-                    wrap.style.display = "block";
-                } else { wrap.style.display = "none"; }
-            });
+        // --- FUNKTIONEN (Quiz, Icebreaker) ---
+        let qIdx = 0;
+        window.runQuiz = () => {
+            if(qIdx < CONFIG.quiz.length) {
+                let q = CONFIG.quiz[qIdx];
+                document.getElementById("qTxt").innerText = q.q;
+                document.getElementById("qOpts").innerHTML = q.o.map(o => `<button class="btn-action" onclick="qIdx++; runQuiz()">${o}</button>`).join('');
+            } else { 
+                document.getElementById("qBox").innerHTML = "<h3>🏆 Super!</h3><p style='text-align:center;'>Du bist ein Insider.</p>"; 
+            }
+        };
 
-            // Gästebuch
-            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
-                const disp = document.getElementById('wishDisplay');
-                if(!disp) return; disp.innerHTML = "";
-                snap.forEach(d => {
-                    const item = document.createElement('div');
-                    item.className = "card";
-                    item.style = "padding:15px; margin-bottom:10px; font-size:0.9rem; border-color:var(--gold);";
-                    item.innerText = d.data().msg;
-                    disp.appendChild(item);
-                });
+        window.nextIce = () => {
+            document.getElementById('iceTxt').innerText = CONFIG.iceTasks[Math.floor(Math.random()*CONFIG.iceTasks.length)];
+        };
+
+        // --- FIREBASE INTERAKTIONEN ---
+        window.addSong = async () => {
+            const val = document.getElementById('songIn').value;
+            if(val) { await addDoc(collection(db, "jukebox"), { song: val, time: serverTimestamp() }); document.getElementById('songIn').value=""; }
+        };
+
+        window.addWish = async () => {
+            const val = document.getElementById('wMsg').value;
+            if(val) { await addDoc(collection(db, "guestbook"), { msg: val, time: serverTimestamp() }); document.getElementById('wMsg').value=""; }
+        };
+
+        window.setTicker = async (status) => {
+            const text = document.getElementById('tickerInput').value || "Willkommen!";
+            await setDoc(doc(db, "settings", "ticker"), { active: status, text: text });
+            alert(status ? "Ticker ist live!" : "Ticker gestoppt.");
+        };
+
+        function setupFirebaseListeners() {
+            // Ticker
+            onSnapshot(doc(db, "settings", "ticker"), (doc) => {
+                const data = doc.data();
+                const wrap = document.getElementById('ticker-wrap');
+                if(data && data.active) {
+                    document.getElementById('ticker-content').innerText = "+++ " + data.text + " +++";
+                    wrap.style.display = 'block';
+                } else { wrap.style.display = 'none'; }
             });
 
             // Jukebox
             onSnapshot(query(collection(db, "jukebox"), orderBy("time", "desc")), (snap) => {
-                const disp = document.getElementById('songDisplay');
-                if(!disp) return; disp.innerHTML = "";
-                snap.forEach(d => {
-                    const s = document.createElement('div');
-                    s.style = "padding:5px 0; border-bottom:1px solid var(--border);";
-                    s.innerText = "🎵 " + d.data().song;
-                    disp.appendChild(s);
-                });
+                const list = document.getElementById('songList'); if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(doc => { list.innerHTML += `<div style="padding:5px 0; border-bottom:1px solid var(--border);">🎵 ${doc.data().song}</div>`; });
             });
 
-            // Sitzplatz Suche (Live)
+            // Gästebuch
+            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
+                const list = document.getElementById('wList'); if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(doc => { list.innerHTML += `<div class="card" style="padding:10px; margin-bottom:10px;">${doc.data().msg}</div>`; });
+            });
+
+            // Sitzplan
             document.getElementById('guestSearch').oninput = (e) => {
                 const val = e.target.value.toLowerCase();
                 const res = document.getElementById('searchResult');
                 if(val.length < 3) { res.innerText = ""; return; }
-                
                 onSnapshot(collection(db, "guests"), (snap) => {
                     let found = false;
                     snap.forEach(d => {
                         if(d.data().name.toLowerCase().includes(val)) {
-                            res.innerHTML = `✨ Hallo ${d.data().name}!<br>Du sitzt an <span style="font-size:1.5rem; display:block; margin-top:5px;">${d.data().tisch}</span>`;
+                            res.innerHTML = `Hallo ${d.data().name}!<br>Du sitzt an: <b style="font-size:1.2rem;">${d.data().tisch}</b>`;
                             found = true;
                         }
                     });
-                    if(!found) res.innerText = "Suchen...";
+                    if(!found) res.innerText = "...";
                 });
             };
         }
 
-        // --- ACTIONS ---
-        window.submitWish = async () => {
-            const input = document.getElementById('wishInput');
-            if(!input.value) return;
-            await addDoc(collection(db, "guestbook"), { msg: input.value, time: serverTimestamp() });
-            input.value = "";
-        };
-
-        window.submitSong = async () => {
-            const input = document.getElementById('songInput');
-            if(!input.value) return;
-            await addDoc(collection(db, "jukebox"), { song: input.value, time: serverTimestamp() });
-            input.value = "";
-        };
-
-        window.setTicker = async (active) => {
-            const text = document.getElementById('tickerInput').value || "Willkommen!";
-            await setDoc(doc(db, "settings", "ticker"), { active: active, text: text });
-            alert(active ? "Ticker Aktiv!" : "Ticker Aus.");
-        };
-
-        // --- GAMES & TOOLS ---
-        function initGames() {
-            // Bingo
-            const grid = document.getElementById('bingoGrid');
-            CONFIG.bingo.forEach(b => {
-                const cell = document.createElement('div');
-                cell.style = "padding:10px; background:var(--border); border-radius:12px; font-size:0.75rem; text-align:center; cursor:pointer; min-height:50px; display:flex; align-items:center; justify-content:center;";
-                cell.innerText = b;
-                cell.onclick = () => { cell.style.background = "var(--gold)"; cell.style.color = "white"; };
-                grid.appendChild(cell);
-            });
-        }
-
-        let qIdx = 0;
-        window.startQuiz = () => {
-            const box = document.getElementById('qOptions');
-            if(qIdx < CONFIG.quiz.length) {
-                const q = CONFIG.quiz[qIdx];
-                document.getElementById('qText').innerText = q.q;
-                box.innerHTML = q.o.map(o => `<button class="btn-action" onclick="qIdx++; startQuiz()">${o}</button>`).join('');
-            } else {
-                document.getElementById('quizBox').innerHTML = "<h3>🏆 Insider-Status erreicht!</h3><p style='text-align:center;'>Du kennst uns wirklich gut.</p>";
-            }
-        };
-
-        window.nextMission = () => {
-            const m = CONFIG.missions[Math.floor(Math.random() * CONFIG.missions.length)];
-            document.getElementById('mission-text').innerText = `"${m}"`;
-        };
-
+        // --- TIMER & PROGRESS BAR ---
         function startCountdown() {
             const target = new Date(CONFIG.date).getTime();
             setInterval(() => {
                 const diff = target - new Date().getTime();
-                if(diff < 0) { document.getElementById('timer').innerText = "DER GROSSE TAG IST DA!"; return; }
+                if(diff < 0) { 
+                    document.getElementById("timer").innerText = "DER TAG IST DA!";
+                    document.getElementById("prog-bar").style.width = "100%";
+                    document.getElementById("curr-task").innerText = "Wir feiern!";
+                    return; 
+                }
                 const t = Math.floor(diff/(1000*60*60*24))+"T : "+Math.floor((diff%(1000*60*60*24))/(1000*60*60))+"H : "+Math.floor((diff%(1000*60*60))/(1000*60))+"M";
-                document.getElementById('timer').innerText = t;
+                document.getElementById("timer").innerText = t;
+                
+                // Simulierter Progress (z.B. 10% vor dem Tag X)
+                document.getElementById("prog-bar").style.width = "10%";
+                document.getElementById("curr-task").innerText = "Vorfreude...";
             }, 1000);
         }
 
@@ -385,4 +434,3 @@
     </script>
 </body>
 </html>
-

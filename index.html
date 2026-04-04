@@ -6,23 +6,14 @@
     <title>KATHI & STEPHAN | THE WEDDING APP</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* --- DESIGN & FARBEN --- */
-        :root {
-            --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9);
-        }
-        [data-theme="dark"] {
-            --bg: #121212; --text: #fdfcf9; --card: #1e1e1e; --border: #333; --glass: rgba(30, 30, 30, 0.9);
-        }
+        :root { --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9); }
+        [data-theme="dark"] { --bg: #121212; --text: #fdfcf9; --card: #1e1e1e; --border: #333; --glass: rgba(30, 30, 30, 0.9); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; transition: 0.5s; overflow-x: hidden; }
-
-        /* --- NAVIGATION --- */
         nav { position: fixed; bottom: 15px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 4000; border: 1px solid var(--border); }
         nav button { background: none; border: none; color: #888; font-size: 0.6rem; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; }
         nav button.active { color: var(--gold); transform: translateY(-3px); }
         nav button span { display: block; font-size: 1.3rem; margin-bottom: 2px; }
-
-        /* --- ALLGEMEINE ELEMENTE --- */
         .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -30,168 +21,202 @@
         .card-gold { background: linear-gradient(135deg, var(--gold), #8c6d31); color: white; border: none; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; }
         .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
-        .btn-action:active { transform: scale(0.98); }
-        
         .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; }
         .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; }
-
         #splash { position: fixed; inset: 0; background: #121212; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: 0.8s; }
-        
-        /* Song/Wunsch Liste Styling */
-        .entry-item { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.9rem; animation: fadeIn 0.3s ease; }
     </style>
 </head>
 <body>
 
-    <div id="splash"><h1>KATHI & STEPHAN</h1><p>Wird geladen...</p></div>
+    <div id="splash"><h1 id="splashName">LÄDT...</h1></div>
 
-    <nav>
-        <button onclick="showP('home')" id="b-home" class="active"><span>🏠</span>Home</button>
-        <button onclick="showP('guests')" id="b-guests"><span>📍</span>Platz</button>
-        <button onclick="showP('story')" id="b-story"><span>📖</span>Story</button>
-        <button onclick="showP('fun')" id="b-fun"><span>🎉</span>Fun</button>
-        <button onclick="showP('info')" id="b-info"><span>🆘</span>Info</button>
-    </nav>
+    <nav id="mainNav"></nav>
 
-    <main id="home" class="page active">
-        <div style="text-align: center; padding: 20px 0;">
-            <p style="letter-spacing: 4px; font-weight: 700; color: var(--gold);">23. MAI 2026</p>
-            <h1 style="font-size: 2.5rem;">Kathi & Stephan</h1>
-            <div id="timer" style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;">Countdown...</div>
-        </div>
-
-        <div class="card">
-            <h3>⏳ Programm-Status</h3>
-            <div style="background: var(--border); height: 12px; border-radius: 10px; overflow: hidden; margin-top: 10px;">
-                <div id="prog-bar" style="background: var(--gold); height: 100%; width: 0%; transition: 1s;"></div>
-            </div>
-            <p id="curr-task" style="text-align: center; font-size: 0.9rem; margin-top: 10px; font-weight: 600;">Lädt...</p>
-        </div>
-
-        <div class="card card-gold">
-            <h3>📸 Foto-Upload</h3>
-            <p style="text-align: center;">Teilt eure Momente mit uns!</p>
-            <button class="btn-action" style="background: white; color: var(--gold);" onclick="window.open('https://dein-foto-link.com')">ZUM ALBUM</button>
-        </div>
-
-        <div class="card">
-            <h3>📅 Kalender</h3>
-            <button class="btn-action" id="btnSaveDate">TERMIN SPEICHERN (.ics)</button>
-        </div>
-    </main>
-
-    <main id="guests" class="page">
-        <h2>Sitzplatz & Menü</h2>
-        <div class="card">
-            <input type="text" id="gIn" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); background:var(--bg); color:var(--text);">
-            <div id="gRes" style="text-align: center; margin-top: 15px; font-weight: 800; color: var(--gold);"></div>
-        </div>
-        <div class="card">
-            <h3>🍽 Das Hochzeitsmenü</h3>
-            <p><b>Vorspeise:</b> Variation vom Lachs an Wildkräutern</p>
-            <p><b>Hauptgang:</b> Rinderfilet oder Steinpilz-Risotto</p>
-            <p><b>Dessert:</b> Dessert-Buffet & Hochzeitstorte</p>
-        </div>
-    </main>
-
-    <main id="story" class="page">
-        <h2>Unsere Geschichte</h2>
-        <div class="card">
-            <div class="timeline-item"><b>2020:</b> Das erste Treffen im Café.</div>
-            <div class="timeline-item"><b>2022:</b> Die erste gemeinsame Wohnung.</div>
-            <div class="timeline-item"><b>2024:</b> Der Antrag im Urlaub.</div>
-        </div>
-    </main>
-
-    <main id="fun" class="page">
-        <h2>Entertainment</h2>
-        
-        <div class="card" id="qBox">
-            <h3>Brautpaar-Quiz</h3>
-            <p id="qTxt" style="text-align:center;">Bist du ein Insider?</p>
-            <div id="qOpts"><button class="btn-action" id="btnStartQuiz">QUIZ STARTEN</button></div>
-        </div>
-
-        <div class="card-gold">
-            <h3>🥂 Icebreaker</h3>
-            <p id="iceTxt" style="text-align:center; font-weight:600; min-height:40px;">Klick für eine Party-Aufgabe!</p>
-            <button class="btn-action" style="background:white; color:var(--gold);" id="btnIce">NÄCHSTE AUFGABE</button>
-        </div>
-
-        <div class="card">
-            <h3>🎵 Jukebox</h3>
-            <input type="text" id="songIn" placeholder="Wunschlied & Interpret..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border);">
-            <button class="btn-action" id="btnAddSong">SONG WÜNSCHEN</button>
-            <div id="songList" style="margin-top:10px; font-size:0.8rem; color:var(--gold);"></div>
-        </div>
-
-        <div class="card">
-            <h3>🎰 Wedding Bingo</h3>
-            <div id="bingoGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;"></div>
-        </div>
-
-        <div class="card">
-            <h3>🎁 Rubbellos</h3>
-            <div style="position:relative; height:100px; background:#eee; border-radius:15px; overflow:hidden;">
-                <div style="padding:35px; text-align:center; font-weight:bold; color:var(--gold);">Gewinn: 1x Schnaps!</div>
-                <canvas id="scratch" style="position:absolute; top:0; left:0; cursor:pointer;"></canvas>
-            </div>
-        </div>
-    </main>
-
-    <main id="info" class="page">
-        <h2>Gäste-Infos</h2>
-        
-        <div class="card">
-            <h3>📸 Photobooth</h3>
-            <button class="btn-action" onclick="document.getElementById('cam').click()">FOTO MACHEN</button>
-            <input type="file" id="cam" accept="image/*" capture="environment" style="display:none;">
-            <div id="pol" style="display:none; background:white; padding:10px 10px 30px; box-shadow:0 10px 20px rgba(0,0,0,0.1); margin-top:15px; transform:rotate(-2deg);">
-                <img id="pImg" style="width:100%; aspect-ratio:1; object-fit:cover;">
-                <p style="font-family:'Caveat'; text-align:center; font-size:1.2rem; color:black; margin:10px 0 0;">K & S | 2026</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>📍 Anreise</h3>
-            <p style="text-align:center;">Schlosslocation, Musterstraße 1</p>
-            <button class="btn-action" onclick="window.open('https://maps.google.com')">GOOGLE MAPS ÖFFNEN</button>
-        </div>
-
-        <div class="card">
-            <h3>✍️ Gästebuch</h3>
-            <textarea id="wMsg" placeholder="Eure Wünsche..." style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px; font-family:sans-serif;"></textarea>
-            <button class="btn-action" id="btnAddWish">POSTEN</button>
-            <div id="wList" style="margin-top:10px;"></div>
-        </div>
-
-        <div class="card">
-            <p style="text-align:center;">📶 WLAN: <b>Hochzeit-Gast</b> | PW: <b>liebe2026</b></p>
-            <button class="btn-action" style="background:#333;" onclick="location.href='tel:12345'">TAXI RUFEN</button>
-        </div>
-    </main>
+    <div id="content-area"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Deine Konfiguration
+        // ==========================================
+        // 1. DEINE TEXTE & EINSTELLUNGEN (CONFIG)
+        // ==========================================
+        const CONFIG = {
+            names: "Kathi & Stephan",
+            date: "2026-05-23T14:00:00", // Format: YYYY-MM-DDTHH:MM:SS
+            photoLink: "https://dein-foto-link.com",
+            wlan: { ssid: "Hochzeit-Gast", pw: "liebe2026" },
+            taxiNumber: "12345",
+            location: { name: "Schlosslocation", address: "Musterstraße 1" },
+            
+            // Timeline / Geschichte
+            story: [
+                { year: "2020", text: "Das erste Treffen im Café." },
+                { year: "2022", text: "Die erste gemeinsame Wohnung." },
+                { year: "2024", text: "Der Antrag im Urlaub." }
+            ],
+
+            // Menü
+            menu: {
+                vorspeise: "Variation vom Lachs an Wildkräutern",
+                hauptgang: "Rinderfilet oder Steinpilz-Risotto",
+                dessert: "Dessert-Buffet & Hochzeitstorte"
+            },
+
+            // Quiz Fragen
+            quiz: [
+                { q: "Wer kocht besser?", o: ["Kathi", "Stephan"] },
+                { q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan"] },
+                { q: "Wer hat den ersten Schritt gemacht?", o: ["Kathi", "Stephan"] }
+            ],
+
+            // Icebreaker Aufgaben
+            iceTasks: [
+                "Selfie mit dem Brautvater!",
+                "Finde jemanden mit gleicher Augenfarbe.",
+                "Stoße mit einem Unbekannten an!",
+                "Frag jemanden nach seiner lustigsten Story mit dem Bräutigam."
+            ],
+
+            // Bingo Begriffe
+            bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Selfie", "Torte", "Wein", "Rede", "DJ"]
+        };
+
+        // ==========================================
+        // 2. FIREBASE SETUP
+        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyBenRmxIC5g1dHGF1d6zqsRrjVJR5FsgqA",
             authDomain: "hochzeitkathiundstephan-d9c8f.firebaseapp.com",
-            databaseURL: "https://hochzeitkathiundstephan-d9c8f-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "hochzeitkathiundstephan-d9c8f",
             storageBucket: "hochzeitkathiundstephan-d9c8f.firebasestorage.app",
             messagingSenderId: "72862147972",
-            appId: "1:72862147972:web:60e6c4cd27af8119f469d1",
-            measurementId: "G-HEN0PRFGRL"
+            appId: "1:72862147972:web:60e6c4cd27af8119f469d1"
         };
 
-        // Init
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- NAVIGATION ---
+        // ==========================================
+        // 3. APP LOGIK (Hier musst du selten was ändern)
+        // ==========================================
+
+        function initApp() {
+            document.getElementById('splashName').innerText = CONFIG.names;
+            renderPages();
+            renderNav();
+            startCountdown();
+            buildBingo();
+            setupFirebaseListeners();
+            
+            setTimeout(() => {
+                document.getElementById('splash').style.opacity = '0';
+                setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
+            }, 1500);
+        }
+
+        function renderNav() {
+            const navItems = [
+                { id: 'home', icon: '🏠', label: 'Home' },
+                { id: 'guests', icon: '📍', label: 'Platz' },
+                { id: 'story', icon: '📖', label: 'Story' },
+                { id: 'fun', icon: '🎉', label: 'Fun' },
+                { id: 'info', icon: '🆘', label: 'Info' }
+            ];
+            const nav = document.getElementById('mainNav');
+            nav.innerHTML = navItems.map(item => `
+                <button onclick="showP('${item.id}')" id="b-${item.id}" class="${item.id==='home'?'active':''}">
+                    <span>${item.icon}</span>${item.label}
+                </button>
+            `).join('');
+        }
+
+        function renderPages() {
+            const container = document.getElementById('content-area');
+            container.innerHTML = `
+                <main id="home" class="page active">
+                    <div style="text-align: center; padding: 20px 0;">
+                        <p style="letter-spacing: 4px; font-weight: 700; color: var(--gold); text-transform:uppercase;">${new Date(CONFIG.date).toLocaleDateString('de-DE', {day:'2-digit', month:'long', year:'numeric'})}</p>
+                        <h1 style="font-size: 2.5rem;">${CONFIG.names}</h1>
+                        <div id="timer" style="font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;"></div>
+                    </div>
+                    <div class="card card-gold">
+                        <h3>📸 Foto-Upload</h3>
+                        <p style="text-align: center;">Teilt eure Momente mit uns!</p>
+                        <button class="btn-action" style="background: white; color: var(--gold);" onclick="window.open('${CONFIG.photoLink}')">ZUM ALBUM</button>
+                    </div>
+                    <div class="card">
+                        <h3>📅 Kalender</h3>
+                        <button class="btn-action" id="saveDateBtn">TERMIN SPEICHERN (.ics)</button>
+                    </div>
+                </main>
+
+                <main id="guests" class="page">
+                    <h2>Sitzplatz & Menü</h2>
+                    <div class="card">
+                        <input type="text" id="gIn" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); background:var(--bg); color:var(--text);">
+                        <div id="gRes" style="text-align: center; margin-top: 15px; font-weight: 800; color: var(--gold);"></div>
+                    </div>
+                    <div class="card">
+                        <h3>🍽 Das Hochzeitsmenü</h3>
+                        <p><b>Vorspeise:</b> ${CONFIG.menu.vorspeise}</p>
+                        <p><b>Hauptgang:</b> ${CONFIG.menu.hauptgang}</p>
+                        <p><b>Dessert:</b> ${CONFIG.menu.dessert}</p>
+                    </div>
+                </main>
+
+                <main id="story" class="page">
+                    <h2>Unsere Geschichte</h2>
+                    <div class="card">
+                        ${CONFIG.story.map(s => `<div class="timeline-item"><b>${s.year}:</b> ${s.text}</div>`).join('')}
+                    </div>
+                </main>
+
+                <main id="fun" class="page">
+                    <div class="card" id="qBox">
+                        <h3>Brautpaar-Quiz</h3>
+                        <p id="qTxt" style="text-align:center;">Bist du ein Insider?</p>
+                        <div id="qOpts"><button class="btn-action" id="startQBtn">QUIZ STARTEN</button></div>
+                    </div>
+                    <div class="card-gold">
+                        <h3>🥂 Icebreaker</h3>
+                        <p id="iceTxt" style="text-align:center; font-weight:600; min-height:40px;">Klick für eine Aufgabe!</p>
+                        <button class="btn-action" style="background:white; color:var(--gold);" id="iceBtn">NÄCHSTE AUFGABE</button>
+                    </div>
+                    <div class="card">
+                        <h3>🎵 Jukebox</h3>
+                        <input type="text" id="songIn" placeholder="Liedwunsch..." style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border);">
+                        <button class="btn-action" id="songBtn">SONG WÜNSCHEN</button>
+                        <div id="songList" style="margin-top:10px; font-size:0.8rem; color:var(--gold);"></div>
+                    </div>
+                    <div class="card">
+                        <h3>🎰 Bingo</h3>
+                        <div id="bingoGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;"></div>
+                    </div>
+                </main>
+
+                <main id="info" class="page">
+                    <div class="card">
+                        <h3>📍 Anreise</h3>
+                        <p style="text-align:center;">${CONFIG.location.name}<br>${CONFIG.location.address}</p>
+                        <button class="btn-action" onclick="window.open('https://www.google.com/maps/search/${encodeURIComponent(CONFIG.location.address)}')">MAPS ÖFFNEN</button>
+                    </div>
+                    <div class="card">
+                        <h3>✍️ Gästebuch</h3>
+                        <textarea id="wMsg" placeholder="Eure Wünsche..." style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px;"></textarea>
+                        <button class="btn-action" id="wishBtn">POSTEN</button>
+                        <div id="wList" style="margin-top:10px;"></div>
+                    </div>
+                    <div class="card" style="text-align:center;">
+                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b><br>PW: <b>${CONFIG.wlan.pw}</b></p>
+                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxiNumber}'">TAXI RUFEN</button>
+                    </div>
+                </main>
+            `;
+            attachEvents();
+        }
+
+        // --- HILFSFUNKTIONEN ---
         window.showP = (id) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -200,140 +225,79 @@
             window.scrollTo(0,0);
         };
 
-        // --- SPLASH HIDE ---
-        window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('splash').style.opacity='0', 1000);
-            setTimeout(() => document.getElementById('splash').style.display='none', 1800);
-        });
-
-        // --- FIREBASE: JUKEBOX ---
-        const btnAddSong = document.getElementById('btnAddSong');
-        btnAddSong.onclick = async () => {
-            const input = document.getElementById('songIn');
-            if(!input.value) return;
-            await addDoc(collection(db, "jukebox"), {
-                song: input.value,
-                time: serverTimestamp()
-            });
-            input.value = "";
-        };
-
-        onSnapshot(query(collection(db, "jukebox"), orderBy("time", "desc")), (snap) => {
-            const list = document.getElementById('songList');
-            list.innerHTML = "";
-            snap.forEach(doc => {
-                const d = document.createElement("div");
-                d.className = "entry-item";
-                d.innerText = "🎵 " + doc.data().song;
-                list.appendChild(d);
-            });
-        });
-
-        // --- FIREBASE: GÄSTEBUCH ---
-        const btnAddWish = document.getElementById('btnAddWish');
-        btnAddWish.onclick = async () => {
-            const input = document.getElementById('wMsg');
-            if(!input.value) return;
-            await addDoc(collection(db, "guestbook"), {
-                msg: input.value,
-                time: serverTimestamp()
-            });
-            input.value = "";
-        };
-
-        onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
-            const list = document.getElementById('wList');
-            list.innerHTML = "";
-            snap.forEach(doc => {
-                const d = document.createElement("div");
-                d.className = "card";
-                d.style.padding = "10px";
-                d.style.marginBottom = "10px";
-                d.innerText = doc.data().msg;
-                list.appendChild(d);
-            });
-        });
-
-        // --- COUNTDOWN ---
-        const eventDate = new Date("May 23, 2026 14:00:00").getTime();
-        setInterval(() => {
-            const diff = eventDate - new Date().getTime();
-            document.getElementById("timer").innerHTML = Math.floor(diff/(1000*60*60*24))+"T : "+Math.floor((diff%(1000*60*60*24))/(1000*60*60))+"H : "+Math.floor((diff%(1000*60*60))/(1000*60))+"M";
-        }, 1000);
-
-        // --- SITZPLAN (Local Search für Demo) ---
-        const guests = [{n:"Max",t:"Tisch 1"},{n:"Julia",t:"Tisch 2"}];
-        document.getElementById('gIn').oninput = (e) => {
-            const v = e.target.value.toLowerCase();
-            const r = guests.find(x => x.n.toLowerCase().includes(v));
-            document.getElementById("gRes").innerText = v.length>1 && r ? "DU SITZT AN: "+r.t : "";
-        };
-
-        // --- QUIZ ---
-        const quiz = [{q:"Wer kocht besser?", o:["Kathi","Stephan"]}, {q:"Wer ist ordentlicher?", o:["Kathi","Stephan"]}];
-        let qIdx = 0;
-        const startQuizBtn = document.getElementById('btnStartQuiz');
-        if(startQuizBtn) startQuizBtn.onclick = () => runQuiz();
-
-        function runQuiz(){
-            if(qIdx < quiz.length){
-                let q = quiz[qIdx];
-                document.getElementById("qTxt").innerText = q.q;
-                document.getElementById("qOpts").innerHTML = "";
-                q.o.forEach(o => {
-                    let b = document.createElement("button"); b.className="btn-action"; b.innerText=o;
-                    b.onclick = () => { qIdx++; runQuiz(); };
-                    document.getElementById("qOpts").appendChild(b);
-                });
-            } else { document.getElementById("qBox").innerHTML = "<h3>🏆 Super!</h3>"; }
+        function startCountdown() {
+            const target = new Date(CONFIG.date).getTime();
+            setInterval(() => {
+                const diff = target - new Date().getTime();
+                if(diff < 0) { document.getElementById("timer").innerText = "DER TAG IST DA!"; return; }
+                const t = Math.floor(diff/(1000*60*60*24))+"T : "+Math.floor((diff%(1000*60*60*24))/(1000*60*60))+"H : "+Math.floor((diff%(1000*60*60))/(1000*60))+"M";
+                document.getElementById("timer").innerText = t;
+            }, 1000);
         }
 
-        // --- ICEBREAKER ---
-        const iceTasks = ["Selfie mit Brautvater!", "Finde jemanden mit gleicher Augenfarbe.", "Stoße mit dem Nachbartisch an!"];
-        document.getElementById('btnIce').onclick = () => {
-            document.getElementById('iceTxt').innerText = iceTasks[Math.floor(Math.random()*iceTasks.length)];
-        };
+        function buildBingo() {
+            const grid = document.getElementById("bingoGrid");
+            CONFIG.bingo.forEach(i => {
+                let d = document.createElement("div"); 
+                d.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.7rem; text-align:center; cursor:pointer;";
+                d.innerText = i; 
+                d.onclick = () => d.style.background = "var(--gold)";
+                grid.appendChild(d);
+            });
+        }
 
-        // --- BINGO ---
-        const bItems = ["Kuss","Tanz","Prost","Lachen","Selfie","Torte","Wein","Rede","DJ"];
-        const grid = document.getElementById("bingoGrid");
-        bItems.forEach(i => {
-            let d = document.createElement("div"); 
-            d.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.7rem; text-align:center; cursor:pointer;";
-            d.innerText = i; 
-            d.onclick = () => d.style.background = "#b89149";
-            grid.appendChild(d);
-        });
-
-        // --- RUBBELLOS ---
-        const can = document.getElementById("scratch");
-        const ctx = can.getContext("2d");
-        can.width = 300; can.height = 100; ctx.fillStyle="#b89149"; ctx.fillRect(0,0,300,100);
-        const draw = (e) => {
-            const r = can.getBoundingClientRect();
-            const x = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
-            const y = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
-            ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,15,0,Math.PI*2); ctx.fill();
-        };
-        can.addEventListener("mousemove", (e)=>{if(e.buttons===1) draw(e);});
-        can.addEventListener("touchmove", draw);
-
-        // --- PHOTOBOOTH ---
-        document.getElementById('cam').onchange = (e) => {
-            let r = new FileReader(); 
-            r.onload=(f)=>{
-                document.getElementById("pImg").src=f.target.result; 
-                document.getElementById("pol").style.display="block";
+        function attachEvents() {
+            // Quiz
+            let qIdx = 0;
+            const qBtn = document.getElementById('startQBtn');
+            if(qBtn) qBtn.onclick = () => {
+                if(qIdx < CONFIG.quiz.length) {
+                    let q = CONFIG.quiz[qIdx];
+                    document.getElementById("qTxt").innerText = q.q;
+                    document.getElementById("qOpts").innerHTML = q.o.map(o => `<button class="btn-action" onclick="this.parentElement.dataset.next='true'">${o}</button>`).join('');
+                    document.querySelectorAll('#qOpts button').forEach(b => b.onclick = () => { qIdx++; qBtn.onclick(); });
+                } else {
+                    document.getElementById("qBox").innerHTML = "<h3>🏆 Toll gemacht!</h3>";
+                }
             };
-            r.readAsDataURL(e.target.files[0]);
-        };
 
-        // --- KALENDER ---
-        document.getElementById('btnSaveDate').onclick = () => {
-            const ics = ["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260523T140000Z","SUMMARY:Kathi & Stephan Hochzeit","END:VEVENT","END:VCALENDAR"].join("\n");
-            const blob = new Blob([ics], {type:'text/calendar'});
-            const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='hochzeit.ics'; a.click();
-        };
+            // Icebreaker
+            document.getElementById('iceBtn').onclick = () => {
+                document.getElementById('iceTxt').innerText = CONFIG.iceTasks[Math.floor(Math.random()*CONFIG.iceTasks.length)];
+            };
+
+            // ICS Kalender
+            document.getElementById('saveDateBtn').onclick = () => {
+                const ics = ["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260523T140000Z","SUMMARY:Hochzeit "+CONFIG.names,"END:VEVENT","END:VCALENDAR"].join("\n");
+                const a = document.createElement('a'); a.href=URL.createObjectURL(new Blob([ics], {type:'text/calendar'})); a.download='hochzeit.ics'; a.click();
+            };
+
+            // Firebase Actions
+            document.getElementById('songBtn').onclick = async () => {
+                const val = document.getElementById('songIn').value;
+                if(val) { await addDoc(collection(db, "jukebox"), { song: val, time: serverTimestamp() }); document.getElementById('songIn').value=""; }
+            };
+            document.getElementById('wishBtn').onclick = async () => {
+                const val = document.getElementById('wMsg').value;
+                if(val) { await addDoc(collection(db, "guestbook"), { msg: val, time: serverTimestamp() }); document.getElementById('wMsg').value=""; }
+            };
+        }
+
+        function setupFirebaseListeners() {
+            onSnapshot(query(collection(db, "jukebox"), orderBy("time", "desc")), (snap) => {
+                const list = document.getElementById('songList'); if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(doc => { list.innerHTML += `<div style="padding:5px; border-bottom:1px solid var(--border)">🎵 ${doc.data().song}</div>`; });
+            });
+
+            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
+                const list = document.getElementById('wList'); if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(doc => { list.innerHTML += `<div class="card" style="padding:10px; margin-bottom:10px;">${doc.data().msg}</div>`; });
+            });
+        }
+
+        initApp();
 
     </script>
 </body>

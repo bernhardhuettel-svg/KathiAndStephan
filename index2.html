@@ -20,7 +20,7 @@
             --border: #333; --glass: rgba(30, 30, 30, 0.8); 
         }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: 0.3s ease; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: background 0.3s ease, color 0.3s ease; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 110px; overflow-x: hidden; }
 
         /* --- COMPONENTS --- */
@@ -46,12 +46,12 @@
         .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         
         /* Admin Lösch-Button Style */
-        .btn-del { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border: none; border-radius: 50%; width: 25px; height: 25px; font-weight: bold; cursor: pointer; display: none; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .btn-del { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: none; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
         .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; }
         .timeline-item::after { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
 
-        #splash { position: fixed; inset: 0; background: #121212; z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); }
+        #splash { position: fixed; inset: 0; background: #121212; z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); transition: opacity 0.5s ease; }
         
         /* Jukebox & Voting */
         .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); position: relative; }
@@ -62,7 +62,7 @@
         .bingo-cell { aspect-ratio: 1; background: var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.7rem; padding: 5px; cursor: pointer; font-weight: 600; }
 
         /* Galerie Grid */
-        #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
         .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
     </style>
@@ -84,7 +84,9 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // --- 1. KONFIGURATION ---
+        // ==========================================
+        // 1. KONFIGURATION
+        // ==========================================
         const CONFIG = {
             adminPW: "1234",
             names: "Kathi & Stephan",
@@ -97,8 +99,8 @@
                 {y: "2022", t: "Einzug in die erste Wohnung"},
                 {y: "2025", t: "Der Ja-Wort Moment"}
             ],
-            menu: { v: "Carpaccio vom Weiderind", h: "Zartes Filet oder Trüffel-Pasta", d: "Candybar & Torte" },
-            missions: ["Selfie mit der Braut", "Foto von den Tanzschuhen", "Bild vom ältesten Gast"],
+            menu: { v: "Carpaccio vom Weiderind", h: "Zartes Filet oder Trüffel-Pasta", d: "Candybar & Hochzeitstorte" },
+            missions: ["Selfie mit der Braut", "Foto von den Tanzschuhen", "Bild vom ältesten Gast", "Ein Kuss-Foto", "Die schönste Krawatte"],
             quiz: [
                 {q: "Wer kocht öfter?", o: ["Kathi", "Stephan"]},
                 {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan"]}
@@ -114,21 +116,33 @@
             appId: "1:72862147972:web:60e6c4cd27af8119f469d1"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        let app, db, storage;
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            storage = getStorage(app);
+        } catch (error) {
+            console.error("Firebase Initialisierungsfehler:", error);
+            alert("Fehler beim Starten der Datenbank. Bitte lade die Seite neu.");
+        }
 
         let isAdmin = false;
         let adminClicks = 0;
 
-        // --- 2. CORE LOGIC ---
+        // ==========================================
+        // 2. CORE LOGIC & UI RENDERING
+        // ==========================================
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
             renderPages();
-            setupFirebase();
+            if(db) setupFirebase();
             startCountdown();
-            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 2000);
+            setTimeout(() => { 
+                document.getElementById('splash').style.opacity = '0'; 
+                setTimeout(() => document.getElementById('splash').style.display = 'none', 500);
+            }, 2000);
         }
 
         window.toggleTheme = () => {
@@ -149,19 +163,20 @@
         function renderPages() {
             document.getElementById('content-area').innerHTML = `
                 <main id="home" class="page active">
-                    <h1 onclick="adminTrigger()">${CONFIG.names}</h1>
-                    <div id="timer" style="text-align:center; font-weight:800; color:var(--gold); margin-bottom:20px;"></div>
+                    <h1 onclick="adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
+                    <div id="timer" style="text-align:center; font-weight:800; color:var(--gold); font-size:1.2rem; margin-bottom:20px;"></div>
                     <div class="card">
                         <h3>⏳ Party-Status</h3>
-                        <div style="background:var(--border); height:10px; border-radius:5px; overflow:hidden;"><div id="pBar" style="background:var(--gold); height:100%; width:30%;"></div></div>
+                        <div style="background:var(--border); height:10px; border-radius:5px; overflow:hidden;"><div id="pBar" style="background:var(--gold); height:100%; width:0%; transition: width 1s ease;"></div></div>
+                        <p id="pText" style="text-align:center; font-size:0.8rem; margin-top:8px; font-weight:bold;"></p>
                     </div>
                     <div class="card card-gold">
                         <h3>🕵️ Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-style:italic;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextMission()">NÄCHSTE</button>
+                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextMission()">NEUE MISSION</button>
                     </div>
                     <div class="card">
-                        <h3>📖 Story</h3>
+                        <h3>📖 Unsere Story</h3>
                         ${CONFIG.story.map(s=>`<div class="timeline-item"><b>${s.y}:</b> ${s.t}</div>`).join('')}
                     </div>
                 </main>
@@ -169,20 +184,24 @@
                 <main id="guests" class="page">
                     <h2>Wo sitze ich?</h2>
                     <div class="card">
-                        <input type="text" id="gSearch" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold);">
-                        <div id="gRes" style="text-align:center; margin-top:15px; font-weight:800; color:var(--gold);"></div>
+                        <input type="text" id="gSearch" placeholder="Dein Vorname..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); outline:none;">
+                        <div id="gRes" style="text-align:center; margin-top:15px; font-weight:800; color:var(--gold); font-size:1.2rem;"></div>
                     </div>
                     <div class="card">
-                        <h3>🍽 Menü</h3>
-                        <p>V: ${CONFIG.menu.v}<br>H: ${CONFIG.menu.h}<br>D: ${CONFIG.menu.d}</p>
+                        <h3>🍽 Festmenü</h3>
+                        <p><b>Vorspeise:</b><br>${CONFIG.menu.v}</p><hr style="border-top:1px solid var(--border);">
+                        <p><b>Hauptgang:</b><br>${CONFIG.menu.h}</p><hr style="border-top:1px solid var(--border);">
+                        <p><b>Dessert:</b><br>${CONFIG.menu.d}</p>
                     </div>
                 </main>
 
                 <main id="fun" class="page">
                     <div class="card">
-                        <h3>🎵 Jukebox</h3>
-                        <input type="text" id="sIn" placeholder="Liedwunsch..." style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--border);">
-                        <button class="btn-action" onclick="addSong()">WÜNSCHEN</button>
+                        <h3>🎵 Live Jukebox</h3>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="sIn" placeholder="Lied & Interpret..." style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--border);">
+                            <button class="btn-action" style="width:auto; margin:0;" onclick="addSong()">➕</button>
+                        </div>
                         <div id="sList" style="margin-top:15px;"></div>
                     </div>
                     <div class="card" id="qBox">
@@ -191,13 +210,13 @@
                         <div id="qOpts"><button class="btn-action" onclick="runQuiz()">START</button></div>
                     </div>
                     <div class="card">
-                        <h3>🎰 Bingo</h3>
+                        <h3>🎰 Hochzeits-Bingo</h3>
                         <div id="bGrid"></div>
                     </div>
                     <div class="card">
                         <h3>🎁 Rubbellos</h3>
                         <div style="position:relative; background:#ddd; height:100px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                            <span style="font-weight:bold; color:var(--gold);">GEWINN: 1x SCHNAPS!</span>
+                            <span style="font-weight:bold; color:var(--gold); font-size:1.2rem;">GEWINN: 1x SCHNAPS!</span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair;"></canvas>
                         </div>
                     </div>
@@ -206,6 +225,7 @@
                 <main id="gal" class="page">
                     <h2>Live Galerie</h2>
                     <div class="card card-gold">
+                        <h3 style="color:white; margin-bottom:10px;">Teile deine Momente</h3>
                         <input type="file" id="fIn" accept="image/*" style="display:none;" onchange="uploadPhoto(this)">
                         <button class="btn-action" style="background:white; color:var(--gold);" onclick="document.getElementById('fIn').click()">📸 FOTO HOCHLADEN</button>
                     </div>
@@ -214,127 +234,199 @@
 
                 <main id="info" class="page">
                     <div class="card">
-                        <h3>✍️ Gästebuch</h3>
-                        <textarea id="wIn" style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px;"></textarea>
-                        <button class="btn-action" onclick="addWish()">POSTEN</button>
+                        <h3>✍️ Digitales Gästebuch</h3>
+                        <textarea id="wIn" placeholder="Eure Wünsche für uns..." style="width:100%; height:80px; border-radius:10px; border:1px solid var(--border); padding:10px; font-family:inherit;"></textarea>
+                        <button class="btn-action" onclick="addWish()">WUNSCH ABSCHICKEN</button>
                         <div id="wList" style="margin-top:15px;"></div>
                     </div>
                     <div class="card" style="text-align:center;">
-                        <p>📶 WLAN: ${CONFIG.wlan.ssid} | PW: ${CONFIG.wlan.pw}</p>
-                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">TAXI RUFEN</button>
+                        <h3>🆘 Nützliche Infos</h3>
+                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b><br>PW: <b>${CONFIG.wlan.pw}</b></p>
+                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">🚕 TAXI RUFEN</button>
+                        <button class="btn-action" style="background:#444;" onclick="window.open('https://www.google.com/maps?q=${encodeURIComponent(CONFIG.location)}')">🗺 ANREISE ÖFFNEN</button>
                     </div>
                 </main>
 
                 <main id="admin" class="page">
                     <div class="card" style="border:2px dashed red;">
-                        <h2>Admin Konsole</h2>
-                        <input type="text" id="tIn" placeholder="Ticker Text..." style="width:100%; padding:10px; margin-bottom:10px;">
-                        <button class="btn-action" onclick="setTicker(true)">TICKER AN</button>
-                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">AUS</button>
-                        <button class="btn-action" style="background:red; margin-top:20px;" onclick="location.reload()">ADMIN VERLASSEN</button>
+                        <h2>⚠️ Admin Konsole</h2>
+                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px;">
+                        <button class="btn-action" onclick="setTicker(true)">TICKER AKTIVIEREN</button>
+                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">TICKER AUS</button>
+                        <hr style="margin:20px 0; border-top:1px solid var(--border);">
+                        <button class="btn-action" style="background:red;" onclick="location.reload()">ADMIN VERLASSEN</button>
                     </div>
                 </main>
             `;
             initGames();
         }
 
-        // --- 3. FIREBASE ACTIONS & LISTENERS ---
+        // ==========================================
+        // 3. FIREBASE LISTENERS (REALTIME UPDATES)
+        // ==========================================
         function setupFirebase() {
-            // Ticker
-            onSnapshot(doc(db, "settings", "ticker"), (d) => {
-                const data = d.data();
-                const wrap = document.getElementById('ticker-wrap');
-                if(data?.active) {
-                    document.getElementById('ticker-content').innerText = "+++ " + data.text + " +++";
-                    wrap.style.display = 'block';
-                } else wrap.style.display = 'none';
-            });
+            try {
+                // Ticker
+                onSnapshot(doc(db, "settings", "ticker"), (d) => {
+                    const data = d.data();
+                    const wrap = document.getElementById('ticker-wrap');
+                    if(data?.active) {
+                        document.getElementById('ticker-content').innerText = "+++ " + data.text + " +++";
+                        wrap.style.display = 'block';
+                    } else {
+                        wrap.style.display = 'none';
+                    }
+                }, (error) => console.error("Ticker Listener Fehler:", error));
 
-            // Jukebox
-            onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
-                const list = document.getElementById('sList'); if(!list) return;
-                list.innerHTML = "";
-                snap.forEach(d => {
-                    const s = d.data();
-                    list.innerHTML += `<div class="song-item">
-                        <span><span class="vote-badge">${s.votes || 0}</span> ${s.song}</span>
-                        <div>
-                            <button onclick="voteSong('${d.id}')" style="border:0; background:none; cursor:pointer;">❤️</button>
-                            <button class="btn-del" onclick="deleteEntry('jukebox','${d.id}')">X</button>
-                        </div>
-                    </div>`;
-                });
-                refreshAdminUI();
-            });
+                // Jukebox
+                onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
+                    const list = document.getElementById('sList'); if(!list) return;
+                    list.innerHTML = "";
+                    snap.forEach(d => {
+                        const s = d.data();
+                        list.innerHTML += `<div class="song-item">
+                            <span><span class="vote-badge">${s.votes || 0}</span> <b>${s.song}</b></span>
+                            <div style="display:flex; align-items:center;">
+                                <button onclick="voteSong('${d.id}')" style="border:0; background:none; cursor:pointer; font-size:1.2rem;">❤️</button>
+                                <button class="btn-del" onclick="deleteEntry('jukebox','${d.id}')">X</button>
+                            </div>
+                        </div>`;
+                    });
+                    refreshAdminUI();
+                }, (error) => console.error("Jukebox Listener Fehler:", error));
 
-            // Galerie
-            onSnapshot(query(collection(db, "photos"), orderBy("time", "desc")), (snap) => {
-                const grid = document.getElementById('photoGrid'); if(!grid) return;
-                grid.innerHTML = "";
-                snap.forEach(d => {
-                    grid.innerHTML += `<div class="photo-wrapper">
-                        <img src="${d.data().url}">
-                        <button class="btn-del" onclick="deleteEntry('photos','${d.id}')">X</button>
-                    </div>`;
-                });
-                refreshAdminUI();
-            });
+                // Galerie
+                onSnapshot(query(collection(db, "photos"), orderBy("time", "desc")), (snap) => {
+                    const grid = document.getElementById('photoGrid'); if(!grid) return;
+                    grid.innerHTML = "";
+                    snap.forEach(d => {
+                        grid.innerHTML += `<div class="photo-wrapper">
+                            <img src="${d.data().url}" loading="lazy">
+                            <button class="btn-del" style="top:5px; right:5px;" onclick="deleteEntry('photos','${d.id}')">X</button>
+                        </div>`;
+                    });
+                    refreshAdminUI();
+                }, (error) => console.error("Galerie Listener Fehler:", error));
 
-            // Gästebuch
-            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
-                const list = document.getElementById('wList'); if(!list) return;
-                list.innerHTML = "";
-                snap.forEach(d => {
-                    list.innerHTML += `<div class="card" style="padding:15px; font-size:0.9rem; margin-bottom:10px;">
-                        ${d.data().msg}
-                        <button class="btn-del" onclick="deleteEntry('guestbook','${d.id}')">X</button>
-                    </div>`;
-                });
-                refreshAdminUI();
-            });
+                // Gästebuch
+                onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
+                    const list = document.getElementById('wList'); if(!list) return;
+                    list.innerHTML = "";
+                    snap.forEach(d => {
+                        list.innerHTML += `<div class="card" style="padding:15px; font-size:0.9rem; margin-bottom:10px;">
+                            ${d.data().msg}
+                            <button class="btn-del" onclick="deleteEntry('guestbook','${d.id}')">X</button>
+                        </div>`;
+                    });
+                    refreshAdminUI();
+                }, (error) => console.error("Gästebuch Listener Fehler:", error));
 
-            // Sitzplatz Suche
-            document.getElementById('gSearch').oninput = (e) => {
-                const v = e.target.value.toLowerCase();
-                if(v.length < 3) return;
-                onSnapshot(collection(db, "guests"), (snap) => {
-                    let f = false;
-                    snap.forEach(d => { if(d.data().name.toLowerCase().includes(v)) { document.getElementById('gRes').innerHTML = `Tisch: ${d.data().tisch}`; f=true; } });
-                    if(!f) document.getElementById('gRes').innerText = "...";
-                });
-            };
+                // Sitzplatz Suche (Realtime Query)
+                document.getElementById('gSearch').oninput = (e) => {
+                    const v = e.target.value.toLowerCase().trim();
+                    const res = document.getElementById('gRes');
+                    if(v.length < 3) { res.innerText = ""; return; }
+                    
+                    onSnapshot(collection(db, "guests"), (snap) => {
+                        let f = false;
+                        snap.forEach(d => { 
+                            if(d.data().name.toLowerCase().includes(v)) { 
+                                res.innerHTML = `Hallo ${d.data().name}! Dein Tisch: <b>${d.data().tisch}</b>`; 
+                                f = true; 
+                            } 
+                        });
+                        if(!f) res.innerText = "Gast nicht gefunden...";
+                    }, (error) => console.error("Gäste Listener Fehler:", error));
+                };
+            } catch (error) {
+                console.error("Fehler beim Setzen der Firebase Listeners:", error);
+            }
         }
 
-        window.voteSong = async (id) => { await updateDoc(doc(db, "jukebox", id), { votes: increment(1) }); };
+        // ==========================================
+        // 4. FIREBASE ACTIONS (MIT FEHLERBEHEBUNG)
+        // ==========================================
+        window.voteSong = async (id) => { 
+            try {
+                await updateDoc(doc(db, "jukebox", id), { votes: increment(1) }); 
+            } catch(e) {
+                alert("Fehler beim Abstimmen: " + e.message);
+            }
+        };
         
         window.addSong = async () => {
-            const val = document.getElementById('sIn').value;
-            if(val) { await addDoc(collection(db, "jukebox"), { song: val, votes: 1, time: serverTimestamp() }); document.getElementById('sIn').value=""; }
+            const inputField = document.getElementById('sIn');
+            const val = inputField.value.trim();
+            if(!val) return;
+            
+            try {
+                await addDoc(collection(db, "jukebox"), { song: val, votes: 1, time: serverTimestamp() }); 
+                inputField.value = ""; 
+            } catch (error) {
+                alert("Fehler beim Hinzufügen des Liedes: " + error.message);
+            }
         };
 
         window.addWish = async () => {
-            const val = document.getElementById('wIn').value;
-            if(val) { await addDoc(collection(db, "guestbook"), { msg: val, time: serverTimestamp() }); document.getElementById('wIn').value=""; }
+            const inputField = document.getElementById('wIn');
+            const val = inputField.value.trim();
+            if(!val) return;
+            
+            try {
+                await addDoc(collection(db, "guestbook"), { msg: val, time: serverTimestamp() }); 
+                inputField.value = ""; 
+                alert("Danke für deinen Eintrag!");
+            } catch(error) {
+                alert("Fehler beim Senden: " + error.message);
+            }
         };
 
         window.uploadPhoto = async (input) => {
-            if(!input.files[0]) return;
+            if(!input.files || !input.files[0]) return;
             const file = input.files[0];
+            
+            if(file.size > 5000000) { // Limit auf 5MB für Sicherheit
+                alert("Die Datei ist zu groß. Bitte maximal 5MB hochladen.");
+                return;
+            }
+
             const sRef = ref(storage, 'gallery/' + Date.now() + '_' + file.name);
-            alert("Upload läuft...");
-            await uploadBytes(sRef, file);
-            const url = await getDownloadURL(sRef);
-            await addDoc(collection(db, "photos"), { url: url, time: serverTimestamp() });
-            alert("Hochgeladen!");
+            alert("Foto wird hochgeladen, bitte kurz warten...");
+            
+            try {
+                await uploadBytes(sRef, file);
+                const url = await getDownloadURL(sRef);
+                await addDoc(collection(db, "photos"), { url: url, time: serverTimestamp() });
+                alert("Erfolgreich geteilt!");
+            } catch(error) {
+                console.error("Upload Fehler:", error);
+                alert("Upload fehlgeschlagen. Ist der Firebase Storage aktiviert? Fehler: " + error.message);
+            }
         };
 
-        window.deleteEntry = async (coll, id) => { if(confirm("Löschen?")) await deleteDoc(doc(db, coll, id)); };
+        window.deleteEntry = async (coll, id) => { 
+            if(confirm("Diesen Eintrag wirklich löschen?")) {
+                try {
+                    await deleteDoc(doc(db, coll, id)); 
+                } catch(error) {
+                    alert("Fehler beim Löschen: " + error.message);
+                }
+            }
+        };
 
         window.setTicker = async (active) => {
-            await setDoc(doc(db, "settings", "ticker"), { active: active, text: document.getElementById('tIn').value || "Willkommen!" });
+            try {
+                const txt = document.getElementById('tIn').value.trim() || "Willkommen!";
+                await setDoc(doc(db, "settings", "ticker"), { active: active, text: txt });
+                alert(active ? "Ticker ist jetzt online!" : "Ticker wurde deaktiviert.");
+            } catch(error) {
+                alert("Fehler beim Ändern des Tickers: " + error.message);
+            }
         };
 
-        // --- 4. NAVIGATION & TOOLS ---
+        // ==========================================
+        // 5. NAVIGATION & SPIELE LOGIK
+        // ==========================================
         window.showPage = (id) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -345,8 +437,14 @@
 
         window.adminTrigger = () => {
             adminClicks++;
-            if(adminClicks === 5) {
-                if(prompt("Admin PW:") === CONFIG.adminPW) { isAdmin = true; showPage('admin'); refreshAdminUI(); }
+            if(adminClicks >= 5) {
+                if(prompt("Admin Passwort eingeben:") === CONFIG.adminPW) { 
+                    isAdmin = true; 
+                    showPage('admin'); 
+                    refreshAdminUI(); 
+                } else {
+                    alert("Falsches Passwort!");
+                }
                 adminClicks = 0;
             }
         };
@@ -358,23 +456,38 @@
         function initGames() {
             // Bingo
             const g = document.getElementById('bGrid');
-            CONFIG.bingo.forEach(b => {
-                const d = document.createElement('div'); d.className="bingo-cell"; d.innerText=b;
-                d.onclick = () => { d.style.background = "var(--gold)"; d.style.color="white"; };
-                g.appendChild(d);
-            });
+            if(g) {
+                CONFIG.bingo.forEach(b => {
+                    const d = document.createElement('div'); 
+                    d.className="bingo-cell"; 
+                    d.innerText=b;
+                    d.onclick = () => { d.style.background = "var(--gold)"; d.style.color="white"; };
+                    g.appendChild(d);
+                });
+            }
 
-            // Scratch
-            const c = document.getElementById('scratch'); const ctx = c.getContext('2d');
-            c.width = 300; c.height = 100; ctx.fillStyle = "#b89149"; ctx.fillRect(0,0,300,100);
-            const scratch = (e) => {
-                const r = c.getBoundingClientRect();
-                const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-                const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
-                ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.fill();
-            };
-            c.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
-            c.addEventListener('touchmove', scratch);
+            // Rubbellos
+            const c = document.getElementById('scratch'); 
+            if(c) {
+                const ctx = c.getContext('2d');
+                // Canvas Skalierung für mobile Geräte anpassen
+                c.width = c.parentElement.offsetWidth; 
+                c.height = c.parentElement.offsetHeight; 
+                ctx.fillStyle = "#b89149"; 
+                ctx.fillRect(0,0,c.width,c.height);
+                
+                const scratch = (e) => {
+                    const r = c.getBoundingClientRect();
+                    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+                    const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+                    ctx.globalCompositeOperation = 'destination-out'; 
+                    ctx.beginPath(); 
+                    ctx.arc(x,y,20,0,Math.PI*2); 
+                    ctx.fill();
+                };
+                c.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); }, {passive: true});
+                c.addEventListener('touchmove', scratch, {passive: true});
+            }
         }
 
         let qStep = 0;
@@ -383,26 +496,48 @@
                 const q = CONFIG.quiz[qStep];
                 document.getElementById('qTxt').innerText = q.q;
                 document.getElementById('qOpts').innerHTML = q.o.map(o => `<button class="btn-action" onclick="qStep++; runQuiz()">${o}</button>`).join('');
-            } else { document.getElementById('qBox').innerHTML = "<h3>🏆 Insider!</h3>"; }
+            } else { 
+                document.getElementById('qBox').innerHTML = "<h3>🏆 Insider!</h3><p style='text-align:center;'>Du kennst die beiden richtig gut.</p>"; 
+            }
         };
 
         window.nextMission = () => {
-            document.getElementById('mTxt').innerText = `"${CONFIG.missions[Math.floor(Math.random()*CONFIG.missions.length)]}"`;
+            const randomMission = CONFIG.missions[Math.floor(Math.random() * CONFIG.missions.length)];
+            document.getElementById('mTxt').innerText = `"${randomMission}"`;
         };
 
         function startCountdown() {
             const target = new Date(CONFIG.date).getTime();
             setInterval(() => {
-                const diff = target - new Date().getTime();
-                if(diff < 0) { document.getElementById('timer').innerText = "JETZT WIRD GEFEIERT!"; return; }
-                const d = Math.floor(diff/(1000*60*60*24)); const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+                const now = new Date().getTime();
+                const diff = target - now;
+                
+                if(diff < 0) { 
+                    document.getElementById('timer').innerText = "JETZT WIRD GEFEIERT!"; 
+                    document.getElementById('pBar').style.width = "100%";
+                    document.getElementById('pText').innerText = "Prost!";
+                    return; 
+                }
+                
+                const d = Math.floor(diff/(1000*60*60*24)); 
+                const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
                 document.getElementById('timer').innerText = `${d} Tage & ${h} Stunden`;
+                
+                // Simulierter Ladebalken für die Zeit (z.B. von 1 Jahr vorher)
+                const totalTime = 365 * 24 * 60 * 60 * 1000; // 1 Jahr als Referenz
+                let progress = 100 - ((diff / totalTime) * 100);
+                if(progress < 5) progress = 5;
+                document.getElementById('pBar').style.width = `${progress}%`;
+                document.getElementById('pText').innerText = "Vorbereitungen laufen...";
+
             }, 1000);
         }
 
+        // Start everything
         init();
     </script>
 </body>
 </html>
+
 
     

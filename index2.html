@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>${CONFIG.names} | Wedding App</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>KATHI & STEPHAN | THE WEDDING APP</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- DESIGN-SYSTEM --- */
         :root { 
             --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; 
             --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9); --red: #e74c3c; 
@@ -21,20 +23,18 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: 0.3s ease; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 110px; overflow-x: hidden; }
 
-        /* --- UI: TICKER & THEME --- */
+        /* --- COMPONENTS --- */
         #ticker-wrap { position: fixed; top: 0; width: 100%; background: var(--gold); color: white; z-index: 6000; height: 35px; display: none; overflow: hidden; font-weight: 800; line-height: 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
         .theme-toggle { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; z-index: 6500; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
-        /* --- NAVIGATION --- */
         nav { position: fixed; bottom: 15px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 12px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 4000; border: 1px solid var(--border); }
         nav button { background: none; border: none; color: #888; font-size: 0.65rem; font-weight: 700; cursor: pointer; flex: 1; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; }
         nav button.active { color: var(--gold); transform: translateY(-3px); }
         nav button span { font-size: 1.4rem; margin-bottom: 4px; }
 
-        /* --- PAGES & CARDS --- */
         .page { display: none; padding: 70px 20px 20px; animation: fadeIn 0.4s ease; max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -44,31 +44,39 @@
         
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; margin-top: 0; }
         .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .btn-del { position: absolute; top: -10px; right: -10px; background: var(--red); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: none; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
-        /* --- TIMELINE & SPECIALS --- */
+        /* Admin Lösch-Button Style */
+        .btn-del { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border: none; border-radius: 50%; width: 25px; height: 25px; font-weight: bold; cursor: pointer; display: none; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        
         .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; }
-        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 100%; height: 100%; } /* Click area */
         .timeline-item::after { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
 
         #splash { position: fixed; inset: 0; background: #121212; z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); }
+        
+        /* Jukebox & Voting */
+        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); position: relative; }
+        .vote-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; margin-right: 8px; }
 
-        .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); }
-        .vote-count { background: var(--gold); color: white; padding: 2px 10px; border-radius: 10px; font-weight: bold; margin-right: 10px; }
+        /* Bingo Grid */
+        #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .bingo-cell { aspect-ratio: 1; background: var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.7rem; padding: 5px; cursor: pointer; font-weight: 600; }
+
+        /* Galerie Grid */
+        #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
-<body id="body">
-
+<body>
     <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: 2.5rem; margin-bottom: 10px;">LÄDT...</h1>
-        <div style="width: 50px; height: 2px; background: var(--gold); animation: load 1.5s infinite;"></div>
+        <h1 id="splashName" style="font-size: 2.5rem;">LÄDT...</h1>
+        <div style="width: 40px; height: 2px; background: var(--gold); animation: pulse 1.5s infinite;"></div>
     </div>
 
     <nav id="mainNav"></nav>
-
     <div id="content-area"></div>
 
     <script type="module">
@@ -76,9 +84,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // ==========================================
-        // 1. VOLLSTÄNDIGE KONFIGURATION
-        // ==========================================
+        // --- 1. KONFIGURATION ---
         const CONFIG = {
             adminPW: "1234",
             names: "Kathi & Stephan",
@@ -86,17 +92,16 @@
             wlan: { ssid: "Hochzeit-Gast", pw: "liebe2026" },
             taxi: "0170 1234567",
             location: "Schlosshotel Beispiel, Schlossstraße 1, 12345 Musterstadt",
-            photoLink: "https://photos.app.goo.gl/beispiel",
             story: [
-                {y: "2018", t: "Erstes Date im Regen"},
-                {y: "2021", t: "Zusammenzug in München"},
-                {y: "2024", t: "Der Antrag in Paris"}
+                {y: "2019", t: "Das erste Treffen am See"},
+                {y: "2022", t: "Einzug in die erste Wohnung"},
+                {y: "2025", t: "Der Ja-Wort Moment"}
             ],
-            menu: { v: "Wildkräutersalat mit Ziegenkäse", h: "Zartes Rinderfilet oder Kürbis-Gnocchi", d: "Dessert-Variation & Hochzeitstorte" },
-            missions: ["Selfie mit dem Brautvater", "Foto vom lustigsten Gast", "Ein Bild von den Ringen"],
+            menu: { v: "Carpaccio vom Weiderind", h: "Zartes Filet oder Trüffel-Pasta", d: "Candybar & Torte" },
+            missions: ["Selfie mit der Braut", "Foto von den Tanzschuhen", "Bild vom ältesten Gast"],
             quiz: [
-                {q: "Wer hat den ersten Schritt gemacht?", o: ["Kathi", "Stephan"]},
-                {q: "Wer braucht länger im Bad?", o: ["Kathi", "Stephan"]}
+                {q: "Wer kocht öfter?", o: ["Kathi", "Stephan"]},
+                {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan"]}
             ],
             bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Torte", "Rede", "DJ", "Wein", "Selfie", "Träne", "Blumen", "Buffet"]
         };
@@ -116,18 +121,14 @@
         let isAdmin = false;
         let adminClicks = 0;
 
-        // ==========================================
-        // 2. INITIALISIERUNG & NAVIGATION
-        // ==========================================
+        // --- 2. CORE LOGIC ---
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
             renderPages();
-            setupFirebaseListeners();
+            setupFirebase();
             startCountdown();
-            setTimeout(() => { document.getElementById('splash').style.opacity = '0'; 
-                setTimeout(() => document.getElementById('splash').style.display = 'none', 500);
-            }, 2000);
+            setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 2000);
         }
 
         window.toggleTheme = () => {
@@ -148,154 +149,122 @@
         function renderPages() {
             document.getElementById('content-area').innerHTML = `
                 <main id="home" class="page active">
-                    <h1 onclick="adminTrigger()" style="cursor:pointer; font-size:2.8rem;">${CONFIG.names}</h1>
-                    <div id="timer" style="text-align:center; font-weight:800; color:var(--gold); font-size:1.2rem; margin-bottom:20px;"></div>
-                    
+                    <h1 onclick="adminTrigger()">${CONFIG.names}</h1>
+                    <div id="timer" style="text-align:center; font-weight:800; color:var(--gold); margin-bottom:20px;"></div>
                     <div class="card">
-                        <h3>⏳ Party-Fortschritt</h3>
-                        <div style="background:var(--border); height:12px; border-radius:10px; overflow:hidden;"><div id="pBar" style="background:var(--gold); height:100%; width:0%; transition:1.5s;"></div></div>
-                        <p id="pText" style="text-align:center; font-size:0.8rem; margin-top:8px; font-weight:bold;"></p>
+                        <h3>⏳ Party-Status</h3>
+                        <div style="background:var(--border); height:10px; border-radius:5px; overflow:hidden;"><div id="pBar" style="background:var(--gold); height:100%; width:30%;"></div></div>
                     </div>
-
                     <div class="card card-gold">
                         <h3>🕵️ Foto-Mission</h3>
-                        <p id="mTxt" style="text-align:center; font-weight:600; font-style:italic;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextMission()">NEUE MISSION</button>
+                        <p id="mTxt" style="text-align:center; font-style:italic;">"${CONFIG.missions[0]}"</p>
+                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="nextMission()">NÄCHSTE</button>
                     </div>
-
                     <div class="card">
-                        <h3>📖 Unsere Meilensteine</h3>
+                        <h3>📖 Story</h3>
                         ${CONFIG.story.map(s=>`<div class="timeline-item"><b>${s.y}:</b> ${s.t}</div>`).join('')}
                     </div>
                 </main>
 
                 <main id="guests" class="page">
-                    <h2>Sitzplatz finden</h2>
+                    <h2>Wo sitze ich?</h2>
                     <div class="card">
-                        <input type="text" id="gSearch" placeholder="Dein Vorname..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold); outline:none;">
-                        <div id="gRes" style="text-align:center; margin-top:20px; font-weight:800; color:var(--gold); font-size:1.3rem;"></div>
+                        <input type="text" id="gSearch" placeholder="Dein Name..." style="width:100%; padding:15px; border-radius:15px; border:1px solid var(--gold);">
+                        <div id="gRes" style="text-align:center; margin-top:15px; font-weight:800; color:var(--gold);"></div>
                     </div>
                     <div class="card">
-                        <h3>🍽 Das Festmenü</h3>
-                        <p><b>Vorspeise:</b> ${CONFIG.menu.v}</p>
-                        <hr style="border:0; border-top:1px solid var(--border);">
-                        <p><b>Hauptgang:</b> ${CONFIG.menu.h}</p>
-                        <hr style="border:0; border-top:1px solid var(--border);">
-                        <p><b>Dessert:</b> ${CONFIG.menu.d}</p>
+                        <h3>🍽 Menü</h3>
+                        <p>V: ${CONFIG.menu.v}<br>H: ${CONFIG.menu.h}<br>D: ${CONFIG.menu.d}</p>
                     </div>
                 </main>
 
                 <main id="fun" class="page">
                     <div class="card">
                         <h3>🎵 Jukebox</h3>
-                        <div style="display:flex; gap:10px;">
-                            <input type="text" id="sIn" placeholder="Lied & Interpret..." style="flex:1; padding:12px; border-radius:10px; border:1px solid var(--border);">
-                            <button class="btn-action" style="width:auto; margin:0;" onclick="addSong()">➕</button>
-                        </div>
-                        <div id="sList" style="margin-top:20px;"></div>
+                        <input type="text" id="sIn" placeholder="Liedwunsch..." style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--border);">
+                        <button class="btn-action" onclick="addSong()">WÜNSCHEN</button>
+                        <div id="sList" style="margin-top:15px;"></div>
                     </div>
-
                     <div class="card" id="qBox">
-                        <h3>Das Brautpaar-Quiz</h3>
-                        <p id="qTxt" style="text-align:center;">Bist du ein wahrer Freund?</p>
-                        <div id="qOpts"><button class="btn-action" onclick="runQuiz()">QUIZ STARTEN</button></div>
+                        <h3>Brautpaar-Quiz</h3>
+                        <p id="qTxt" style="text-align:center;">Bist du bereit?</p>
+                        <div id="qOpts"><button class="btn-action" onclick="runQuiz()">START</button></div>
                     </div>
-
                     <div class="card">
-                        <h3>🎰 Hochzeit-Bingo</h3>
-                        <div id="bGrid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;"></div>
+                        <h3>🎰 Bingo</h3>
+                        <div id="bGrid"></div>
                     </div>
-
                     <div class="card">
                         <h3>🎁 Rubbellos</h3>
-                        <div style="position:relative; background:#eee; height:120px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                            <span style="font-weight:bold; color:var(--gold); font-size:1.2rem;">GEWINN: 1x SCHNAPS!</span>
+                        <div style="position:relative; background:#ddd; height:100px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                            <span style="font-weight:bold; color:var(--gold);">GEWINN: 1x SCHNAPS!</span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair;"></canvas>
                         </div>
                     </div>
                 </main>
 
                 <main id="gal" class="page">
-                    <h2>Live Foto-Galerie</h2>
+                    <h2>Live Galerie</h2>
                     <div class="card card-gold">
-                        <h3>Moment teilen</h3>
                         <input type="file" id="fIn" accept="image/*" style="display:none;" onchange="uploadPhoto(this)">
                         <button class="btn-action" style="background:white; color:var(--gold);" onclick="document.getElementById('fIn').click()">📸 FOTO HOCHLADEN</button>
                     </div>
-                    <div id="photoGrid" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px;"></div>
+                    <div id="photoGrid"></div>
                 </main>
 
                 <main id="info" class="page">
                     <div class="card">
-                        <h3>✍️ Digitales Gästebuch</h3>
-                        <textarea id="wIn" placeholder="Eure Wünsche für uns..." style="width:100%; height:80px; border-radius:15px; border:1px solid var(--border); padding:15px; font-family:inherit;"></textarea>
-                        <button class="btn-action" onclick="addWish()">WUNSCH ABSCHICKEN</button>
-                        <div id="wList" style="margin-top:20px;"></div>
+                        <h3>✍️ Gästebuch</h3>
+                        <textarea id="wIn" style="width:100%; height:60px; border-radius:10px; border:1px solid var(--border); padding:10px;"></textarea>
+                        <button class="btn-action" onclick="addWish()">POSTEN</button>
+                        <div id="wList" style="margin-top:15px;"></div>
                     </div>
                     <div class="card" style="text-align:center;">
-                        <h3>🆘 Infos</h3>
-                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b> | PW: <b>${CONFIG.wlan.pw}</b></p>
-                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">🚕 TAXI RUFEN</button>
-                        <button class="btn-action" style="background:#444;" onclick="window.open('https://www.google.com/maps?q=${encodeURIComponent(CONFIG.location)}')">🗺 ANREISE ÖFFNEN</button>
+                        <p>📶 WLAN: ${CONFIG.wlan.ssid} | PW: ${CONFIG.wlan.pw}</p>
+                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">TAXI RUFEN</button>
                     </div>
                 </main>
 
                 <main id="admin" class="page">
                     <div class="card" style="border:2px dashed red;">
-                        <h2>⚠️ Admin Konsole</h2>
-                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;">
-                        <button class="btn-action" onclick="setTicker(true)">TICKER AKTIVIEREN</button>
-                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">AUSSCHALTEN</button>
-                        <hr style="margin:20px 0;">
-                        <button class="btn-action" style="background:red;" onclick="location.reload()">ADMIN VERLASSEN</button>
+                        <h2>Admin Konsole</h2>
+                        <input type="text" id="tIn" placeholder="Ticker Text..." style="width:100%; padding:10px; margin-bottom:10px;">
+                        <button class="btn-action" onclick="setTicker(true)">TICKER AN</button>
+                        <button class="btn-action" style="background:#666;" onclick="setTicker(false)">AUS</button>
+                        <button class="btn-action" style="background:red; margin-top:20px;" onclick="location.reload()">ADMIN VERLASSEN</button>
                     </div>
                 </main>
             `;
             initGames();
         }
 
-        // ==========================================
-        // 3. FIREBASE LISTENERS & ACTIONS
-        // ==========================================
-        function setupFirebaseListeners() {
-            // Live Ticker
+        // --- 3. FIREBASE ACTIONS & LISTENERS ---
+        function setupFirebase() {
+            // Ticker
             onSnapshot(doc(db, "settings", "ticker"), (d) => {
-                const ticker = d.data();
+                const data = d.data();
                 const wrap = document.getElementById('ticker-wrap');
-                if(ticker?.active) {
-                    document.getElementById('ticker-content').innerText = "+++ " + ticker.text + " +++";
+                if(data?.active) {
+                    document.getElementById('ticker-content').innerText = "+++ " + data.text + " +++";
                     wrap.style.display = 'block';
                 } else wrap.style.display = 'none';
             });
 
-            // Jukebox mit Voting
+            // Jukebox
             onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
                 const list = document.getElementById('sList'); if(!list) return;
                 list.innerHTML = "";
                 snap.forEach(d => {
-                    const song = d.data();
-                    list.innerHTML += `
-                        <div class="song-item">
-                            <span style="font-size:0.9rem;"><b>${song.song}</b></span>
-                            <div style="display:flex; align-items:center;">
-                                <span class="vote-count">${song.votes || 0}</span>
-                                <button class="vote-btn" style="border:0; background:none; font-size:1.2rem; cursor:pointer;" onclick="voteSong('${d.id}')">❤️</button>
-                                <button class="btn-del" style="display:${isAdmin?'block':'none'}" onclick="deleteEntry('jukebox','${d.id}')">X</button>
-                            </div>
-                        </div>`;
-                });
-            });
-
-            // Gästebuch
-            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
-                const list = document.getElementById('wList'); if(!list) return;
-                list.innerHTML = "";
-                snap.forEach(d => {
-                    list.innerHTML += `<div class="card" style="padding:15px; margin-bottom:10px; font-size:0.9rem;">
-                        ${d.data().msg}
-                        <button class="btn-del" style="display:${isAdmin?'block':'none'}" onclick="deleteEntry('guestbook','${d.id}')">X</button>
+                    const s = d.data();
+                    list.innerHTML += `<div class="song-item">
+                        <span><span class="vote-badge">${s.votes || 0}</span> ${s.song}</span>
+                        <div>
+                            <button onclick="voteSong('${d.id}')" style="border:0; background:none; cursor:pointer;">❤️</button>
+                            <button class="btn-del" onclick="deleteEntry('jukebox','${d.id}')">X</button>
+                        </div>
                     </div>`;
                 });
+                refreshAdminUI();
             });
 
             // Galerie
@@ -303,32 +272,39 @@
                 const grid = document.getElementById('photoGrid'); if(!grid) return;
                 grid.innerHTML = "";
                 snap.forEach(d => {
-                    grid.innerHTML += `<div style="position:relative;">
-                        <img src="${d.data().url}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:15px; box-shadow:0 5px 10px rgba(0,0,0,0.1);">
-                        <button class="btn-del" style="display:${isAdmin?'block':'none'}; top:5px; right:5px;" onclick="deleteEntry('photos','${d.id}')">X</button>
+                    grid.innerHTML += `<div class="photo-wrapper">
+                        <img src="${d.data().url}">
+                        <button class="btn-del" onclick="deleteEntry('photos','${d.id}')">X</button>
                     </div>`;
                 });
+                refreshAdminUI();
+            });
+
+            // Gästebuch
+            onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
+                const list = document.getElementById('wList'); if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(d => {
+                    list.innerHTML += `<div class="card" style="padding:15px; font-size:0.9rem; margin-bottom:10px;">
+                        ${d.data().msg}
+                        <button class="btn-del" onclick="deleteEntry('guestbook','${d.id}')">X</button>
+                    </div>`;
+                });
+                refreshAdminUI();
             });
 
             // Sitzplatz Suche
             document.getElementById('gSearch').oninput = (e) => {
-                const val = e.target.value.toLowerCase();
-                const res = document.getElementById('gRes');
-                if(val.length < 3) { res.innerText = ""; return; }
+                const v = e.target.value.toLowerCase();
+                if(v.length < 3) return;
                 onSnapshot(collection(db, "guests"), (snap) => {
-                    let found = false;
-                    snap.forEach(d => {
-                        if(d.data().name.toLowerCase().includes(val)) {
-                            res.innerHTML = `✨ Hallo ${d.data().name}!<br>Du sitzt an: <b>${d.data().tisch}</b>`;
-                            found = true;
-                        }
-                    });
-                    if(!found) res.innerText = "Suchen...";
+                    let f = false;
+                    snap.forEach(d => { if(d.data().name.toLowerCase().includes(v)) { document.getElementById('gRes').innerHTML = `Tisch: ${d.data().tisch}`; f=true; } });
+                    if(!f) document.getElementById('gRes').innerText = "...";
                 });
             };
         }
 
-        // --- ACTIONS ---
         window.voteSong = async (id) => { await updateDoc(doc(db, "jukebox", id), { votes: increment(1) }); };
         
         window.addSong = async () => {
@@ -345,26 +321,20 @@
             if(!input.files[0]) return;
             const file = input.files[0];
             const sRef = ref(storage, 'gallery/' + Date.now() + '_' + file.name);
-            alert("Foto wird hochgeladen...");
-            try {
-                await uploadBytes(sRef, file);
-                const url = await getDownloadURL(sRef);
-                await addDoc(collection(db, "photos"), { url: url, time: serverTimestamp() });
-                alert("Erfolgreich geteilt!");
-            } catch(e) { alert("Fehler: " + e.message); }
+            alert("Upload läuft...");
+            await uploadBytes(sRef, file);
+            const url = await getDownloadURL(sRef);
+            await addDoc(collection(db, "photos"), { url: url, time: serverTimestamp() });
+            alert("Hochgeladen!");
         };
 
-        window.deleteEntry = async (coll, id) => { if(confirm("Eintrag löschen?")) await deleteDoc(doc(db, coll, id)); };
+        window.deleteEntry = async (coll, id) => { if(confirm("Löschen?")) await deleteDoc(doc(db, coll, id)); };
 
         window.setTicker = async (active) => {
-            const txt = document.getElementById('tIn').value || "Willkommen!";
-            await setDoc(doc(db, "settings", "ticker"), { active: active, text: txt });
-            alert(active ? "Ticker live!" : "Ticker aus.");
+            await setDoc(doc(db, "settings", "ticker"), { active: active, text: document.getElementById('tIn').value || "Willkommen!" });
         };
 
-        // ==========================================
-        // 4. NAVIGATION & TOOLS
-        // ==========================================
+        // --- 4. NAVIGATION & TOOLS ---
         window.showPage = (id) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -376,40 +346,35 @@
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks === 5) {
-                const pw = prompt("Admin Passwort:");
-                if(pw === CONFIG.adminPW) { 
-                    isAdmin = true; showPage('admin'); 
-                    document.querySelectorAll('.btn-del').forEach(b => b.style.display = 'block');
-                }
+                if(prompt("Admin PW:") === CONFIG.adminPW) { isAdmin = true; showPage('admin'); refreshAdminUI(); }
                 adminClicks = 0;
             }
         };
 
+        function refreshAdminUI() {
+            document.querySelectorAll('.btn-del').forEach(b => b.style.display = isAdmin ? 'block' : 'none');
+        }
+
         function initGames() {
             // Bingo
-            const grid = document.getElementById('bGrid');
+            const g = document.getElementById('bGrid');
             CONFIG.bingo.forEach(b => {
-                const div = document.createElement('div');
-                div.style = "padding:10px; background:var(--border); border-radius:10px; font-size:0.75rem; text-align:center; cursor:pointer; display:flex; align-items:center; justify-content:center; aspect-ratio:1;";
-                div.innerText = b;
-                div.onclick = () => { div.style.background = "var(--gold)"; div.style.color = "white"; };
-                grid.appendChild(div);
+                const d = document.createElement('div'); d.className="bingo-cell"; d.innerText=b;
+                d.onclick = () => { d.style.background = "var(--gold)"; d.style.color="white"; };
+                g.appendChild(d);
             });
 
-            // Rubbellos
-            const canvas = document.getElementById('scratch');
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
-            ctx.fillStyle = "#b89149"; ctx.fillRect(0,0,canvas.width, canvas.height);
+            // Scratch
+            const c = document.getElementById('scratch'); const ctx = c.getContext('2d');
+            c.width = 300; c.height = 100; ctx.fillStyle = "#b89149"; ctx.fillRect(0,0,300,100);
             const scratch = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-                const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+                const r = c.getBoundingClientRect();
+                const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+                const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+                ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.fill();
             };
-            canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
-            canvas.addEventListener('touchmove', scratch);
+            c.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
+            c.addEventListener('touchmove', scratch);
         }
 
         let qStep = 0;
@@ -418,30 +383,20 @@
                 const q = CONFIG.quiz[qStep];
                 document.getElementById('qTxt').innerText = q.q;
                 document.getElementById('qOpts').innerHTML = q.o.map(o => `<button class="btn-action" onclick="qStep++; runQuiz()">${o}</button>`).join('');
-            } else { document.getElementById('qBox').innerHTML = "<h3>🏆 Quiz-Master!</h3><p style='text-align:center;'>Du kennst die beiden perfekt.</p>"; }
+            } else { document.getElementById('qBox').innerHTML = "<h3>🏆 Insider!</h3>"; }
         };
 
         window.nextMission = () => {
-            const m = CONFIG.missions[Math.floor(Math.random()*CONFIG.missions.length)];
-            document.getElementById('mTxt').innerText = `"${m}"`;
+            document.getElementById('mTxt').innerText = `"${CONFIG.missions[Math.floor(Math.random()*CONFIG.missions.length)]}"`;
         };
 
         function startCountdown() {
             const target = new Date(CONFIG.date).getTime();
             setInterval(() => {
-                const now = new Date().getTime();
-                const diff = target - now;
-                if(diff < 0) { 
-                    document.getElementById('timer').innerText = "ES WIRD GEFEIERT!"; 
-                    document.getElementById('pBar').style.width = "100%";
-                    document.getElementById('pText').innerText = "Genießt den Moment!";
-                    return; 
-                }
-                const d = Math.floor(diff/(1000*60*60*24));
-                const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+                const diff = target - new Date().getTime();
+                if(diff < 0) { document.getElementById('timer').innerText = "JETZT WIRD GEFEIERT!"; return; }
+                const d = Math.floor(diff/(1000*60*60*24)); const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
                 document.getElementById('timer').innerText = `${d} Tage & ${h} Stunden`;
-                document.getElementById('pBar').style.width = "25%"; // Platzhalter-Fortschritt
-                document.getElementById('pText').innerText = "Die Vorbereitungen laufen...";
             }, 1000);
         }
 
@@ -449,3 +404,5 @@
     </script>
 </body>
 </html>
+
+    

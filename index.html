@@ -489,7 +489,10 @@
         };
 
         function refreshAdminUI() {
-            document.querySelectorAll('.btn-del').forEach(b => b.style.display = isAdmin ? 'block' : 'none');
+        // Wir lassen die Buttons jetzt einfach immer sichtbar
+        document.querySelectorAll('.btn-del').forEach(b => {
+            b.style.display = 'block'; 
+        });
         }
 
         function startCountdown() {

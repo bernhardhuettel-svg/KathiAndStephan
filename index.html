@@ -467,10 +467,6 @@
             i.value = ""; alert("Gesendet!");
         };
 
-        window.deleteEntry = async (coll, id) => { 
-            if(isAdmin && confirm("Löschen?")) await deleteDoc(doc(db, coll, id)); 
-        };
-
         window.setTicker = async (active) => {
             const txt = document.getElementById('tIn').value || "Willkommen!";
             await setDoc(doc(db, "settings", "ticker"), { active: active, text: txt });

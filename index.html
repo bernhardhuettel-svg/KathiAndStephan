@@ -47,7 +47,7 @@
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; margin-top: 0; }
         .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         
-        .btn-del { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: none; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .btn-del { position: absolute; top: 5px; right: 5px; background: rgba(231, 76, 60, 0.8); /* Leicht transparentes Rot */color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: block; /* WICHTIG: Auf block setzen! */z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
         .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; transition: all 0.3s ease; }
         .timeline-item::after { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
@@ -321,19 +321,17 @@
                     // --- ÄNDERUNG IN DER GALERIE-ANZEIGE ---
                     grid.innerHTML += `
                         <div class="photo-wrapper" style="position: relative; width: 100%; aspect-ratio: 1; border-radius: 15px; overflow: hidden;">
-                        <img src="${displayUrl}" loading="lazy" style="width:100%; height:100%; object-fit:cover;" onclick="window.open('${data.url}', '_blank')">
-                        
-                        <button onclick="window.downloadPhoto('${data.url}')" 
-                                style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
-                            💾
-                        </button>
-                        
-                        <button class="btn-del" 
-                                style="display: ${isAdmin ? 'block' : 'none'}; position: absolute; top: 8px; right: 8px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; z-index: 20;" 
-                                onclick="window.deleteEntry('photos','${d.id}')">
-                            X
-                        </button>
-                    </div>`;
+                            <img src="${displayUrl}" loading="lazy" style="width:100%; height:100%; object-fit:cover;" onclick="window.open('${data.url}', '_blank')">
+                            
+                            <button onclick="window.downloadPhoto('${data.url}')" 
+                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
+                                💾
+                            </button>
+                            
+                            <button class="btn-del" onclick="window.deleteEntry('photos','${d.id}')">
+                                X
+                            </button>
+                         </div>`;
                 });
                 refreshAdminUI();
             });
@@ -367,24 +365,16 @@
             };
         }
 
-        // --- FUNKTION: EINTRAG AUS FIREBASE LÖSCHEN ---
-        window.deleteEntry = async (coll, id) => { 
-            // Sicherheitsabfrage, damit man nicht aus Versehen löscht
-            const confirmDelete = confirm("Möchtest du dieses Foto wirklich von der Seite entfernen?");
-            
-            if (confirmDelete) {
+       window.deleteEntry = async (coll, id) => { 
+            if (confirm("Möchtest du diesen Beitrag wirklich für alle entfernen?")) {
                 try {
-                    // Wir importieren die benötigten Funktionen von Firebase direkt hier oder 
-                    // setzen voraus, dass 'doc' und 'deleteDoc' bereits importiert sind.
+                    // Import der Firestore Funktionen, falls noch nicht global verfügbar
                     const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-                    
                     await deleteDoc(doc(db, coll, id));
-                    
-                    console.log("Foto erfolgreich gelöscht!");
-                    // Die Seite aktualisiert sich durch 'onSnapshot' automatisch.
+                    console.log("Eintrag gelöscht.");
                 } catch (error) {
-                    console.error("Fehler beim Löschen des Dokuments: ", error);
-                    alert("Fehler beim Löschen. Bist du als Admin eingeloggt?");
+                    console.error("Löschfehler:", error);
+                    alert("Hoppla, das Löschen hat nicht geklappt.");
                 }
             }
         };

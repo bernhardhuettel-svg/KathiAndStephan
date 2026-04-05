@@ -221,12 +221,13 @@
                         <h3>🎰 Hochzeits-Bingo</h3>
                         <div id="bGrid"></div>
                     </div>
-                    <div class="card">
+                   <div class="card">
                         <h3>🎁 Rubbellos</h3>
-                        <div style="position:relative; background:#ddd; height:100px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                            <span style="font-weight:bold; color:var(--gold); font-size:1.2rem;">GEWINN: 1x SCHNAPS!</span>
-                            <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair;"></canvas>
+                        <div id="scratch-container" style="position:relative; background:#fdfcf9; height:120px; border-radius:15px; display:flex; align-items:center; justify-content:center; overflow:hidden; border: 2px dashed var(--gold);">
+                            <span style="font-weight:bold; color:var(--gold); font-size:1.2rem; text-align:center;">GEWINN:<br>1x SCHNAPS AN DER BAR! 🥃</span>
+                            <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
                         </div>
+                        <p style="font-size:0.7rem; text-align:center; margin-top:5px;">Einfach mit dem Finger freirubbeln!</p>
                     </div>
                 </main>
 
@@ -254,9 +255,19 @@
                     </div>
                     <div class="card" style="text-align:center;">
                         <h3>🆘 Nützliche Infos</h3>
-                        <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b><br>PW: <b>${CONFIG.wlan.pw}</b></p>
-                        <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">🚕 TAXI RUFEN</button>
-                    </div>
+                            <p>📍 <b>Ort der Feier:</b><br>${CONFIG.location}</p>
+                            
+                            <button class="btn-action" style="background:#4285F4; margin-bottom: 10px;" 
+                                onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
+                                🗺️ IN MAPS ÖFFNEN
+                            </button>
+                        
+                            <p>📶 WLAN: <b>${CONFIG.wlan.ssid}</b><br>PW: <b>${CONFIG.wlan.pw}</b></p>
+                            
+                            <button class="btn-action" style="background:#333;" onclick="location.href='tel:${CONFIG.taxi}'">
+                                🚕 TAXI RUFEN
+                            </button>
+                        </div>
                 </main>
 
                 <main id="admin" class="page">
@@ -520,32 +531,59 @@
         };
         window.nextQ = () => { window.qStep++; window.runQuiz(); };
 
+        // --- ÄNDERUNG DER LOGIK ---
         function initGames() {
+            // 1. Bingo Logik
             const g = document.getElementById('bGrid');
-            if(g) CONFIG.bingo.forEach(b => {
-                const d = document.createElement('div'); d.className="bingo-cell"; d.innerText=b;
-                d.onclick = () => { d.style.background = "var(--gold)"; d.style.color="white"; };
-                g.appendChild(d);
-            });
-
+            if (g) {
+                g.innerHTML = ""; // Vorher leeren
+                CONFIG.bingo.forEach(b => {
+                    const d = document.createElement('div');
+                    d.className = "bingo-cell";
+                    d.innerText = b;
+                    d.onclick = () => { d.style.background = "var(--gold)"; d.style.color = "white"; };
+                    g.appendChild(d);
+                });
+            }
+        
+            // 2. Rubbellos Logik
             const c = document.getElementById('scratch');
-            if(c) {
+            if (c) {
                 const ctx = c.getContext('2d');
+                const container = document.getElementById('scratch-container');
+        
+                // Wir warten kurz, bis das Layout stabil ist
                 setTimeout(() => {
-                    c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight;
-                    ctx.fillStyle = "#b89149"; ctx.fillRect(0,0,c.width,c.height);
+                    c.width = container.offsetWidth;
+                    c.height = container.offsetHeight;
+        
+                    // Goldene Deckschicht
+                    ctx.fillStyle = "#C0C0C0"; // Silberne Farbe
+                    ctx.fillRect(0, 0, c.width, c.height);
+                    
+                    // Text auf der Silberschicht (optional)
+                    ctx.fillStyle = "#888";
+                    ctx.font = "14px Montserrat";
+                    ctx.textAlign = "center";
+                    ctx.fillText("RUBBEL MICH", c.width/2, c.height/2 + 5);
+        
                     const scratch = (e) => {
+                        e.preventDefault(); // Verhindert Scrollen beim Rubbeln
                         const r = c.getBoundingClientRect();
                         const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
                         const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+                        
                         ctx.globalCompositeOperation = 'destination-out';
-                        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(x, y, 25, 0, Math.PI * 2); // Radius des "Radiergummis"
+                        ctx.fill();
                     };
-                    c.ontouchmove = scratch; c.onmousemove = scratch;
-                }, 500);
+        
+                    c.addEventListener('mousemove', scratch);
+                    c.addEventListener('touchmove', scratch, { passive: false });
+                }, 300);
             }
         }
-
         init();
     </script>
 </body>

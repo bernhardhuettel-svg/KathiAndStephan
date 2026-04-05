@@ -226,22 +226,34 @@
                     </div>
                 </main>
 
-                <main id="gal" class="page">
-                    <h2>Live Galerie</h2>
-                    <div class="card card-gold">
-                        <h3 style="color:white; margin-bottom:10px;">Teile deine Momente</h3>
-                        <input type="file" id="fIn" accept="image/*" style="display:none;" onchange="window.uploadPhoto(this)">
-                        <button class="btn-action" style="background:white; color:var(--gold);" onclick="document.getElementById('fIn').click()">📸 FOTO HOCHLADEN</button>
-                        
-                        <div id="uploadProgress" style="display:none; margin-top:15px; background:rgba(255,255,255,0.2); padding:10px; border-radius:10px;">
-                            <p id="uploadText" style="text-align:center; font-size:0.85rem; font-weight:bold; margin:0 0 5px 0;">Upload startet...</p>
-                            <div style="background:rgba(0,0,0,0.1); height:12px; border-radius:6px; overflow:hidden;">
-                                <div id="uploadBar" style="background:white; height:100%; width:0%; transition: width 0.2s ease;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="photoGrid"></div>
-                </main>
+      <main id="gal" class="page">
+    <h2>Live Galerie</h2>
+    <div class="card card-gold" style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">📸</div>
+        <h3 style="color:white; margin-bottom: 10px;">Teile deine Momente</h3>
+        <p style="font-size: 0.9rem; margin-bottom: 20px;">
+            Wir haben ein gemeinsames Album erstellt.<br>
+            Lade deine Fotos hoch und schau dir die Schnappschüsse der anderen Gäste an!
+        </p>
+        
+        <button class="btn-action" 
+                style="background:white; color:var(--gold);" 
+                onclick="window.open('https://photos.app.goo.gl/nxiDAoYeMx2uNyWL6', '_blank')">
+            ZUM FOTO-ALBUM
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>💡 So funktioniert's:</h3>
+        <ul style="text-align: left; font-size: 0.85rem; line-height: 1.6;">
+            <li>Klicke auf den Button oben.</li>
+            <li>Melde dich ggf. kurz an (Google Konto).</li>
+            <li>Klicke auf das "Fotos hinzufügen" Symbol.</li>
+            <li>Wähle deine schönsten Bilder aus!</li>
+        </ul>
+    </div>
+</main>
+
 
                 <main id="info" class="page">
                     <div class="card">

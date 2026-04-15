@@ -121,7 +121,7 @@
         }
         /* Wenn Admin-Modus aktiv ist, zeige die Buttons */
         body.admin-mode .btn-del { display: flex; }
-        .song-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
+        .song-item .btn-del, .hs-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
         .timeline { display: flex; flex-direction: column; gap: 15px; }
         .timeline-item { display: flex; align-items: flex-start; gap: 15px; }
@@ -475,7 +475,7 @@
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Songs) zu löschen!</p>
+                        <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Songs, Highscore, etc.) zu löschen!</p>
                         <button class="btn-action" style="background:#ff3b30; color:white; margin-top:15px; border:none;" onclick="location.reload()">Admin-Modus beenden</button>
                     </div>
                 </main>
@@ -500,10 +500,11 @@
                 let rank = 1;
                 snap.forEach(d => {
                     const s = d.data();
-                    list.innerHTML += `<div class="hs-item">
+                    list.innerHTML += `<div class="hs-item" style="align-items: center;">
                         <span class="hs-rank">${rank}.</span>
                         <span class="hs-name">${s.name}</span>
                         <span class="hs-score">${s.score} Pkt.</span>
+                        <button class="btn-del" onclick="window.deleteEntry('highscores','${d.id}')">✕</button>
                     </div>`;
                     rank++;
                 });
@@ -868,17 +869,15 @@
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks >= 5) {
-                adminClicks = 0; // Klicks direkt zurücksetzen
+                adminClicks = 0; 
                 
-                // Wenn wir schon im Admin-Modus sind, einfach die Seite aufrufen
                 if(document.body.classList.contains('admin-mode')) {
                     window.showPage('admin');
                 } else {
-                    // Wenn nicht, nach Passwort fragen
                     if(prompt("Passcode:") === CONFIG.adminPW) { 
                         document.body.classList.add('admin-mode');
                         window.showPage('admin'); 
-                        alert("✅ Admin-Modus aktiviert!\n\nDie roten Lösch-Buttons (X) sind nun auf allen Seiten für dich sichtbar. Du kannst normal durch die Tabs navigieren, um Bilder oder Songs zu löschen.");
+                        alert("✅ Admin-Modus aktiviert!\n\nDie roten Lösch-Buttons (X) sind nun auf allen Seiten für dich sichtbar. Du kannst normal durch die Tabs navigieren, um Bilder, Songs oder Highscores zu löschen.");
                     }
                 }
             }

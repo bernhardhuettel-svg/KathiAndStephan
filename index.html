@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark" id="mainHtml">
+<html lang="de" data-theme="light" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -10,28 +10,28 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
 
     <style>
-        /* --- APPLE PRO DESIGN SYSTEM --- */
+        /* --- APPLE PRO DESIGN SYSTEM (FROSTED EUCALYPTUS) --- */
         :root { 
-            --accent: #829a8a; 
-            --accent-glow: #a3bcae;
+            --accent: #6b8e78;         /* Elegantes Eukalyptus-Grün */
+            --accent-glow: #8ba895;    /* Helles Eukalyptus */
             
-            --bg: #f5f5f7; 
-            --surface: rgba(255, 255, 255, 0.6); 
-            --text: #1d1d1f; 
-            --text-muted: #86868b;
-            --border-glass: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --aura: radial-gradient(circle at 50% 30%, rgba(130, 154, 138, 0.15) 0%, transparent 60%);
+            --bg: #eef2ef;             /* Sehr helles, frisches Grau-Grün als Basis */
+            --surface: rgba(255, 255, 255, 0.65); /* Milchglas Effekt */
+            --text: #2c3630;           /* Dunkles Eukalyptus (weicher als Schwarz) */
+            --text-muted: #748c7c;     
+            --border-glass: rgba(107, 142, 120, 0.15); /* Zarte grüne Ränder */
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --aura: radial-gradient(circle at 50% 20%, rgba(107, 142, 120, 0.15) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
-            --bg: #000000; 
-            --surface: rgba(28, 28, 30, 0.4); 
-            --text: #f5f5f7; 
-            --text-muted: #86868b;
+            --bg: #1a211c;             /* Tiefes Nacht-Grün */
+            --surface: rgba(30, 40, 34, 0.5); 
+            --text: #e8eee9; 
+            --text-muted: #8ba895;
             --border-glass: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(28, 28, 30, 0.7);
-            --aura: radial-gradient(circle at 50% 30%, rgba(130, 154, 138, 0.2) 0%, transparent 70%);
+            --nav-bg: rgba(20, 28, 23, 0.8);
+            --aura: radial-gradient(circle at 50% 20%, rgba(107, 142, 120, 0.15) 0%, transparent 60%);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -56,9 +56,7 @@
             font-size: 3.8rem; 
             line-height: 1.1; 
             text-align: center; 
-            background: linear-gradient(180deg, var(--text) 0%, var(--text-muted) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent);
             margin-bottom: 5px;
         }
         
@@ -67,12 +65,12 @@
         h4 { font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.5; font-size: 1rem; color: var(--text-muted); margin: 0 0 15px 0; }
         
-        .hero-subtitle { text-align: center; font-size: 1.2rem; color: var(--accent); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; }
+        .hero-subtitle { text-align: center; font-size: 1.2rem; color: var(--accent-glow); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; }
 
         .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; }
         .theme-toggle:active { opacity: 1; }
 
-        #ticker-wrap { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); z-index: 6000; height: 32px; border-radius: 16px; display: none; overflow: hidden; font-weight: 600; line-height: 32px; font-size: 0.75rem; letter-spacing: 0.05em; padding: 0 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        #ticker-wrap { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; z-index: 6000; height: 32px; border-radius: 16px; display: none; overflow: hidden; font-weight: 600; line-height: 32px; font-size: 0.75rem; letter-spacing: 0.05em; padding: 0 20px; box-shadow: 0 4px 15px rgba(107, 142, 120, 0.3); }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
@@ -80,10 +78,10 @@
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 400px;
             background: var(--nav-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
             display: flex; justify-content: space-around; padding: 15px 10px; border-radius: 30px; z-index: 4000; 
-            border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(107,142,120,0.1);
         }
         nav button { background: none; border: none; color: var(--text-muted); font-size: 0.65rem; font-weight: 600; cursor: pointer; flex: 1; display: flex; flex-direction: column; align-items: center; transition: color 0.2s ease; }
-        nav button.active { color: var(--text); }
+        nav button.active { color: var(--accent); }
         nav button span { font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         nav button.active span { transform: scale(1.2); color: var(--accent); }
 
@@ -94,22 +92,26 @@
         .card { 
             background: var(--surface); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
             border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-glass); position: relative; overflow: hidden;
+            box-shadow: 0 8px 32px rgba(107, 142, 120, 0.05);
         }
 
-        .timer-display { font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
+        .timer-display { font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--accent); }
 
         input, textarea {
-            width: 100%; background: var(--border-glass); border: none; color: var(--text); font-family: inherit;
-            padding: 16px; border-radius: 14px; font-size: 1.05rem; transition: background 0.2s;
+            width: 100%; background: rgba(255,255,255,0.5); border: 1px solid var(--border-glass); color: var(--text); font-family: inherit;
+            padding: 16px; border-radius: 14px; font-size: 1.05rem; transition: all 0.2s;
         }
-        input:focus, textarea:focus { outline: none; background: rgba(130, 154, 138, 0.2); }
+        [data-theme="dark"] input, [data-theme="dark"] textarea { background: rgba(0,0,0,0.2); }
+        input:focus, textarea:focus { outline: none; background: rgba(255,255,255,0.8); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(107, 142, 120, 0.2);}
+        [data-theme="dark"] input:focus, [data-theme="dark"] textarea:focus { background: rgba(0,0,0,0.4); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
-        .btn-action { background: var(--text); color: var(--bg); border: none; padding: 16px; border-radius: 14px; font-weight: 600; font-size: 1rem; width: 100%; cursor: pointer; transition: transform 0.1s, opacity 0.2s; }
+        .btn-action { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 600; font-size: 1rem; width: 100%; cursor: pointer; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 15px rgba(107, 142, 120, 0.2);}
         .btn-action:active { transform: scale(0.97); opacity: 0.8; }
-        .btn-action.secondary { background: var(--border-glass); color: var(--text); }
+        .btn-action.secondary { background: rgba(255,255,255,0.6); color: var(--accent); border: 1px solid var(--border-glass); box-shadow: none; }
+        [data-theme="dark"] .btn-action.secondary { background: rgba(0,0,0,0.3); }
         
-        .btn-del { position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; font-size: 12px; }
+        .btn-del { position: absolute; top: 12px; right: 12px; background: rgba(231, 76, 60, 0.8); backdrop-filter: blur(10px); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; font-size: 12px; }
         .song-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
         .timeline { display: flex; flex-direction: column; gap: 15px; }
@@ -122,10 +124,11 @@
         
         .song-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-glass); font-size: 1rem; }
         .song-item:last-child { border-bottom: none; }
-        .vote-badge { background: var(--border-glass); color: var(--text); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-right: 12px; font-variant-numeric: tabular-nums;}
+        .vote-badge { background: rgba(107, 142, 120, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-right: 12px; font-variant-numeric: tabular-nums;}
 
         #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bingo-cell { aspect-ratio: 1; background: var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .bingo-cell { aspect-ratio: 1; background: rgba(255,255,255,0.4); border: 1px solid var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 600; transition: all 0.2s; color: var(--text); }
+        [data-theme="dark"] .bingo-cell { background: rgba(0,0,0,0.2); }
 
         #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
         .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--border-glass); }
@@ -138,7 +141,7 @@
         .hs-item:last-child { border-bottom: none; }
         .hs-rank { font-weight: 700; color: var(--accent); width: 25px; display: inline-block; }
         .hs-name { flex: 1; font-weight: 500; color: var(--text); }
-        .hs-score { font-weight: 700; color: var(--text); }
+        .hs-score { font-weight: 700; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -146,9 +149,9 @@
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: 2rem; margin-bottom: 30px;">LÄDT...</h1>
+        <h1 id="splashName" style="font-size: 2.5rem; margin-bottom: 30px;">LÄDT...</h1>
         <div style="width: 120px; height: 3px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
-            <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
+            <div style="width: 50%; height: 100%; background: var(--accent); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
     </div>
     <style>@keyframes bootLoad { 50% { transform: translateX(200%); } 100% { transform: translateX(200%); } }</style>
@@ -306,10 +309,10 @@
                         </div>
                     </div>
                     
-                    <div class="card" style="background: var(--accent); color: white;">
+                    <div class="card" style="background: var(--accent); color: white; border: none;">
                         <h3 style="color: white;">Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-size: 1.4rem; font-weight: 600; margin: 30px 0; color: white;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:white; color:var(--accent);" onclick="window.nextMission()">Neue Mission</button>
+                        <button class="btn-action" style="background:white; color:var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
@@ -381,7 +384,7 @@
                     
                    <div class="card">
                         <h3>Rubbellos</h3>
-                        <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px;">
+                        <div id="scratch-container" style="position:relative; background:rgba(255,255,255,0.4); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px; border: 1px solid var(--border-glass);">
                             <span style="font-weight:700; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
                         </div>
@@ -399,7 +402,7 @@
                         </div>
                         
                         <div id="uploadProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
-                            <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            <div id="uploadBar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
                         <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 500;"></p>
                         
@@ -440,12 +443,12 @@
                 </main>
 
                 <main id="admin" class="page">
-                    <div class="card" style="border:1px solid #ff3b30;">
-                        <h3 style="color:#ff3b30;">Admin Konsole</h3>
+                    <div class="card" style="border:1px solid #e74c3c;">
+                        <h3 style="color:#e74c3c;">Admin Konsole</h3>
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <button class="btn-action" style="background:#ff3b30; color:white; margin-top:30px;" onclick="location.reload()">Beenden</button>
+                        <button class="btn-action" style="background:#e74c3c; color:white; margin-top:30px;" onclick="location.reload()">Beenden</button>
                     </div>
                 </main>
             `;
@@ -463,8 +466,8 @@
                 }
             });
 
-            // LIVE HIGHSCORE
-            onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), orderBy("time", "asc"), limit(10)), (snap) => {
+            // LIVE HIGHSCORE (Repariert: Nur nach score sortieren, um den Index-Fehler zu vermeiden)
+            onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
                 list.innerHTML = "";
                 let rank = 1;
@@ -478,6 +481,9 @@
                     rank++;
                 });
                 if(list.innerHTML === "") list.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
+            }, (error) => {
+                console.error("Highscore Fehler:", error);
+                document.getElementById('hsList').innerHTML = "<p>Fehler beim Laden der Bestenliste.</p>";
             });
 
             onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
@@ -488,7 +494,7 @@
                     list.innerHTML += `<div class="song-item">
                         <span style="flex:1; padding-right:10px;"><span class="vote-badge">${s.votes || 0}</span> <b style="font-weight:600; color:var(--text);">${s.song}</b></span>
                         <div style="display:flex; align-items:center;">
-                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--text); cursor:pointer; font-size:1.4rem;">+</button>
+                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--accent); cursor:pointer; font-size:1.4rem; padding:0 10px;">+</button>
                             <button class="btn-del" onclick="window.deleteEntry('jukebox','${d.id}')">✕</button>
                         </div>
                     </div>`;
@@ -506,7 +512,7 @@
                             <img src="${displayUrl}" loading="lazy" onclick="window.open('${data.url}', '_blank')">
                             
                             <button onclick="window.downloadPhoto('${data.url}')" 
-                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
+                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
                                 ↓
                             </button>
                             
@@ -521,7 +527,7 @@
                 const list = document.getElementById('wList'); if(!list) return;
                 list.innerHTML = "";
                 snap.forEach(d => {
-                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
+                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: rgba(255,255,255,0.4); border: 1px solid var(--border-glass); position:relative;">
                         <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
                         <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
@@ -559,7 +565,6 @@
             window.qStep = 0;
             window.qScore = 0;
             
-            // Screen wechseln
             document.getElementById('qStartScreen').style.display = 'none';
             document.getElementById('qActiveScreen').style.display = 'block';
             window.runQuiz();
@@ -576,7 +581,6 @@
                     <button class="btn-action" onclick="window.resetQuiz()">Zurück zur Übersicht</button>
                 `;
                 
-                // Score speichern
                 if(db && window.qName) {
                     addDoc(collection(db, "highscores"), { 
                         name: window.qName, 
@@ -602,7 +606,6 @@
         };
 
         window.answerQ = (selectedIndex) => {
-            // Check if correct
             if(selectedIndex === CONFIG.quiz[window.qStep].a) {
                 window.qScore++;
             }
@@ -615,7 +618,6 @@
             document.getElementById('qStartScreen').style.display = 'block';
             document.getElementById('qNameInput').value = "";
         };
-
         // --- ENDE QUIZ LOGIK ---
 
         window.deleteEntry = async (coll, id) => { 
@@ -720,7 +722,7 @@
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('b-'+id).classList.add('active');
             
-            // Ganz wichtig: Sicherstellen, dass das Canvas Zeit hat, sich zu messen
+            // Verzögerung für Canvas Initialisierung beim Tab Wechsel
             if(id === 'fun') {
                 setTimeout(initGames, 50); 
             }
@@ -774,7 +776,7 @@
         }
 
         function initGames() {
-            // Nur generieren, wenn es noch leer ist (damit es beim Tab-Wechsel nicht resettet wird)
+            // Bingo
             const g = document.getElementById('bGrid');
             if (g && g.innerHTML.trim() === "") { 
                 const shuffledBingo = [...CONFIG.bingo].sort(() => 0.5 - Math.random()).slice(0, 9);
@@ -782,25 +784,26 @@
                     const d = document.createElement('div');
                     d.className = "bingo-cell";
                     d.innerText = b;
-                    d.onclick = () => { d.style.background = "var(--text)"; d.style.color = "var(--bg)"; d.style.transform = "scale(0.95)"; };
+                    d.onclick = () => { d.style.background = "var(--accent)"; d.style.color = "white"; d.style.transform = "scale(0.95)"; };
                     g.appendChild(d);
                 });
             }
 
+            // Rubbellos
             const canvas = document.getElementById('scratch');
             const container = document.getElementById('scratch-container');
             
-            // Nur zeichnen, wenn das Canvas sichtbar ist und noch nicht gezeichnet wurde
             if (canvas && container.offsetWidth > 0 && !canvas.isInitialized) {
                 const ctx = canvas.getContext('2d');
                 
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                ctx.fillStyle = '#86868b'; 
+                // Eukalyptus Rubbel-Fläche
+                ctx.fillStyle = '#8ba895'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#f5f5f7';
+                ctx.fillStyle = '#ffffff';
                 ctx.font = "bold 18px -apple-system, BlinkMacSystemFont, sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText("FREIRUBBELN", canvas.width/2, canvas.height/2 + 6);
@@ -826,7 +829,6 @@
                 canvas.addEventListener('mousemove', scratch);
                 canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, { passive: false });
                 
-                // Verhindern, dass es nochmal drübergezeichnet wird
                 canvas.isInitialized = true; 
             }
         }

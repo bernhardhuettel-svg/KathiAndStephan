@@ -1,39 +1,4 @@
-<!DOCTYPE html>
-<html lang="de" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KATHI & STEPHAN | THE WEDDING APP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-    <style>
-        /* --- DESIGN & FARBEN --- */
-        :root { --gold: #b89149; --bg: #fdfcf9; --text: #121212; --card: #ffffff; --border: #f4ece0; --glass: rgba(255, 255, 255, 0.9); }
-        [data-theme="dark"] { --bg: #121212; --text: #fdfcf9; --card: #1e1e1e; --border: #333; --glass: rgba(30, 30, 30, 0.9); }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; }
 
-        /* --- LIVE TICKER --- */
-        #ticker-wrap { position: fixed; top: 0; width: 100%; background: var(--gold); color: white; z-index: 6000; height: 35px; display: none; overflow: hidden; font-weight: 800; line-height: 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
-        @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-
-        /* --- NAVIGATION --- */
-        nav { position: fixed; bottom: 15px; left: 10px; right: 10px; background: var(--glass); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 4000; border: 1px solid var(--border); }
-        nav button { background: none; border: none; color: #888; font-size: 0.6rem; font-weight: 700; cursor: pointer; flex: 1; transition: 0.3s; text-transform: uppercase; }
-        nav button.active { color: var(--gold); transform: translateY(-3px); }
-        nav button span { display: block; font-size: 1.3rem; margin-bottom: 2px; }
-
-        /* --- ALLGEMEINE ELEMENTE --- */
-        .page { display: none; padding: 60px 20px 20px; animation: fadeIn 0.4s ease; max-width: 600px; margin: 0 auto; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .card { background: var(--card); border-radius: 25px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .card-gold { background: linear-gradient(135deg, var(--gold), #8c6d31); color: white; border: none; }
-        .admin-card { border: 2px dashed #ff4444 !important; background: #fff5f5; }
-        
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; }
-        .btn-action { background: var(--gold); color: white; border: none; padding: 15px; border-radius: 15px; font-weight: 800; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
         .btn-action:active { transform: scale(0.98); }
         
         .timeline-item { border-left: 2px solid var(--gold); padding-left: 20px; position: relative; margin-bottom: 20px; }

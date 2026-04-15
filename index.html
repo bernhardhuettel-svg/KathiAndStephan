@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light" id="mainHtml">
+<html lang="de" data-theme="dark" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -111,7 +111,16 @@
         .btn-action:active { transform: scale(0.97); opacity: 0.8; }
         .btn-action.secondary { background: var(--border-glass); color: var(--text); }
         
-        .btn-del { position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; font-size: 12px; }
+        /* --- ADMIN LÖSCH BUTTONS VERSTECKT FÜR GÄSTE --- */
+        .btn-del { 
+            position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); 
+            backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; 
+            width: 28px; height: 28px; font-weight: bold; cursor: pointer; 
+            display: none; /* WICHTIG: Standardmäßig versteckt */
+            align-items: center; justify-content: center; z-index: 100; font-size: 12px; 
+        }
+        /* Wenn Admin-Modus aktiv ist, zeige die Buttons */
+        body.admin-mode .btn-del { display: flex; }
         .song-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
         .timeline { display: flex; flex-direction: column; gap: 15px; }
@@ -253,7 +262,7 @@
         window.qName = "";
         let lastMissionIdx = 0;
         
-        // Gallery State (Geändert auf 6)
+        // Gallery State
         let photoLimit = 6;
         let photoUnsubscribe = null;
 
@@ -446,7 +455,7 @@
                             
                             <button class="btn-action secondary" style="margin: 15px 0 25px 0;" 
                                 onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
-                                In Karten öffnen
+                                In Google Maps öffnen
                             </button>
                         
                             <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
@@ -466,7 +475,8 @@
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <button class="btn-action" style="background:#ff3b30; color:white; margin-top:30px; border:none;" onclick="location.reload()">Beenden</button>
+                        <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Songs) zu löschen!</p>
+                        <button class="btn-action" style="background:#ff3b30; color:white; margin-top:15px; border:none;" onclick="location.reload()">Admin-Modus beenden</button>
                     </div>
                 </main>
             `;
@@ -854,11 +864,23 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
+        // --- NEUER ADMIN TRIGGER ---
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks >= 5) {
-                if(prompt("Passcode:") === CONFIG.adminPW) { window.showPage('admin'); }
-                adminClicks = 0;
+                adminClicks = 0; // Klicks direkt zurücksetzen
+                
+                // Wenn wir schon im Admin-Modus sind, einfach die Seite aufrufen
+                if(document.body.classList.contains('admin-mode')) {
+                    window.showPage('admin');
+                } else {
+                    // Wenn nicht, nach Passwort fragen
+                    if(prompt("Passcode:") === CONFIG.adminPW) { 
+                        document.body.classList.add('admin-mode');
+                        window.showPage('admin'); 
+                        alert("✅ Admin-Modus aktiviert!\n\nDie roten Lösch-Buttons (X) sind nun auf allen Seiten für dich sichtbar. Du kannst normal durch die Tabs navigieren, um Bilder oder Songs zu löschen.");
+                    }
+                }
             }
         };
 

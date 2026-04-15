@@ -1,162 +1,219 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light" id="mainHtml">
+<html lang="de" data-theme="dark" id="mainHtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>KATHI & STEPHAN | THE WEDDING APP</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
 
     <style>
-        /* --- APPLE-STYLE & EUKALYPTUS DESIGN-SYSTEM --- */
+        /* --- APPLE PRO DESIGN SYSTEM --- */
         :root { 
-            --accent: #6b8e78;         /* Sanftes Eukalyptus-Grün */
-            --accent-dark: #4a6654;    /* Dunkles Eukalyptus für Kontraste */
-            --bg: #f2f5f3;             /* Sehr helles, kühles Graugrün */
-            --text: #2c3630;           /* Dunkles Graugrün für weicheren Kontrast als Schwarz */
+            /* Eukalyptus "Pro" Farbpalette */
+            --accent: #789c85;         
+            --accent-glow: #567d64;    
+            --gold: #c5a872;
             
-            /* Glassmorphism Variables */
-            --card-glass: rgba(255, 255, 255, 0.65); 
-            --nav-glass: rgba(255, 255, 255, 0.85);
-            --border-glass: rgba(255, 255, 255, 0.6); 
-            --shadow: 0 8px 32px rgba(31, 38, 135, 0.06);
-            --red: #e74c3c; 
+            /* Light Mode Standard */
+            --bg: #f2f4f3;             
+            --text: #1d1d1f;           
+            --text-muted: #86868b;
+            --blob-1: rgba(120, 156, 133, 0.4);
+            --blob-2: rgba(197, 168, 114, 0.3);
+            
+            /* Glassmorphism Variables - Apple Style */
+            --card-bg: rgba(255, 255, 255, 0.4); 
+            --nav-bg: rgba(255, 255, 255, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.5); 
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            --red: #ff3b30; /* iOS Red */
         }
         
+        /* Das "Pro" Feeling kommt im Dark Mode am besten zur Geltung */
         [data-theme="dark"] { 
-            --bg: #151c17;             /* Sehr tiefes Dunkelgrün/Schwarz */
-            --text: #e8ece9; 
+            --bg: #000000;             
+            --text: #f5f5f7; 
+            --text-muted: #86868b;
+            --blob-1: rgba(60, 95, 75, 0.5);
+            --blob-2: rgba(120, 95, 50, 0.4);
             
-            /* Dark Mode Glassmorphism */
-            --card-glass: rgba(30, 40, 34, 0.5); 
-            --nav-glass: rgba(20, 28, 23, 0.85);
+            /* Dark Glass */
+            --card-bg: rgba(30, 30, 30, 0.35); 
+            --nav-bg: rgba(20, 20, 20, 0.65);
             --border-glass: rgba(255, 255, 255, 0.08); 
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* Native System Fonts für das echte Apple-Feeling */
+        /* Native Apple Typography */
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background: var(--bg); 
             color: var(--text); 
             margin: 0; 
             padding-bottom: 120px; 
             overflow-x: hidden; 
-            background-image: radial-gradient(circle at 50% 0%, rgba(107, 142, 120, 0.1) 0%, transparent 70%); /* Sanfter Glow oben */
+            transition: background-color 0.5s ease;
+        }
+
+        /* --- AMBIENT BACKGROUND BLOBS --- 
+           Das ist das Geheimnis für Apple-Glas: Es muss etwas dahinter leuchten */
+        .bg-blobs {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .blob {
+            position: absolute; filter: blur(60px); border-radius: 50%; animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: var(--blob-1); animation-delay: 0s; }
+        .blob-2 { bottom: 10%; right: -10%; width: 70vw; height: 70vw; background: var(--blob-2); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 40%; width: 50vw; height: 50vw; background: var(--blob-1); animation-duration: 25s; opacity: 0.6; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10vw, 15vh) scale(1.1); }
         }
 
         /* --- COMPONENTS --- */
-        #ticker-wrap { position: fixed; top: 0; width: 100%; background: var(--accent); color: white; z-index: 6000; height: 35px; display: none; overflow: hidden; font-weight: 600; line-height: 35px; font-size: 0.85rem; letter-spacing: 1px;}
+        
+        /* Dynamic Island Style Ticker */
+        #ticker-wrap { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(0,0,0,0.8); color: white; z-index: 6000; height: 35px; border-radius: 20px; display: none; overflow: hidden; font-weight: 600; line-height: 35px; font-size: 0.8rem; letter-spacing: 0.5px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        [data-theme="light"] #ticker-wrap { background: rgba(255,255,255,0.8); color: black; border: 1px solid rgba(0,0,0,0.1); }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        .theme-toggle { position: absolute; top: 20px; right: 25px; font-size: 1.5rem; cursor: pointer; z-index: 6500; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .theme-toggle { position: absolute; top: 25px; right: 25px; font-size: 1.4rem; cursor: pointer; z-index: 6500; opacity: 0.8; }
 
-        /* iPhone Pill Navigation */
+        /* Apple Dock / Navigation */
         nav { 
             position: fixed; 
-            bottom: 25px; 
-            left: 20px; 
-            right: 20px; 
-            background: var(--nav-glass); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); /* Wichtig für iOS */
+            bottom: 30px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            background: var(--nav-bg); 
+            backdrop-filter: blur(35px) saturate(180%); 
+            -webkit-backdrop-filter: blur(35px) saturate(180%);
             display: flex; justify-content: space-around; 
-            padding: 15px 10px; 
-            border-radius: 40px; 
+            padding: 12px 5px 8px 5px; 
+            border-radius: 35px; 
             box-shadow: var(--shadow); 
             z-index: 4000; 
             border: 1px solid var(--border-glass); 
         }
-        nav button { background: none; border: none; color: #8fa396; font-size: 0.65rem; font-weight: 600; cursor: pointer; flex: 1; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; letter-spacing: 0.5px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        nav button.active { color: var(--accent); transform: scale(1.05); }
-        nav button span { font-size: 1.4rem; margin-bottom: 5px; }
+        nav button { background: none; border: none; color: var(--text-muted); font-size: 0.65rem; font-weight: 600; cursor: pointer; flex: 1; display: flex; flex-direction: column; align-items: center; letter-spacing: 0.3px; transition: color 0.3s ease; }
+        nav button.active { color: var(--accent); }
+        nav button span { font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        nav button.active span { transform: translateY(-4px) scale(1.15); }
 
-        .page { display: none; padding: 70px 20px 20px; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-width: 600px; margin: 0 auto; }
+        .page { display: none; padding: 80px 20px 20px; animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.98) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        /* Glassmorphism Cards */
+        /* THE ULTIMATE APPLE GLASS CARDS */
         .card { 
-            background: var(--card-glass); 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--card-bg); 
+            backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
             border-radius: 28px; 
-            padding: 25px; 
-            margin-bottom: 20px; 
+            padding: 28px; 
+            margin-bottom: 24px; 
             border: 1px solid var(--border-glass); 
             box-shadow: var(--shadow); 
             position: relative; 
             overflow: hidden;
+            transition: background 0.3s ease, border 0.3s ease;
         }
         
         .card-accent { 
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark)); 
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow)); 
             color: white; 
-            border: none; 
-            box-shadow: 0 10px 25px rgba(107, 142, 120, 0.3);
+            border: 1px solid rgba(255,255,255,0.2); 
+            box-shadow: 0 15px 35px rgba(120, 156, 133, 0.25);
         }
         .card-accent h3, .card-accent p { color: white !important; }
         
-        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--accent); text-align: center; margin-top: 0; letter-spacing: 0.5px; }
-        h1 { font-size: 2.2rem; }
+        /* Pro Typography */
+        h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; margin-top: 0; letter-spacing: -0.03em; font-weight: 700; }
+        h1 { font-size: 2.8rem; text-align: center; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding-bottom: 5px; }
+        h2 { font-size: 2rem; color: var(--text); margin-bottom: 25px; }
+        h3 { font-size: 1.3rem; color: var(--text); margin-bottom: 15px; }
+        p { line-height: 1.5; font-size: 0.95rem; }
         
-        /* Apple-style Buttons */
-        .btn-action { 
-            background: var(--accent); color: white; border: none; padding: 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; width: 100%; cursor: pointer; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(107, 142, 120, 0.2); transition: transform 0.2s, box-shadow 0.2s; 
-        }
-        .btn-action:active { transform: scale(0.97); }
-        
+        /* iOS Inputs */
         input, textarea {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--border-glass);
             color: var(--text);
             font-family: inherit;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
         }
-        [data-theme="dark"] input, [data-theme="dark"] textarea { background: rgba(0, 0, 0, 0.2); }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent); background: transparent; }
+        [data-theme="light"] input, [data-theme="light"] textarea { background: rgba(0, 0, 0, 0.03); }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent); background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 0 4px rgba(120, 156, 133, 0.15); }
         
-        .btn-del { position: absolute; top: 10px; right: 10px; background: rgba(231, 76, 60, 0.85); backdrop-filter: blur(5px); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; cursor: pointer; display: block; z-index: 100; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
+        /* Apple Buttons */
+        .btn-action { 
+            background: var(--accent); color: white; border: none; padding: 16px; border-radius: 18px; font-weight: 600; font-size: 1rem; width: 100%; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(120, 156, 133, 0.3); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s; 
+        }
+        .btn-action:active { transform: scale(0.96); opacity: 0.8; }
+        
+        /* Delete Button - System Red */
+        .btn-del { position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.9); backdrop-filter: blur(10px); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: block; z-index: 100; box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3); font-size: 12px; }
         .song-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; box-shadow: none; }
 
-        .timeline-item { border-left: 2px solid rgba(107, 142, 120, 0.3); padding-left: 25px; position: relative; margin-bottom: 25px; transition: all 0.3s ease; }
-        .timeline-item::after { content: ''; position: absolute; left: -6px; top: 2px; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 4px var(--bg); }
+        /* Sleek Timeline */
+        .timeline-item { border-left: 2px solid var(--border-glass); padding-left: 20px; position: relative; margin-bottom: 25px; transition: all 0.3s ease; }
+        .timeline-item::after { content: ''; position: absolute; left: -5px; top: 4px; width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%; box-shadow: 0 0 0 4px var(--card-bg); transition: all 0.3s; }
         
-        .timeline-item.active-schedule { border-left-color: var(--accent); transform: translateX(5px); }
-        .timeline-item.active-schedule::after { background: white; border: 2px solid var(--accent); box-shadow: 0 0 10px rgba(107, 142, 120, 0.5); }
+        .timeline-item.active-schedule { border-left-color: var(--accent); }
+        .timeline-item.active-schedule::after { background: var(--accent); box-shadow: 0 0 0 4px rgba(120, 156, 133, 0.2); transform: scale(1.2); }
 
-        #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--accent); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         
         .song-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; border-bottom: 1px solid var(--border-glass); position: relative; font-size: 0.95rem; }
         .song-item:last-child { border-bottom: none; }
-        .vote-badge { background: rgba(107, 142, 120, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; margin-right: 12px; }
+        .vote-badge { background: rgba(120, 156, 133, 0.15); color: var(--accent); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; margin-right: 12px; border: 1px solid rgba(120, 156, 133, 0.3); }
 
-        #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .bingo-cell { aspect-ratio: 1; background: rgba(255,255,255,0.4); border: 1px solid var(--border-glass); border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.75rem; padding: 5px; cursor: pointer; font-weight: 600; box-shadow: inset 0 2px 5px rgba(255,255,255,0.5); }
-        [data-theme="dark"] .bingo-cell { background: rgba(0,0,0,0.2); box-shadow: none; }
+        #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .bingo-cell { aspect-ratio: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); border-radius: 16px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.8rem; padding: 5px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        [data-theme="light"] .bingo-cell { background: rgba(255,255,255,0.5); }
 
-        #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-        .photo-wrapper:active img { transform: scale(1.05); }
+        #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .photo-wrapper:active img { transform: scale(1.08); }
         
         hr { border: none; border-top: 1px solid var(--border-glass); margin: 15px 0; }
+        
+        /* Custom Progress Bar iOS Style */
+        .progress-track { background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 15px; border: 1px solid var(--border-glass); }
+        [data-theme="light"] .progress-track { background: rgba(0,0,0,0.05); }
+        #pBar { background: linear-gradient(90deg, var(--accent), var(--gold)); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 4px; }
     </style>
 </head>
 <body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="theme-toggle" onclick="toggleTheme()">🌓</div>
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: 2.2rem; margin-bottom: 15px;">LÄDT...</h1>
-        <div style="width: 50px; height: 3px; background: var(--accent); border-radius: 2px; animation: pulse 1.5s infinite;"></div>
+        <h1 id="splashName" style="font-size: 2.2rem; margin-bottom: 20px; background: linear-gradient(135deg, #fff, #86868b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LÄDT...</h1>
+        <div style="width: 150px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+            <div style="width: 100%; height: 100%; background: var(--accent); transform: translateX(-100%); animation: loadLine 2s infinite ease-in-out;"></div>
+        </div>
     </div>
+    <style>@keyframes loadLine { 50% { transform: translateX(100%); } 100% { transform: translateX(100%); } }</style>
 
     <nav id="mainNav"></nav>
     <div id="content-area"></div>
@@ -239,22 +296,28 @@
             startCountdown();
             setTimeout(() => { 
                 document.getElementById('splash').style.opacity = '0'; 
-                setTimeout(() => document.getElementById('splash').style.display = 'none', 600);
-            }, 2000);
+                setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
+            }, 2500);
         }
 
         window.toggleTheme = () => {
             const html = document.getElementById('mainHtml');
-            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         };
 
         function renderNav() {
             const tabs = [
-                {id:'home', i:'🏠', l:'Home'}, {id:'guests', i:'📍', l:'Platz'}, 
-                {id:'fun', i:'🎉', l:'Fun'}, {id:'gal', i:'📸', l:'Galerie'}, {id:'info', i:'🆘', l:'Info'}
+                {id:'home', i:'􀎟', l:'Home'}, /* Using iOS style icons via SF Symbols lookalike */
+                {id:'guests', i:'􀋒', l:'Platz'}, 
+                {id:'fun', i:'􀫊', l:'Fun'}, 
+                {id:'gal', i:'􀏯', l:'Galerie'}, 
+                {id:'info', i:'􀅴', l:'Info'}
             ];
+            // Falls SF Symbols nicht geladen sind, greifen wir auf Emojis zurück
+            const icons = { 'home':'🏠', 'guests':'📍', 'fun':'🎉', 'gal':'📸', 'info':'🆘' };
+            
             document.getElementById('mainNav').innerHTML = tabs.map(t => `
-                <button onclick="window.showPage('${t.id}')" id="b-${t.id}"><span>${t.i}</span>${t.l}</button>
+                <button onclick="window.showPage('${t.id}')" id="b-${t.id}"><span>${icons[t.id]}</span>${t.l}</button>
             `).join('');
         }
 
@@ -262,146 +325,148 @@
             document.getElementById('content-area').innerHTML = `
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
-                    <div id="timer" style="text-align:center; font-weight:700; color:var(--text); font-size:1.1rem; margin-bottom:25px; letter-spacing: 1px;"></div>
+                    <div id="timer" style="text-align:center; font-weight:700; color:var(--text); font-size:1.1rem; margin-bottom:30px; letter-spacing: 1px;"></div>
                     
                     <div class="card">
-                        <h3>⏳ Party-Status</h3>
-                        <div style="background:rgba(107, 142, 120, 0.2); height:12px; border-radius:6px; overflow:hidden; margin-top: 15px;">
-                            <div id="pBar" style="background:var(--accent); height:100%; width:0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 6px;"></div>
+                        <h3 style="text-align:left;">Party-Status</h3>
+                        <div class="progress-track">
+                            <div id="pBar"></div>
                         </div>
-                        <p id="pText" style="text-align:center; font-size:0.85rem; margin-top:10px; font-weight:600; opacity: 0.8;"></p>
+                        <p id="pText" style="text-align:left; font-size:0.85rem; margin-top:10px; color:var(--text-muted);"></p>
                     </div>
                     
                     <div class="card">
-                        <h3>📅 Der Tagesablauf</h3>
-                        <div id="scheduleContainer" style="margin-top: 20px;">
-                            ${CONFIG.schedule.map(s => `<div class="timeline-item schedule-item" data-time="${s.time}"><b>${s.time} Uhr:</b><br><span style="opacity:0.8; font-size:0.95rem;">${s.event}</span></div>`).join('')}
+                        <h3 style="text-align:left;">Zeitplan</h3>
+                        <div id="scheduleContainer" style="margin-top: 25px;">
+                            ${CONFIG.schedule.map(s => `<div class="timeline-item schedule-item" data-time="${s.time}"><b>${s.time}</b><br><span style="color:var(--text-muted); font-size:0.95rem;">${s.event}</span></div>`).join('')}
                         </div>
                     </div>
                     
                     <div class="card card-accent">
-                        <h3>🕵️ Foto-Mission</h3>
-                        <p id="mTxt" style="text-align:center; font-style:italic; font-size: 1.1rem; margin: 20px 0;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:rgba(255,255,255,0.2); color:white; backdrop-filter:blur(5px); box-shadow:none;" onclick="window.nextMission()">NEUE MISSION</button>
+                        <h3 style="text-align:left;">Foto-Mission</h3>
+                        <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; line-height:1.4;">"${CONFIG.missions[0]}"</p>
+                        <button class="btn-action" style="background:rgba(255,255,255,0.25); color:white; backdrop-filter:blur(10px); box-shadow:none;" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
-                        <h3>📖 Unsere Story</h3>
-                        <div style="margin-top: 20px;">
-                            ${CONFIG.story.map(s=>`<div class="timeline-item"><b>${s.y}</b><br><span style="opacity:0.8; font-size:0.95rem;">${s.t}</span></div>`).join('')}
+                        <h3 style="text-align:left;">Unsere Story</h3>
+                        <div style="margin-top: 25px;">
+                            ${CONFIG.story.map(s=>`<div class="timeline-item"><b>${s.y}</b><br><span style="color:var(--text-muted); font-size:0.95rem;">${s.t}</span></div>`).join('')}
                         </div>
                     </div>
                 </main>
 
                 <main id="guests" class="page">
-                    <h2>Wo sitze ich?</h2>
+                    <h2>Dein Platz</h2>
                     <div class="card">
-                        <input type="text" id="gSearch" placeholder="Dein Vorname..." style="width:100%; padding:18px; border-radius:20px; font-size: 1rem; outline:none; text-align:center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);">
-                        <div id="gRes" style="text-align:center; margin-top:20px; font-weight:600; color:var(--accent); font-size:1.1rem; line-height: 1.5;"></div>
+                        <input type="text" id="gSearch" placeholder="Vorname eingeben..." style="width:100%; padding:18px; border-radius:16px; font-size: 1.1rem; outline:none; text-align:center;">
+                        <div id="gRes" style="text-align:center; margin-top:20px; font-weight:500; color:var(--text); font-size:1.1rem; line-height: 1.6;"></div>
                     </div>
                     <div class="card">
-                        <h3>🍽 Festmenü</h3>
-                        <div style="text-align:center; padding: 10px 0;">
-                            <p style="margin:0; opacity:0.7; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">Vorspeise</p>
-                            <p style="margin:5px 0 15px 0; font-weight:600;">${CONFIG.menu.v}</p>
+                        <h3 style="text-align:left;">Festmenü</h3>
+                        <div style="padding: 10px 0;">
+                            <p style="margin:0; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Vorspeise</p>
+                            <p style="margin:5px 0 15px 0; font-weight:500; font-size:1.1rem;">${CONFIG.menu.v}</p>
                             <hr>
-                            <p style="margin:0; opacity:0.7; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">Hauptgang</p>
-                            <p style="margin:5px 0 15px 0; font-weight:600;">${CONFIG.menu.h}</p>
+                            <p style="margin:0; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Hauptgang</p>
+                            <p style="margin:5px 0 15px 0; font-weight:500; font-size:1.1rem;">${CONFIG.menu.h}</p>
                             <hr>
-                            <p style="margin:0; opacity:0.7; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">Dessert</p>
-                            <p style="margin:5px 0 0 0; font-weight:600;">${CONFIG.menu.d}</p>
+                            <p style="margin:0; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">Dessert</p>
+                            <p style="margin:5px 0 0 0; font-weight:500; font-size:1.1rem;">${CONFIG.menu.d}</p>
                         </div>
                     </div>
                 </main>
 
                 <main id="fun" class="page">
+                    <h2>Unterhaltung</h2>
                     <div class="card">
-                        <h3>🎵 Live Jukebox</h3>
+                        <h3 style="text-align:left;">Jukebox</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0;">Wünsch dir einen Song für die Party.</p>
                         <div style="display:flex; gap:10px; margin-top: 15px;">
-                            <input type="text" id="sIn" placeholder="Lied & Interpret..." style="flex:1; padding:15px; border-radius:18px; font-size: 0.95rem;">
-                            <button class="btn-action" style="width:auto; margin:0; padding: 0 20px; font-size: 1.2rem;" onclick="window.addSong()">➕</button>
+                            <input type="text" id="sIn" placeholder="Song & Interpret" style="flex:1; padding:15px; border-radius:16px; font-size: 1rem;">
+                            <button class="btn-action" style="width:auto; margin:0; padding: 0 20px; font-size: 1.2rem; border-radius:16px;" onclick="window.addSong()">+</button>
                         </div>
-                        <div id="sList" style="margin-top:20px;"></div>
+                        <div id="sList" style="margin-top:25px;"></div>
                     </div>
                     
                     <div class="card" id="qBox">
-                        <h3>Brautpaar-Quiz</h3>
-                        <p id="qTxt" style="text-align:center; margin: 20px 0; font-size: 1.1rem; font-weight: 600;">Bist du bereit?</p>
-                        <div id="qOpts"><button class="btn-action" onclick="window.runQuiz()">START</button></div>
+                        <h3 style="text-align:left;">Quiz</h3>
+                        <p id="qTxt" style="text-align:center; margin: 30px 0; font-size: 1.2rem; font-weight: 600;">Wie gut kennst du uns?</p>
+                        <div id="qOpts"><button class="btn-action" onclick="window.runQuiz()">Starten</button></div>
                     </div>
                     
                     <div class="card">
-                        <h3>🎰 Hochzeits-Bingo</h3>
+                        <h3 style="text-align:left;">Bingo</h3>
                         <div id="bGrid" style="margin-top: 20px;"></div>
                     </div>
                     
                    <div class="card">
-                        <h3>🎁 Rubbellos</h3>
-                        <div id="scratch-container" style="position:relative; background:rgba(255,255,255,0.5); height:140px; border-radius:20px; display:flex; align-items:center; justify-content:center; overflow:hidden; border: 2px dashed rgba(107, 142, 120, 0.5); margin-top: 15px;">
-                            <span style="font-weight:800; color:var(--accent); font-size:1.2rem; text-align:center; line-height:1.4;">GEWINN:<br>1x SCHNAPS! 🥃</span>
+                        <h3 style="text-align:left;">Rubbellos</h3>
+                        <div id="scratch-container" style="position:relative; background:rgba(0,0,0,0.1); height:150px; border-radius:20px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px; border: 1px solid var(--border-glass);">
+                            <span style="font-weight:700; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
                         </div>
-                        <p style="font-size:0.8rem; text-align:center; margin-top:10px; opacity:0.7;">Einfach mit dem Finger freirubbeln!</p>
                     </div>
                 </main>
 
                 <main id="gal" class="page">
-                    <h2>Live Galerie</h2>
+                    <h2>Galerie</h2>
                     <div class="card">
-                        <p style="text-align:center; opacity:0.8; font-size:0.9rem; margin-top:0;">Teile deine schönsten Momente</p>
+                        <p style="text-align:center; color:var(--text-muted); font-size:0.95rem; margin-top:0;">Lade deine Fotos direkt hoch.</p>
                         
-                        <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 15px;">
-                            <button class="btn-action" style="pointer-events: none;">FOTO AUSWÄHLEN 📸</button>
+                        <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 15px; margin-top: 10px;">
+                            <button class="btn-action" style="pointer-events: none; background: rgba(255,255,255,0.1); color: var(--text); border: 1px solid var(--border-glass); backdrop-filter: blur(10px);">Foto auswählen</button>
                             <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
                         </div>
                         
-                        <div id="uploadProgress" style="display: none; width: 100%; background: rgba(107, 142, 120, 0.2); border-radius: 10px; height: 8px; overflow: hidden; margin-top: 10px;">
+                        <div id="uploadProgress" style="display: none; width: 100%; background: rgba(0,0,0,0.1); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 10px;">
                             <div id="uploadBar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
-                        <p id="uploadText" style="text-align: center; font-size: 0.8rem; margin-top: 8px; font-weight: 600; color: var(--accent);"></p>
+                        <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 500; color: var(--text);"></p>
                         
                         <div id="photoGrid"></div>
                     </div>
                 </main>
 
                 <main id="info" class="page">
+                    <h2>Infos</h2>
                     <div class="card">
-                        <h3>✍️ Digitales Gästebuch</h3>
-                        <textarea id="wIn" placeholder="Eure Wünsche für uns..." style="width:100%; height:100px; border-radius:20px; padding:15px; font-size:0.95rem; margin-top:10px; resize:none;"></textarea>
-                        <button class="btn-action" onclick="window.addWish()">WUNSCH ABSCHICKEN</button>
-                        <div id="wList" style="margin-top:20px;"></div>
+                        <h3 style="text-align:left;">Gästebuch</h3>
+                        <textarea id="wIn" placeholder="Schreibe uns eine Nachricht..." style="width:100%; height:120px; border-radius:16px; padding:15px; font-size:1rem; margin-top:10px; resize:none;"></textarea>
+                        <button class="btn-action" onclick="window.addWish()">Senden</button>
+                        <div id="wList" style="margin-top:25px;"></div>
                     </div>
                     
-                    <div class="card" style="text-align:center;">
-                        <h3>🆘 Nützliche Infos</h3>
-                            <div style="background: rgba(255,255,255,0.4); padding: 15px; border-radius: 20px; margin: 15px 0;">
-                                <p style="margin:0 0 5px 0; opacity:0.7; font-size:0.85rem;">📍 Ort der Feier:</p>
-                                <p style="margin:0; font-weight:600; font-size:0.95rem;">${CONFIG.location}</p>
+                    <div class="card">
+                        <h3 style="text-align:left;">Location & WLAN</h3>
+                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
+                                <p style="margin:0 0 5px 0; color:var(--text-muted); font-size:0.85rem;">Adresse</p>
+                                <p style="margin:0; font-weight:500; font-size:1rem;">${CONFIG.location}</p>
                             </div>
                             
-                            <button class="btn-action" style="background:rgba(66, 133, 244, 0.9); backdrop-filter:blur(5px); margin-bottom: 20px;" 
+                            <button class="btn-action" style="background:rgba(255,255,255,0.1); color:var(--text); border:1px solid var(--border-glass); margin: 15px 0 25px 0;" 
                                 onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
-                                🗺️ IN MAPS ÖFFNEN
+                                In Karten öffnen
                             </button>
                         
-                            <div style="background: rgba(255,255,255,0.4); padding: 15px; border-radius: 20px; margin: 15px 0;">
-                                <p style="margin:0 0 5px 0; opacity:0.7; font-size:0.85rem;">📶 WLAN Gastzugang:</p>
-                                <p style="margin:0; font-weight:600;">Netz: ${CONFIG.wlan.ssid}<br>PW: ${CONFIG.wlan.pw}</p>
+                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
+                                <p style="margin:0 0 5px 0; color:var(--text-muted); font-size:0.85rem;">WLAN</p>
+                                <p style="margin:0; font-weight:500; font-size:1rem;">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
                             </div>
                             
-                            <button class="btn-action" style="background:rgba(51, 51, 51, 0.9); backdrop-filter:blur(5px);" onclick="location.href='tel:${CONFIG.taxi}'">
-                                🚕 TAXI RUFEN
+                            <button class="btn-action" style="margin-top: 15px;" onclick="location.href='tel:${CONFIG.taxi}'">
+                                Taxi rufen
                             </button>
                         </div>
                 </main>
 
                 <main id="admin" class="page">
-                    <div class="card" style="border:2px dashed var(--red);">
-                        <h2 style="color:var(--red);">⚠️ Admin Konsole</h2>
-                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="width:100%; padding:15px; margin-bottom:15px; border-radius:15px;">
-                        <button class="btn-action" onclick="window.setTicker(true)">TICKER AKTIVIEREN</button>
-                        <button class="btn-action" style="background:rgba(100,100,100,0.8);" onclick="window.setTicker(false)">TICKER AUS</button>
-                        <button class="btn-action" style="background:var(--red); margin-top:30px;" onclick="location.reload()">ADMIN VERLASSEN</button>
+                    <div class="card" style="border:1px solid var(--red);">
+                        <h2 style="color:var(--red);">Admin Konsole</h2>
+                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="width:100%; padding:15px; margin-bottom:15px; border-radius:16px;">
+                        <button class="btn-action" style="background:var(--accent);" onclick="window.setTicker(true)">Ticker aktivieren</button>
+                        <button class="btn-action" style="background:rgba(255,255,255,0.1); color:var(--text); border:1px solid var(--border-glass);" onclick="window.setTicker(false)">Ticker aus</button>
+                        <button class="btn-action" style="background:var(--red); margin-top:30px;" onclick="location.reload()">Beenden</button>
                     </div>
                 </main>
             `;
@@ -426,10 +491,10 @@
                 snap.forEach(d => {
                     const s = d.data();
                     list.innerHTML += `<div class="song-item">
-                        <span style="flex:1; padding-right:10px;"><span class="vote-badge">${s.votes || 0}</span> <b>${s.song}</b></span>
+                        <span style="flex:1; padding-right:10px;"><span class="vote-badge">${s.votes || 0}</span> <b style="font-weight:600;">${s.song}</b></span>
                         <div style="display:flex; align-items:center;">
-                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; cursor:pointer; font-size:1.4rem; transform: translateY(2px);">🤍</button>
-                            <button class="btn-del" onclick="window.deleteEntry('jukebox','${d.id}')">X</button>
+                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--text); cursor:pointer; font-size:1.3rem;">+</button>
+                            <button class="btn-del" onclick="window.deleteEntry('jukebox','${d.id}')">✕</button>
                         </div>
                     </div>`;
                 });
@@ -446,12 +511,12 @@
                             <img src="${displayUrl}" loading="lazy" onclick="window.open('${data.url}', '_blank')">
                             
                             <button onclick="window.downloadPhoto('${data.url}')" 
-                                    style="position: absolute; bottom: 10px; right: 10px; background: rgba(255,255,255,0.75); backdrop-filter: blur(5px); color: var(--text); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 18px; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-                                💾
+                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
+                                ↓
                             </button>
                             
                             <button class="btn-del" onclick="window.deleteEntry('photos','${d.id}')">
-                                X
+                                ✕
                             </button>
                          </div>`;
                 });
@@ -461,14 +526,13 @@
                 const list = document.getElementById('wList'); if(!list) return;
                 list.innerHTML = "";
                 snap.forEach(d => {
-                    list.innerHTML += `<div class="card" style="padding:20px; font-size:0.95rem; margin-bottom:15px; box-shadow: none; border: 1px solid var(--border-glass); background: rgba(255,255,255,0.4);">
-                        <p style="margin:0; line-height: 1.5; padding-right: 25px;">${d.data().msg}</p>
-                        <button class="btn-del" style="top:15px; right:15px; width:24px; height:24px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">X</button>
+                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); position:relative;">
+                        <p style="margin:0; line-height: 1.5; padding-right: 25px; font-size:0.95rem;">${d.data().msg}</p>
+                        <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:9px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
                 });
             });
 
-            // --- OFFLINE-SUCHFUNKTION FÜR DEN TISCHPLAN ---
             document.getElementById('gSearch').oninput = (e) => {
                 const v = e.target.value.toLowerCase().trim();
                 const res = document.getElementById('gRes');
@@ -479,34 +543,30 @@
                 CONFIG.seating.forEach(tisch => {
                     tisch.n.forEach(name => {
                         if(name.toLowerCase().includes(v)) {
-                            matches.push(`Hallo ${name}!<br><span style="font-weight:400; font-size:0.9rem; opacity:0.8;">Du sitzt an</span><br><b>${tisch.t}</b>`);
+                            matches.push(`<span style="font-weight:600; font-size:1.2rem;">${name}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Du sitzt an</span><br><span style="color:var(--accent); font-weight:700;">${tisch.t}</span>`);
                         }
                     });
                 });
 
                 if(matches.length > 0) {
-                    res.innerHTML = matches.join('<br><br><hr><br>');
+                    res.innerHTML = matches.join('<br><br><hr style="width:50%; margin:0 auto;"><br>');
                 } else {
-                    res.innerHTML = "Nicht gefunden... 🤔";
+                    res.innerHTML = "Nicht gefunden.";
                 }
             };
         }
 
-        // --- DIE EINZIGE LÖSCH-FUNKTION (Jeder darf löschen) ---
         window.deleteEntry = async (coll, id) => { 
-            if (confirm("Möchtest du diesen Beitrag wirklich für alle entfernen?")) {
+            if (confirm("Beitrag für alle entfernen?")) {
                 try {
                     const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
                     await deleteDoc(doc(db, coll, id));
-                    console.log("Eintrag gelöscht.");
                 } catch (error) {
-                    console.error("Löschfehler:", error);
                     alert("Fehler beim Löschen.");
                 }
             }
         };
 
-        // --- FOTO DOWNLOAD ---
         window.downloadPhoto = async (url) => {
             try {
                 const response = await fetch(url);
@@ -519,13 +579,9 @@
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(blobUrl);
-            } catch (e) {
-                console.error("Download fehlgeschlagen", e);
-                window.open(url, '_blank');
-            }
+            } catch (e) { window.open(url, '_blank'); }
         };
 
-        // --- IMGBB UPLOAD LOGIK ---
         window.uploadPhoto = async (input) => {
             if(!input.files || !input.files[0]) return;
             let file = input.files[0];
@@ -536,7 +592,7 @@
 
             progressContainer.style.display = 'block';
             progressBar.style.width = '10%';
-            progressText.innerText = 'Foto wird vorbereitet...';
+            progressText.innerText = 'Vorbereiten...';
 
             try {
                 if(window.imageCompression) {
@@ -558,7 +614,7 @@
 
                 if(result.success) {
                     progressBar.style.width = '80%';
-                    progressText.innerText = 'Wird in der Galerie gespeichert...';
+                    progressText.innerText = 'Speichern...';
 
                     await addDoc(collection(db, "photos"), { 
                         url: result.data.url, 
@@ -567,11 +623,11 @@
                     });
 
                     progressBar.style.width = '100%';
-                    progressText.innerText = 'Erfolgreich geteilt! 🤍';
+                    progressText.innerText = 'Erfolgreich!';
                     setTimeout(() => { progressContainer.style.display = 'none'; input.value = ""; }, 2500);
                 }
             } catch (error) {
-                alert("Fehler beim Upload. Bitte nochmal versuchen.");
+                alert("Fehler beim Upload.");
                 progressContainer.style.display = 'none';
             }
         };
@@ -588,7 +644,7 @@
             const i = document.getElementById('wIn');
             if(!i.value) return;
             await addDoc(collection(db, "guestbook"), { msg: i.value, time: serverTimestamp() });
-            i.value = ""; alert("Danke für deine Wünsche! 🤍");
+            i.value = ""; alert("Gesendet!");
         };
 
         window.setTicker = async (active) => {
@@ -608,7 +664,7 @@
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks >= 5) {
-                if(prompt("Passwort:") === CONFIG.adminPW) { window.showPage('admin'); }
+                if(prompt("Code:") === CONFIG.adminPW) { window.showPage('admin'); }
                 adminClicks = 0;
             }
         };
@@ -627,7 +683,7 @@
                 if (t) {
                     t.innerText = diff > 0 
                         ? `${d} TAGE | ${pad(h)}:${pad(m)}:${pad(s)}` 
-                        : "DIE PARTY LÄUFT! 🎉";
+                        : "Die Party läuft.";
                 }
                 
                 const now = new Date();
@@ -637,7 +693,7 @@
                 if(now > start) p = Math.min(100, ((now - start) / (end - start)) * 100);
                 if(document.getElementById('pBar')) {
                     document.getElementById('pBar').style.width = p + "%";
-                    document.getElementById('pText').innerText = now < start ? "Die Spannung steigt..." : (p < 100 ? "Wir feiern die Liebe!" : "Legendärer Abend!");
+                    document.getElementById('pText').innerText = now < start ? "Vorbereitungen..." : (p < 100 ? "Wir feiern." : "Abgeschlossen.");
                 }
                 
                 document.querySelectorAll('.schedule-item').forEach(item => {
@@ -658,14 +714,13 @@
 
         window.runQuiz = () => {
             const q = CONFIG.quiz[window.qStep];
-            if(!q) { document.getElementById('qBox').innerHTML = "<h3 style='margin-bottom:15px;'>Quiz beendet!</h3><p style='text-align:center;'>Du kennst uns echt gut! 🤍</p>"; return; }
+            if(!q) { document.getElementById('qBox').innerHTML = "<h3 style='margin-bottom:15px; text-align:left;'>Quiz beendet</h3><p style='text-align:center;'>Alle Fragen beantwortet.</p>"; return; }
             document.getElementById('qTxt').innerText = q.q;
-            document.getElementById('qOpts').innerHTML = q.o.map(o => `<button class="btn-action" style="background:rgba(255,255,255,0.5); color:var(--text); border:1px solid var(--border-glass); box-shadow:none;" onclick="window.nextQ()">${o}</button>`).join('');
+            document.getElementById('qOpts').innerHTML = q.o.map(o => `<button class="btn-action" style="background:rgba(255,255,255,0.1); color:var(--text); border:1px solid var(--border-glass); box-shadow:none; margin-bottom:10px;" onclick="window.nextQ()">${o}</button>`).join('');
         };
         window.nextQ = () => { window.qStep++; window.runQuiz(); };
 
         function initGames() {
-            // 1. Bingo Logik
             const g = document.getElementById('bGrid');
             if (g) {
                 g.innerHTML = ""; 
@@ -679,7 +734,6 @@
                 });
             }
 
-            // 2. Rubbellos Logik
             const canvas = document.getElementById('scratch');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
@@ -688,22 +742,18 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                // Edle "Rubbelschicht" in Eukalyptus-Muster/Farbe
-                ctx.fillStyle = '#9caf9f'; 
+                /* Apple Style Rubbellos-Oberfläche (Metallic/Frosted Glass look) */
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, '#567d64');
+                gradient.addColorStop(0.5, '#789c85');
+                gradient.addColorStop(1, '#567d64');
+                ctx.fillStyle = gradient; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                // Muster für Struktur
-                ctx.fillStyle = '#8fa396';
-                for(let i=0; i<100; i++){
-                    ctx.beginPath();
-                    ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*3, 0, 2*Math.PI);
-                    ctx.fill();
-                }
-
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
                 ctx.font = "bold 18px -apple-system, BlinkMacSystemFont, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("HIER RUBBELN", canvas.width/2, canvas.height/2 + 6);
+                ctx.fillText("FREIRUBBELN", canvas.width/2, canvas.height/2 + 6);
 
                 let isDrawing = false;
 

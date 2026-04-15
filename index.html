@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark" id="mainHtml">
+<html lang="de" data-theme="light" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -189,7 +189,7 @@
                 "Selfie mit deinem gesamten Tisch", "Der verrückteste Tanz-Move", "Ein Foto der Trauzeugen in Aktion",
                 "Anstoßen! Ein 'Cheers'-Foto mit Gläsern", "Eine Detailaufnahme der Tischdeko", "Gruppenfoto mit Gästen, die du heute erst kennengelernt hast",
                 "Ein Foto aus der Froschperspektive (von ganz unten)", "Jung und Alt gemeinsam auf einem Bild", "Jemand, der heimlich an der Candybar nascht",
-                "Ein romanticischer Moment auf der Tanzfläche", "Selfie mit dem DJ oder der Band", "Ein Gast, der heimlich seine Schuhe ausgezogen hat",
+                "Ein romantischer Moment auf der Tanzfläche", "Selfie mit dem DJ oder der Band", "Ein Gast, der heimlich seine Schuhe ausgezogen hat",
                 "Ein Foto der Eltern des Brautpaares", "Ein stilvolles Schwarz-Weiß-Portrait eines Gastes", "Freudentränen oder ein sehr gerührtes Gesicht",
                 "Ein Selfie mit mindestens 5 Personen", "Jemand, der das gleiche Getränk hat wie du", "Die spektakulärste Frisur des Tages"
             ],
@@ -253,8 +253,8 @@
         window.qName = "";
         let lastMissionIdx = 0;
         
-        // Gallery State
-        let photoLimit = 12;
+        // Gallery State (Geändert auf 6)
+        let photoLimit = 6;
         let photoUnsubscribe = null;
 
         function init() {
@@ -313,10 +313,10 @@
                         </div>
                     </div>
                     
-                    <div class="card" style="background: var(--accent); color: white; border: none;">
-                        <h3 style="color: white;">Foto-Mission</h3>
-                        <p id="mTxt" style="text-align:center; font-size: 1.4rem; font-weight: 600; margin: 30px 0; color: white; transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:white; color:var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onclick="window.nextMission()">Neue Mission</button>
+                    <div class="card" style="background: var(--surface); border: 1px solid var(--border-glass);">
+                        <h3 style="color: var(--text);">Foto-Mission</h3>
+                        <p id="mTxt" style="text-align:center; font-size: 1.4rem; font-weight: 600; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
+                        <button class="btn-action" style="background:var(--text); color:var(--bg);" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
@@ -388,7 +388,7 @@
                     
                    <div class="card">
                         <h3>Rubbellos</h3>
-                        <div id="scratch-container" style="position:relative; background:rgba(255,255,255,0.4); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px; border: 1px solid var(--border-glass);">
+                        <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px;">
                             <span style="font-weight:700; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
                         </div>
@@ -406,7 +406,7 @@
                         </div>
                         
                         <div id="uploadProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
-                            <div id="uploadBar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
                         <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 500;"></p>
                         
@@ -418,7 +418,7 @@
                         </div>
                         
                         <div id="zipProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
-                            <div id="zipBar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                            <div id="zipBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
                         <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 500; display:none;"></p>
 
@@ -461,12 +461,12 @@
                 </main>
 
                 <main id="admin" class="page">
-                    <div class="card" style="border:1px solid #e74c3c;">
-                        <h3 style="color:#e74c3c;">Admin Konsole</h3>
+                    <div class="card" style="border:1px solid #ff3b30;">
+                        <h3 style="color:#ff3b30;">Admin Konsole</h3>
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <button class="btn-action" style="background:#e74c3c; color:white; margin-top:30px; border:none;" onclick="location.reload()">Beenden</button>
+                        <button class="btn-action" style="background:#ff3b30; color:white; margin-top:30px; border:none;" onclick="location.reload()">Beenden</button>
                     </div>
                 </main>
             `;
@@ -510,7 +510,7 @@
                     list.innerHTML += `<div class="song-item">
                         <span style="flex:1; padding-right:10px;"><span class="vote-badge">${s.votes || 0}</span> <b style="font-weight:600; color:var(--text);">${s.song}</b></span>
                         <div style="display:flex; align-items:center;">
-                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--accent); cursor:pointer; font-size:1.4rem; padding:0 10px;">+</button>
+                            <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--text); cursor:pointer; font-size:1.4rem; padding:0 10px;">+</button>
                             <button class="btn-del" onclick="window.deleteEntry('jukebox','${d.id}')">✕</button>
                         </div>
                     </div>`;
@@ -521,7 +521,7 @@
                 const list = document.getElementById('wList'); if(!list) return;
                 list.innerHTML = "";
                 snap.forEach(d => {
-                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: rgba(255,255,255,0.4); border: 1px solid var(--border-glass); position:relative;">
+                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
                         <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
                         <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
@@ -570,7 +570,7 @@
                             <img src="${displayUrl}" loading="lazy" onclick="window.open('${data.url}', '_blank')">
                             
                             <button onclick="window.downloadPhoto('${data.url}')" 
-                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
+                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
                                 ↓
                             </button>
                             
@@ -587,7 +587,7 @@
         }
 
         window.loadMorePhotos = () => {
-            photoLimit += 12; // 12 weitere Bilder laden
+            photoLimit += 6; // 6 weitere Bilder laden
             initGalleryListener();
         };
 
@@ -908,7 +908,7 @@
                     const d = document.createElement('div');
                     d.className = "bingo-cell";
                     d.innerText = b;
-                    d.onclick = () => { d.style.background = "var(--accent)"; d.style.color = "white"; d.style.transform = "scale(0.95)"; };
+                    d.onclick = () => { d.style.background = "var(--text)"; d.style.color = "var(--bg)"; d.style.transform = "scale(0.95)"; };
                     g.appendChild(d);
                 });
             }
@@ -922,10 +922,10 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                ctx.fillStyle = '#8ba895'; 
+                ctx.fillStyle = '#86868b'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = '#f5f5f7';
                 ctx.font = "bold 18px -apple-system, BlinkMacSystemFont, sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText("FREIRUBBELN", canvas.width/2, canvas.height/2 + 6);

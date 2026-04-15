@@ -12,11 +12,9 @@
     <style>
         /* --- APPLE PRO DESIGN SYSTEM --- */
         :root { 
-            /* Eukalyptus "Titanium" Accent */
             --accent: #829a8a; 
             --accent-glow: #a3bcae;
             
-            /* Light Mode (Clean Apple White) */
             --bg: #f5f5f7; 
             --surface: rgba(255, 255, 255, 0.6); 
             --text: #1d1d1f; 
@@ -27,7 +25,6 @@
         }
         
         [data-theme="dark"] { 
-            /* Dark Mode (Deep Space Black) */
             --bg: #000000; 
             --surface: rgba(28, 28, 30, 0.4); 
             --text: #f5f5f7; 
@@ -39,7 +36,6 @@
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* Native Apple Typography */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: var(--bg);
@@ -54,10 +50,8 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- TYPOGRAPHY (The Apple Secret) --- */
-        h1, h2, h3 { margin: 0; padding: 0; font-weight: 700; letter-spacing: -0.04em; }
+        h1, h2, h3, h4 { margin: 0; padding: 0; font-weight: 700; letter-spacing: -0.04em; }
         
-        /* Hero Title */
         h1 { 
             font-size: 3.8rem; 
             line-height: 1.1; 
@@ -70,19 +64,11 @@
         
         h2 { font-size: 2.2rem; color: var(--text); margin-bottom: 25px; letter-spacing: -0.03em; }
         h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 12px; font-weight: 600; letter-spacing: -0.01em; }
+        h4 { font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.5; font-size: 1rem; color: var(--text-muted); margin: 0 0 15px 0; }
         
-        .hero-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--accent);
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
+        .hero-subtitle { text-align: center; font-size: 1.2rem; color: var(--accent); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; }
 
-        /* --- COMPONENTS --- */
         .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; }
         .theme-toggle:active { opacity: 1; }
 
@@ -90,24 +76,11 @@
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* Apple iOS Dock */
         nav { 
-            position: fixed; 
-            bottom: 20px; 
-            left: 50%; 
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 400px;
-            background: var(--nav-bg); 
-            backdrop-filter: blur(40px) saturate(200%); 
-            -webkit-backdrop-filter: blur(40px) saturate(200%);
-            display: flex; 
-            justify-content: space-around; 
-            padding: 15px 10px; 
-            border-radius: 30px; 
-            z-index: 4000; 
-            border: 1px solid var(--border-glass); 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 400px;
+            background: var(--nav-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+            display: flex; justify-content: space-around; padding: 15px 10px; border-radius: 30px; z-index: 4000; 
+            border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
         nav button { background: none; border: none; color: var(--text-muted); font-size: 0.65rem; font-weight: 600; cursor: pointer; flex: 1; display: flex; flex-direction: column; align-items: center; transition: color 0.2s ease; }
         nav button.active { color: var(--text); }
@@ -118,66 +91,27 @@
         .page.active { display: block; }
         @keyframes blurIn { from { opacity: 0; filter: blur(10px); transform: translateY(10px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
         
-        /* The Apple Glass Widget (The Core Element) */
         .card { 
-            background: var(--surface); 
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 24px; 
-            padding: 24px; 
-            margin-bottom: 20px; 
-            border: 1px solid var(--border-glass); 
-            position: relative; 
-            overflow: hidden;
+            background: var(--surface); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-glass); position: relative; overflow: hidden;
         }
 
-        /* Large Number/Timer Style */
-        .timer-display {
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            text-align: center;
-            font-variant-numeric: tabular-nums;
-            margin: 20px 0;
-            color: var(--text);
-        }
+        .timer-display { font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
 
-        /* Forms & Inputs */
         input, textarea {
-            width: 100%;
-            background: var(--border-glass);
-            border: none;
-            color: var(--text);
-            font-family: inherit;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 1.05rem;
-            transition: background 0.2s;
+            width: 100%; background: var(--border-glass); border: none; color: var(--text); font-family: inherit;
+            padding: 16px; border-radius: 14px; font-size: 1.05rem; transition: background 0.2s;
         }
         input:focus, textarea:focus { outline: none; background: rgba(130, 154, 138, 0.2); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
-        /* Action Buttons */
-        .btn-action { 
-            background: var(--text); 
-            color: var(--bg); 
-            border: none; 
-            padding: 16px; 
-            border-radius: 14px; 
-            font-weight: 600; 
-            font-size: 1rem; 
-            width: 100%; 
-            cursor: pointer; 
-            transition: transform 0.1s, opacity 0.2s; 
-        }
+        .btn-action { background: var(--text); color: var(--bg); border: none; padding: 16px; border-radius: 14px; font-weight: 600; font-size: 1rem; width: 100%; cursor: pointer; transition: transform 0.1s, opacity 0.2s; }
         .btn-action:active { transform: scale(0.97); opacity: 0.8; }
         .btn-action.secondary { background: var(--border-glass); color: var(--text); }
         
-        /* Delete Button */
         .btn-del { position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; font-size: 12px; }
         .song-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
-        /* Timeline List */
         .timeline { display: flex; flex-direction: column; gap: 15px; }
         .timeline-item { display: flex; align-items: flex-start; gap: 15px; }
         .timeline-time { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 50px; color: var(--text); }
@@ -197,9 +131,15 @@
         .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--border-glass); }
         .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Subtle Progress Bar */
         .progress-track { background: var(--border-glass); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
         #pBar { background: var(--accent); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 3px; }
+        
+        /* Highscore List Styling */
+        .hs-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 0.95rem; }
+        .hs-item:last-child { border-bottom: none; }
+        .hs-rank { font-weight: 700; color: var(--accent); width: 25px; display: inline-block; }
+        .hs-name { flex: 1; font-weight: 500; color: var(--text); }
+        .hs-score { font-weight: 700; color: var(--text); }
     </style>
 </head>
 <body>
@@ -219,7 +159,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, doc, setDoc, deleteDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const CONFIG = {
             adminPW: "1234",
@@ -242,11 +182,33 @@
                 { time: "00:00", event: "Mitternachtssnack" }
             ],
             menu: { v: "Carpaccio vom Weiderind", h: "Zartes Filet oder Trüffel-Pasta", d: "Candybar & Hochzeitstorte" },
-            missions: ["Selfie mit der Braut", "Foto von den Tanzschuhen", "Bild vom ältesten Gast", "Ein Kuss-Foto", "Die schönste Krawatte"],
+            missions: [
+                "Selfie mit der Braut", "Selfie mit dem Bräutigam", "Foto von den Tanzschuhen", "Bild vom ältesten Gast", 
+                "Ein Kuss-Foto von einem anderen Paar", "Die schönste Krawatte des Abends", "Jemand, der gerade herzhaft lacht",
+                "Selfie mit deinem gesamten Tisch", "Der verrückteste Tanz-Move", "Ein Foto der Trauzeugen in Aktion",
+                "Anstoßen! Ein 'Cheers'-Foto mit Gläsern", "Eine Detailaufnahme der Tischdeko", "Gruppenfoto mit Gästen, die du heute erst kennengelernt hast",
+                "Ein Foto aus der Froschperspektive (von ganz unten)", "Jung und Alt gemeinsam auf einem Bild", "Jemand, der heimlich an der Candybar nascht",
+                "Ein romantischer Moment auf der Tanzfläche", "Selfie mit dem DJ oder der Band", "Ein Gast, der heimlich seine Schuhe ausgezogen hat",
+                "Ein Foto der Eltern des Brautpaares", "Ein stilvolles Schwarz-Weiß-Portrait eines Gastes", "Freudentränen oder ein sehr gerührtes Gesicht",
+                "Ein Selfie mit mindestens 5 Personen", "Jemand, der das gleiche Getränk hat wie du", "Die spektakulärste Frisur des Tages"
+            ],
+            // QUIZ MIT PUNKTE-SYSTEM (a = Index der richtigen Antwort, beginnend bei 0)
             quiz: [
-                {q: "Wer kocht öfter?", o: ["Kathi", "Stephan"]},
-                {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan"]},
-                {q: "Wer braucht länger im Bad?", o: ["Kathi", "Stephan"]}
+                {q: "Wo haben wir uns das erste Mal getroffen?", o: ["Im Club", "Am See", "Auf der Arbeit", "Im Supermarkt"], a: 1},
+                {q: "Wer kocht bei uns öfter?", o: ["Kathi", "Stephan", "Der Lieferdienst", "Beide exakt gleich oft"], a: 0},
+                {q: "Wer hat den ersten Schritt gemacht?", o: ["Kathi", "Stephan", "Gemeinsame Freunde", "Es war Zufall"], a: 1},
+                {q: "Wie viele Kinder wünschen wir uns?", o: ["Gar keine", "Eins", "Zwei", "Eine halbe Fußballmannschaft"], a: 2},
+                {q: "Wer braucht morgens länger im Bad?", o: ["Kathi", "Stephan", "Beide sind Blitz-Duscher", "Das wechselt sich ab"], a: 0},
+                {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan", "Es gab keinen, wir haben gewürfelt", "Wir haben es zusammen entschieden"], a: 1},
+                {q: "Wer ist der größere Morgenmuffel?", o: ["Kathi", "Stephan", "Der Hund/Die Katze", "Wir sind beide Frühaufsteher"], a: 1},
+                {q: "Was ist unser liebstes Urlaubsziel?", o: ["Berge", "Strand", "Städtetrip", "Balkonien"], a: 1},
+                {q: "Wer hat den besseren Orientierungssinn?", o: ["Kathi", "Stephan", "Google Maps", "Wir verfahren uns immer"], a: 2},
+                {q: "Wer von uns weint schneller bei Filmen?", o: ["Kathi", "Stephan", "Beide", "Niemand, wir sind hart im Nehmen"], a: 0},
+                {q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan", "Das Chaos regiert", "Die Putzfrau"], a: 0},
+                {q: "Was ist unser gemeinsames Lieblingsessen?", o: ["Pizza", "Sushi", "Braten mit Knödel", "Burger"], a: 0},
+                {q: "Wer schnarcht lauter?", o: ["Kathi", "Stephan", "Niemand", "Die Wände wackeln bei beiden"], a: 1},
+                {q: "Wer hat das letzte Wort beim Streiten?", o: ["Kathi", "Stephan", "Wer lauter ist", "Wir streiten nie"], a: 0},
+                {q: "Wo ging unser erster gemeinsamer Urlaub hin?", o: ["Italien", "Spanien", "Österreich", "An die Ostsee"], a: 0}
             ],
             bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Torte", "Rede", "DJ", "Wein", "Selfie", "Träne", "Blumen", "Buffet"],
             seating: [
@@ -284,7 +246,11 @@
         }
 
         let adminClicks = 0;
+        
+        // Quiz Variables
         window.qStep = 0; 
+        window.qScore = 0;
+        window.qName = "";
 
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
@@ -305,17 +271,15 @@
 
         function renderNav() {
             const tabs = [
-                {id:'home', i:'􀎟', l:'Home'},
-                {id:'guests', i:'􀋒', l:'Platz'}, 
-                {id:'fun', i:'􀫊', l:'Fun'}, 
-                {id:'gal', i:'􀏯', l:'Galerie'}, 
-                {id:'info', i:'􀅴', l:'Info'}
+                {id:'home', i:'🏠', l:'Home'},
+                {id:'guests', i:'📍', l:'Platz'}, 
+                {id:'fun', i:'🎉', l:'Fun'}, 
+                {id:'gal', i:'📸', l:'Galerie'}, 
+                {id:'info', i:'ℹ️', l:'Info'}
             ];
-            // Emojis as fallback for Apple SF Symbols
-            const icons = { 'home':'🏠', 'guests':'📍', 'fun':'🎉', 'gal':'📸', 'info':'ℹ️' };
             
             document.getElementById('mainNav').innerHTML = tabs.map(t => `
-                <button onclick="window.showPage('${t.id}')" id="b-${t.id}"><span>${icons[t.id]}</span>${t.l}</button>
+                <button onclick="window.showPage('${t.id}')" id="b-${t.id}"><span>${t.i}</span>${t.l}</button>
             `).join('');
         }
 
@@ -384,6 +348,21 @@
 
                 <main id="fun" class="page">
                     <h1>Fun</h1>
+                    
+                    <div class="card" id="qCard">
+                        <h3>Quiz</h3>
+                        <div id="qContent">
+                            <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
+                            <input type="text" id="qNameInput" placeholder="Dein Vorname..." style="margin-bottom: 15px;">
+                            <button class="btn-action" onclick="window.startQuiz()">Jetzt Spielen</button>
+                            
+                            <div style="margin-top:30px;">
+                                <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Top 10 Highscore</h4>
+                                <div id="hsList" style="min-height: 100px;">Wird geladen...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="card">
                         <h3>Jukebox</h3>
                         <p>Wünsch dir einen Song.</p>
@@ -392,12 +371,6 @@
                             <button class="btn-action" style="width:auto; padding: 0 25px;" onclick="window.addSong()">+</button>
                         </div>
                         <div id="sList" style="margin-top:20px;"></div>
-                    </div>
-                    
-                    <div class="card" id="qBox">
-                        <h3>Quiz</h3>
-                        <p id="qTxt" style="text-align:center; margin: 30px 0; font-size: 1.4rem; font-weight: 600; color:var(--text);">Wie gut kennst du uns?</p>
-                        <div id="qOpts"><button class="btn-action" onclick="window.runQuiz()">Starten</button></div>
                     </div>
                     
                     <div class="card">
@@ -490,6 +463,23 @@
                 }
             });
 
+            // HIGHSCORE LISTENER
+            onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), orderBy("time", "asc"), limit(10)), (snap) => {
+                const list = document.getElementById('hsList'); if(!list) return;
+                list.innerHTML = "";
+                let rank = 1;
+                snap.forEach(d => {
+                    const s = d.data();
+                    list.innerHTML += `<div class="hs-item">
+                        <span class="hs-rank">${rank}.</span>
+                        <span class="hs-name">${s.name}</span>
+                        <span class="hs-score">${s.score} Pkt.</span>
+                    </div>`;
+                    rank++;
+                });
+                if(list.innerHTML === "") list.innerHTML = "<p style='font-size:0.9rem;'>Noch keine Einträge. Sei der Erste!</p>";
+            });
+
             onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
                 const list = document.getElementById('sList'); if(!list) return;
                 list.innerHTML = "";
@@ -560,6 +550,68 @@
                 }
             };
         }
+
+        // --- QUIZ LOGIK ---
+        window.startQuiz = () => {
+            const n = document.getElementById('qNameInput').value.trim();
+            if(!n) { alert("Bitte gib deinen Namen ein, um Punkte zu sammeln!"); return; }
+            window.qName = n;
+            window.qStep = 0;
+            window.qScore = 0;
+            window.runQuiz();
+        };
+
+        window.runQuiz = () => {
+            const q = CONFIG.quiz[window.qStep];
+            const qc = document.getElementById('qContent');
+            
+            if(!q) { 
+                // Quiz Ende
+                qc.innerHTML = `
+                    <h3 style='margin-bottom:15px; text-align:center;'>Quiz beendet!</h3>
+                    <p style='text-align:center; font-size:1.2rem; margin-bottom:20px;'>Du hast <b style="color:var(--accent);">${window.qScore}</b> von ${CONFIG.quiz.length} Punkten!</p>
+                    <button class="btn-action" onclick="window.resetQuiz()">Zurück zur Übersicht</button>
+                `;
+                
+                // Score in Firebase speichern
+                if(db && window.qName) {
+                    addDoc(collection(db, "highscores"), { 
+                        name: window.qName, 
+                        score: window.qScore, 
+                        time: serverTimestamp() 
+                    }).catch(e => console.log("Fehler beim Speichern:", e));
+                }
+                return; 
+            }
+            
+            let optionsHtml = q.o.map((opt, idx) => 
+                `<button class="btn-action secondary" style="margin-bottom:10px; font-weight:500;" onclick="window.answerQ(${idx})">${opt}</button>`
+            ).join('');
+            
+            qc.innerHTML = `
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
+                    <span>Frage ${window.qStep + 1} / ${CONFIG.quiz.length}</span>
+                    <span style="font-weight:700; color:var(--accent);">${window.qScore} Punkte</span>
+                </div>
+                <p style="text-align:center; margin: 0 0 25px 0; font-size: 1.3rem; font-weight: 600; color:var(--text); line-height:1.4;">${q.q}</p>
+                ${optionsHtml}
+            `;
+        };
+
+        window.answerQ = (selectedIndex) => {
+            if(selectedIndex === CONFIG.quiz[window.qStep].a) {
+                window.qScore++; // Punkt für richtige Antwort
+            }
+            window.qStep++;
+            window.runQuiz();
+        };
+
+        window.resetQuiz = () => {
+            // Lädt den Tab neu, damit der Highscore wieder angezeigt wird
+            window.showPage('fun');
+        };
+        // --- ENDE QUIZ LOGIK ---
+
 
         window.deleteEntry = async (coll, id) => { 
             if (confirm("Beitrag löschen?")) {
@@ -662,8 +714,14 @@
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('b-'+id).classList.add('active');
+            
+            // Wenn der User auf Fun klickt, rendern wir die Seite neu, falls er gerade im Quiz steckte
+            if(id === 'fun') {
+                renderPages(); 
+                if(db) setupFirebase(); // Listener neu starten
+                setTimeout(initGames, 100);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if(id === 'fun') setTimeout(initGames, 100);
         };
 
         window.adminTrigger = () => {
@@ -712,19 +770,6 @@
             }, 1000);
         }
 
-        window.nextMission = () => {
-            const m = CONFIG.missions[Math.floor(Math.random()*CONFIG.missions.length)];
-            document.getElementById('mTxt').innerText = `"${m}"`;
-        };
-
-        window.runQuiz = () => {
-            const q = CONFIG.quiz[window.qStep];
-            if(!q) { document.getElementById('qBox').innerHTML = "<h3 style='margin-bottom:15px; text-align:left;'>Quiz beendet</h3><p style='color:var(--text);'>Alle Fragen beantwortet.</p>"; return; }
-            document.getElementById('qTxt').innerText = q.q;
-            document.getElementById('qOpts').innerHTML = q.o.map(o => `<button class="btn-action secondary" style="margin-bottom:10px;" onclick="window.nextQ()">${o}</button>`).join('');
-        };
-        window.nextQ = () => { window.qStep++; window.runQuiz(); };
-
         function initGames() {
             const g = document.getElementById('bGrid');
             if (g) {
@@ -747,7 +792,6 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                /* Apple Titanium Finish for Scratchcard */
                 ctx.fillStyle = '#86868b'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 

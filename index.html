@@ -7,9 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>KATHI & STEPHAN | THE WEDDING APP</title>
     
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
     <style>
         /* --- APPLE PRO DESIGN SYSTEM (GLASSMORPHISM ULTIMATE) --- */
@@ -116,10 +116,9 @@
             position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); 
             backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; 
             width: 28px; height: 28px; font-weight: bold; cursor: pointer; 
-            display: none; /* WICHTIG: Standardmäßig versteckt */
+            display: none; 
             align-items: center; justify-content: center; z-index: 100; font-size: 12px; 
         }
-        /* Wenn Admin-Modus aktiv ist, zeige die Buttons */
         body.admin-mode .btn-del { display: flex; }
         .song-item .btn-del, .hs-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
@@ -255,6 +254,7 @@
         }
 
         let adminClicks = 0;
+        let searchTimeout; // Für die optimierte Suchfunktion
         
         // Quiz & Mission State
         window.qStep = 0; 
@@ -262,6 +262,11 @@
         window.qName = "";
         let lastMissionIdx = 0;
         
+        // Lazy-Loading Status (Performance Boost 3)
+        let funLoaded = false;
+        let infoLoaded = false;
+        let galLoaded = false;
+
         // Gallery State
         let photoLimit = 6;
         let photoUnsubscribe = null;
@@ -270,8 +275,9 @@
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
             renderPages(); 
-            if(db) setupFirebase();
+            if(db) setupGlobalFirebase(); // Lädt NUR den Ticker global
             startCountdown();
+            setupSearchDebounce(); // Optimierte Suche laden
             setTimeout(() => { 
                 document.getElementById('splash').style.opacity = '0'; 
                 setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
@@ -482,7 +488,8 @@
             `;
         }
 
-        function setupFirebase() {
+        // --- LAZY-LISTENING & DOM BUFFERING ---
+        function setupGlobalFirebase() {
             onSnapshot(doc(db, "settings", "ticker"), (d) => {
                 const data = d.data();
                 const wrap = document.getElementById('ticker-wrap');
@@ -493,14 +500,17 @@
                     wrap.style.display = 'none';
                 }
             });
+        }
 
+        function initFunListeners() {
+            // Highscore mit DOM-Buffering
             onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
-                list.innerHTML = "";
+                let html = "";
                 let rank = 1;
                 snap.forEach(d => {
                     const s = d.data();
-                    list.innerHTML += `<div class="hs-item" style="align-items: center;">
+                    html += `<div class="hs-item" style="align-items: center;">
                         <span class="hs-rank">${rank}.</span>
                         <span class="hs-name">${s.name}</span>
                         <span class="hs-score">${s.score} Pkt.</span>
@@ -508,17 +518,17 @@
                     </div>`;
                     rank++;
                 });
-                if(list.innerHTML === "") list.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
-            }, (error) => {
-                console.error("Highscore Fehler:", error);
+                if(html === "") html = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
+                list.innerHTML = html;
             });
 
+            // Jukebox mit DOM-Buffering
             onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
                 const list = document.getElementById('sList'); if(!list) return;
-                list.innerHTML = "";
+                let html = "";
                 snap.forEach(d => {
                     const s = d.data();
-                    list.innerHTML += `<div class="song-item">
+                    html += `<div class="song-item">
                         <span style="flex:1; padding-right:10px;"><span class="vote-badge">${s.votes || 0}</span> <b style="font-weight:600; color:var(--text);">${s.song}</b></span>
                         <div style="display:flex; align-items:center;">
                             <button onclick="window.voteSong('${d.id}')" style="border:0; background:none; color:var(--text); cursor:pointer; font-size:1.4rem; padding:0 10px;">+</button>
@@ -526,57 +536,37 @@
                         </div>
                     </div>`;
                 });
+                list.innerHTML = html;
             });
+        }
 
+        function initInfoListeners() {
+            // Gästebuch mit DOM-Buffering
             onSnapshot(query(collection(db, "guestbook"), orderBy("time", "desc")), (snap) => {
                 const list = document.getElementById('wList'); if(!list) return;
-                list.innerHTML = "";
+                let html = "";
                 snap.forEach(d => {
-                    list.innerHTML += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
+                    html += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
                         <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
                         <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
                 });
+                list.innerHTML = html;
             });
-
-            // Start Gallery Listener (mit Pagination Limit)
-            initGalleryListener();
-
-            document.getElementById('gSearch').oninput = (e) => {
-                const v = e.target.value.toLowerCase().trim();
-                const res = document.getElementById('gRes');
-                
-                if(v.length < 2) { res.innerHTML = ""; return; } 
-
-                let matches = [];
-                CONFIG.seating.forEach(tisch => {
-                    tisch.n.forEach(name => {
-                        if(name.toLowerCase().includes(v)) {
-                            matches.push(`<span style="font-weight:700; font-size:1.4rem; color:var(--text);">${name}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Dein Platz:</span> <span style="color:var(--accent); font-weight:700;">${tisch.t}</span>`);
-                        }
-                    });
-                });
-
-                if(matches.length > 0) {
-                    res.innerHTML = matches.join('<br><br><hr style="width:30px; margin:0 auto; border-color:var(--border-glass);"><br>');
-                } else {
-                    res.innerHTML = "Nicht gefunden.";
-                }
-            };
         }
 
-        // --- GALERIE PAGINATION (PERFORMANCE BOOSTER) ---
         function initGalleryListener() {
             if(photoUnsubscribe) photoUnsubscribe();
             
+            // Galerie mit DOM-Buffering
             photoUnsubscribe = onSnapshot(query(collection(db, "photos"), orderBy("time", "desc"), limit(photoLimit)), (snap) => {
                 const grid = document.getElementById('photoGrid'); if(!grid) return;
-                grid.innerHTML = "";
+                let html = "";
                 
                 snap.forEach(d => {
                     const data = d.data();
                     const displayUrl = data.thumb || data.url;
-                    grid.innerHTML += `
+                    html += `
                         <div class="photo-wrapper">
                             <img src="${displayUrl}" loading="lazy" onclick="window.open('${data.url}', '_blank')">
                             
@@ -588,8 +578,8 @@
                             <button class="btn-del" onclick="window.deleteEntry('photos','${d.id}')">✕</button>
                          </div>`;
                 });
+                grid.innerHTML = html;
 
-                // Prüfen, ob wir wahrscheinlich noch mehr Fotos haben
                 const btn = document.getElementById('loadMoreBtn');
                 if(btn) {
                     btn.style.display = snap.docs.length >= photoLimit ? 'block' : 'none';
@@ -598,9 +588,37 @@
         }
 
         window.loadMorePhotos = () => {
-            photoLimit += 6; // 6 weitere Bilder laden
+            photoLimit += 6; 
             initGalleryListener();
         };
+
+        // --- OPTIMIERTE SUCHE MIT DEBOUNCING ---
+        function setupSearchDebounce() {
+            document.getElementById('gSearch').oninput = (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const v = e.target.value.toLowerCase().trim();
+                    const res = document.getElementById('gRes');
+                    
+                    if(v.length < 2) { res.innerHTML = ""; return; } 
+
+                    let matches = [];
+                    CONFIG.seating.forEach(tisch => {
+                        tisch.n.forEach(name => {
+                            if(name.toLowerCase().includes(v)) {
+                                matches.push(`<span style="font-weight:700; font-size:1.4rem; color:var(--text);">${name}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Dein Platz:</span> <span style="color:var(--accent); font-weight:700;">${tisch.t}</span>`);
+                            }
+                        });
+                    });
+
+                    if(matches.length > 0) {
+                        res.innerHTML = matches.join('<br><br><hr style="width:30px; margin:0 auto; border-color:var(--border-glass);"><br>');
+                    } else {
+                        res.innerHTML = "Nicht gefunden.";
+                    }
+                }, 300); // Wartet 300ms nach dem letzten Tastendruck
+            };
+        }
 
         // --- ZIP DOWNLOAD LOGIK ---
         window.downloadAllPhotos = async () => {
@@ -616,7 +634,6 @@
             zipText.innerText = 'Lade Bilddatenbank...';
 
             try {
-                // Hole einmalig ALLE Bilder aus der Firebase (ohne Limit)
                 const q = query(collection(db, "photos"), orderBy("time", "desc"));
                 const querySnapshot = await getDocs(q);
                 
@@ -631,13 +648,10 @@
                     return;
                 }
 
-                // JSZip initialisieren
                 const zip = new JSZip();
                 const folder = zip.folder("Hochzeit_Fotos");
-                
                 let count = 0;
                 
-                // Wir laden die Bilder stück für stück herunter und legen sie ins ZIP
                 for(let i = 0; i < urls.length; i++) {
                     try {
                         const response = await fetch(urls[i]);
@@ -657,7 +671,6 @@
                 zipText.innerText = 'Erstelle ZIP-Datei... Bitte warten.';
                 zipBar.style.width = '95%';
 
-                // ZIP Datei generieren und Speichern-Dialog öffnen
                 const content = await zip.generateAsync({type:"blob"});
                 saveAs(content, "Hochzeit_Kathi_Stephan.zip");
                 
@@ -859,18 +872,26 @@
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('b-'+id).classList.add('active');
             
+            // LAZY LOADING MECHANIK
             if(id === 'fun') {
+                if(!funLoaded && db) { initFunListeners(); funLoaded = true; }
                 setTimeout(initGames, 50); 
             }
+            if(id === 'info') {
+                if(!infoLoaded && db) { initInfoListeners(); infoLoaded = true; }
+            }
+            if(id === 'gal') {
+                if(!galLoaded && db) { initGalleryListener(); galLoaded = true; }
+            }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // --- NEUER ADMIN TRIGGER ---
+        // --- ADMIN TRIGGER ---
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks >= 5) {
                 adminClicks = 0; 
-                
                 if(document.body.classList.contains('admin-mode')) {
                     window.showPage('admin');
                 } else {

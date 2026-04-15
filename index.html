@@ -134,7 +134,6 @@
         .progress-track { background: var(--border-glass); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
         #pBar { background: var(--accent); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 3px; }
         
-        /* Highscore List Styling */
         .hs-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 0.95rem; }
         .hs-item:last-child { border-bottom: none; }
         .hs-rank { font-weight: 700; color: var(--accent); width: 25px; display: inline-block; }
@@ -192,7 +191,6 @@
                 "Ein Foto der Eltern des Brautpaares", "Ein stilvolles Schwarz-Weiß-Portrait eines Gastes", "Freudentränen oder ein sehr gerührtes Gesicht",
                 "Ein Selfie mit mindestens 5 Personen", "Jemand, der das gleiche Getränk hat wie du", "Die spektakulärste Frisur des Tages"
             ],
-            // QUIZ MIT PUNKTE-SYSTEM (a = Index der richtigen Antwort, beginnend bei 0)
             quiz: [
                 {q: "Wo haben wir uns das erste Mal getroffen?", o: ["Im Club", "Am See", "Auf der Arbeit", "Im Supermarkt"], a: 1},
                 {q: "Wer kocht bei uns öfter?", o: ["Kathi", "Stephan", "Der Lieferdienst", "Beide exakt gleich oft"], a: 0},
@@ -247,7 +245,7 @@
 
         let adminClicks = 0;
         
-        // Quiz Variables
+        // Quiz State
         window.qStep = 0; 
         window.qScore = 0;
         window.qName = "";
@@ -255,7 +253,7 @@
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
-            renderPages();
+            renderPages(); // DOM nur EINMAL aufbauen
             if(db) setupFirebase();
             startCountdown();
             setTimeout(() => { 
@@ -351,7 +349,8 @@
                     
                     <div class="card" id="qCard">
                         <h3>Quiz</h3>
-                        <div id="qContent">
+                        
+                        <div id="qStartScreen">
                             <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
                             <input type="text" id="qNameInput" placeholder="Dein Vorname..." style="margin-bottom: 15px;">
                             <button class="btn-action" onclick="window.startQuiz()">Jetzt Spielen</button>
@@ -361,6 +360,8 @@
                                 <div id="hsList" style="min-height: 100px;">Wird geladen...</div>
                             </div>
                         </div>
+
+                        <div id="qActiveScreen" style="display:none; margin-top: 20px;"></div>
                     </div>
                     
                     <div class="card">
@@ -448,7 +449,6 @@
                     </div>
                 </main>
             `;
-            initGames();
         }
 
         function setupFirebase() {
@@ -463,7 +463,7 @@
                 }
             });
 
-            // HIGHSCORE LISTENER
+            // LIVE HIGHSCORE
             onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), orderBy("time", "asc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
                 list.innerHTML = "";
@@ -477,7 +477,7 @@
                     </div>`;
                     rank++;
                 });
-                if(list.innerHTML === "") list.innerHTML = "<p style='font-size:0.9rem;'>Noch keine Einträge. Sei der Erste!</p>";
+                if(list.innerHTML === "") list.innerHTML = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
             });
 
             onSnapshot(query(collection(db, "jukebox"), orderBy("votes", "desc")), (snap) => {
@@ -551,67 +551,72 @@
             };
         }
 
-        // --- QUIZ LOGIK ---
+        // --- NEUE QUIZ LOGIK ---
         window.startQuiz = () => {
             const n = document.getElementById('qNameInput').value.trim();
-            if(!n) { alert("Bitte gib deinen Namen ein, um Punkte zu sammeln!"); return; }
+            if(!n) { alert("Bitte gib deinen Vornamen ein, um Punkte zu sammeln!"); return; }
             window.qName = n;
             window.qStep = 0;
             window.qScore = 0;
+            
+            // Screen wechseln
+            document.getElementById('qStartScreen').style.display = 'none';
+            document.getElementById('qActiveScreen').style.display = 'block';
             window.runQuiz();
         };
 
         window.runQuiz = () => {
             const q = CONFIG.quiz[window.qStep];
-            const qc = document.getElementById('qContent');
+            const qc = document.getElementById('qActiveScreen');
             
             if(!q) { 
-                // Quiz Ende
                 qc.innerHTML = `
                     <h3 style='margin-bottom:15px; text-align:center;'>Quiz beendet!</h3>
-                    <p style='text-align:center; font-size:1.2rem; margin-bottom:20px;'>Du hast <b style="color:var(--accent);">${window.qScore}</b> von ${CONFIG.quiz.length} Punkten!</p>
+                    <p style='text-align:center; font-size:1.2rem; margin-bottom:20px; color:var(--text);'>Du hast <b style="color:var(--accent); font-size:1.5rem;">${window.qScore}</b> Punkte erreicht!</p>
                     <button class="btn-action" onclick="window.resetQuiz()">Zurück zur Übersicht</button>
                 `;
                 
-                // Score in Firebase speichern
+                // Score speichern
                 if(db && window.qName) {
                     addDoc(collection(db, "highscores"), { 
                         name: window.qName, 
                         score: window.qScore, 
                         time: serverTimestamp() 
-                    }).catch(e => console.log("Fehler beim Speichern:", e));
+                    }).catch(e => console.log("Fehler beim Speichern des Scores"));
                 }
                 return; 
             }
             
             let optionsHtml = q.o.map((opt, idx) => 
-                `<button class="btn-action secondary" style="margin-bottom:10px; font-weight:500;" onclick="window.answerQ(${idx})">${opt}</button>`
+                `<button class="btn-action secondary" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${opt}</button>`
             ).join('');
             
             qc.innerHTML = `
                 <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
                     <span>Frage ${window.qStep + 1} / ${CONFIG.quiz.length}</span>
-                    <span style="font-weight:700; color:var(--accent);">${window.qScore} Punkte</span>
+                    <span style="font-weight:700; color:var(--accent);">${window.qScore} Pkt</span>
                 </div>
-                <p style="text-align:center; margin: 0 0 25px 0; font-size: 1.3rem; font-weight: 600; color:var(--text); line-height:1.4;">${q.q}</p>
+                <p style="text-align:left; margin: 0 0 25px 0; font-size: 1.25rem; font-weight: 600; color:var(--text); line-height:1.4;">${q.q}</p>
                 ${optionsHtml}
             `;
         };
 
         window.answerQ = (selectedIndex) => {
+            // Check if correct
             if(selectedIndex === CONFIG.quiz[window.qStep].a) {
-                window.qScore++; // Punkt für richtige Antwort
+                window.qScore++;
             }
             window.qStep++;
             window.runQuiz();
         };
 
         window.resetQuiz = () => {
-            // Lädt den Tab neu, damit der Highscore wieder angezeigt wird
-            window.showPage('fun');
+            document.getElementById('qActiveScreen').style.display = 'none';
+            document.getElementById('qStartScreen').style.display = 'block';
+            document.getElementById('qNameInput').value = "";
         };
-        // --- ENDE QUIZ LOGIK ---
 
+        // --- ENDE QUIZ LOGIK ---
 
         window.deleteEntry = async (coll, id) => { 
             if (confirm("Beitrag löschen?")) {
@@ -715,11 +720,9 @@
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('b-'+id).classList.add('active');
             
-            // Wenn der User auf Fun klickt, rendern wir die Seite neu, falls er gerade im Quiz steckte
+            // Ganz wichtig: Sicherstellen, dass das Canvas Zeit hat, sich zu messen
             if(id === 'fun') {
-                renderPages(); 
-                if(db) setupFirebase(); // Listener neu starten
-                setTimeout(initGames, 100);
+                setTimeout(initGames, 50); 
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -771,9 +774,9 @@
         }
 
         function initGames() {
+            // Nur generieren, wenn es noch leer ist (damit es beim Tab-Wechsel nicht resettet wird)
             const g = document.getElementById('bGrid');
-            if (g) {
-                g.innerHTML = ""; 
+            if (g && g.innerHTML.trim() === "") { 
                 const shuffledBingo = [...CONFIG.bingo].sort(() => 0.5 - Math.random()).slice(0, 9);
                 shuffledBingo.forEach(b => {
                     const d = document.createElement('div');
@@ -785,9 +788,11 @@
             }
 
             const canvas = document.getElementById('scratch');
-            if (canvas) {
+            const container = document.getElementById('scratch-container');
+            
+            // Nur zeichnen, wenn das Canvas sichtbar ist und noch nicht gezeichnet wurde
+            if (canvas && container.offsetWidth > 0 && !canvas.isInitialized) {
                 const ctx = canvas.getContext('2d');
-                const container = document.getElementById('scratch-container');
                 
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
@@ -820,6 +825,9 @@
                 window.addEventListener('touchend', () => isDrawing = false);
                 canvas.addEventListener('mousemove', scratch);
                 canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, { passive: false });
+                
+                // Verhindern, dass es nochmal drübergezeichnet wird
+                canvas.isInitialized = true; 
             }
         }
 

@@ -12,20 +12,20 @@
     <style>
         /* --- APPLE PRO DESIGN SYSTEM (FROSTED EUCALYPTUS) --- */
         :root { 
-            --accent: #6b8e78;         /* Elegantes Eukalyptus-Grün */
-            --accent-glow: #8ba895;    /* Helles Eukalyptus */
+            --accent: #6b8e78;         
+            --accent-glow: #8ba895;    
             
-            --bg: #eef2ef;             /* Sehr helles, frisches Grau-Grün als Basis */
-            --surface: rgba(255, 255, 255, 0.65); /* Milchglas Effekt */
-            --text: #2c3630;           /* Dunkles Eukalyptus (weicher als Schwarz) */
+            --bg: #eef2ef;             
+            --surface: rgba(255, 255, 255, 0.65); 
+            --text: #2c3630;           
             --text-muted: #748c7c;     
-            --border-glass: rgba(107, 142, 120, 0.15); /* Zarte grüne Ränder */
+            --border-glass: rgba(107, 142, 120, 0.15); 
             --nav-bg: rgba(255, 255, 255, 0.85);
             --aura: radial-gradient(circle at 50% 20%, rgba(107, 142, 120, 0.15) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
-            --bg: #1a211c;             /* Tiefes Nacht-Grün */
+            --bg: #1a211c;             
             --surface: rgba(30, 40, 34, 0.5); 
             --text: #e8eee9; 
             --text-muted: #8ba895;
@@ -195,21 +195,21 @@
                 "Ein Selfie mit mindestens 5 Personen", "Jemand, der das gleiche Getränk hat wie du", "Die spektakulärste Frisur des Tages"
             ],
             quiz: [
-                {q: "Wo haben wir uns das erste Mal getroffen?", o: ["Im Club", "Am See", "Auf der Arbeit", "Im Supermarkt"], a: 1},
-                {q: "Wer kocht bei uns öfter?", o: ["Kathi", "Stephan", "Der Lieferdienst", "Beide exakt gleich oft"], a: 0},
+                {q: "Wo haben wir uns das erste Mal getroffen?", o: ["In der Schule", "Am See", "Auf der Arbeit", "Im Supermarkt"], a: 0},
+                {q: "Wer kocht bei uns öfter?", o: ["Kathi", "Stephan", "Der Lieferdienst", "Beide exakt gleich oft"], a: 1},
                 {q: "Wer hat den ersten Schritt gemacht?", o: ["Kathi", "Stephan", "Gemeinsame Freunde", "Es war Zufall"], a: 1},
-                {q: "Wie viele Kinder wünschen wir uns?", o: ["Gar keine", "Eins", "Zwei", "Eine halbe Fußballmannschaft"], a: 2},
+                {q: "Wie viele Kinder wünschen wir uns?", o: ["Gar keine", "Eins", "Zwei", "Eine halbe Fußballmannschaft"], a: 3},
                 {q: "Wer braucht morgens länger im Bad?", o: ["Kathi", "Stephan", "Beide sind Blitz-Duscher", "Das wechselt sich ab"], a: 0},
                 {q: "Wer hat den Heiratsantrag gemacht?", o: ["Kathi", "Stephan", "Es gab keinen, wir haben gewürfelt", "Wir haben es zusammen entschieden"], a: 1},
-                {q: "Wer ist der größere Morgenmuffel?", o: ["Kathi", "Stephan", "Der Hund/Die Katze", "Wir sind beide Frühaufsteher"], a: 1},
+                {q: "Wer ist der größere Morgenmuffel?", o: ["Kathi", "Stephan", "Der Hund/Die Katze", "Wir sind beide Frühaufsteher"], a: 0},
                 {q: "Was ist unser liebstes Urlaubsziel?", o: ["Berge", "Strand", "Städtetrip", "Balkonien"], a: 1},
                 {q: "Wer hat den besseren Orientierungssinn?", o: ["Kathi", "Stephan", "Google Maps", "Wir verfahren uns immer"], a: 2},
-                {q: "Wer von uns weint schneller bei Filmen?", o: ["Kathi", "Stephan", "Beide", "Niemand, wir sind hart im Nehmen"], a: 0},
-                {q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan", "Das Chaos regiert", "Die Putzfrau"], a: 0},
+                {q: "Wer von uns weint schneller bei Filmen?", o: ["Kathi", "Stephan", "Beide", "Niemand, wir sind hart im Nehmen"], a: 1},
+                {q: "Wer ist ordentlicher?", o: ["Kathi", "Stephan", "Das Chaos regiert", "Die Putzfrau"], a: 1},
                 {q: "Was ist unser gemeinsames Lieblingsessen?", o: ["Pizza", "Sushi", "Braten mit Knödel", "Burger"], a: 0},
-                {q: "Wer schnarcht lauter?", o: ["Kathi", "Stephan", "Niemand", "Die Wände wackeln bei beiden"], a: 1},
-                {q: "Wer hat das letzte Wort beim Streiten?", o: ["Kathi", "Stephan", "Wer lauter ist", "Wir streiten nie"], a: 0},
-                {q: "Wo ging unser erster gemeinsamer Urlaub hin?", o: ["Italien", "Spanien", "Österreich", "An die Ostsee"], a: 0}
+                {q: "Wer schnarcht lauter?", o: ["Kathi", "Stephan", "Niemand", "Die Wände wackeln bei beiden"], a: 3},
+                {q: "Wer hat das letzte Wort beim Streiten?", o: ["Kathi", "Stephan", "Wer lauter ist", "Wir streiten nie"], a: 3},
+                {q: "Wo ging unser erster gemeinsamer Urlaub hin?", o: ["Italien", "Spanien", "Österreich", "Griechenland"], a: 3}
             ],
             bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Torte", "Rede", "DJ", "Wein", "Selfie", "Träne", "Blumen", "Buffet"],
             seating: [
@@ -252,11 +252,14 @@
         window.qStep = 0; 
         window.qScore = 0;
         window.qName = "";
+        
+        // Mission State
+        let lastMissionIdx = 0;
 
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
-            renderPages(); // DOM nur EINMAL aufbauen
+            renderPages(); 
             if(db) setupFirebase();
             startCountdown();
             setTimeout(() => { 
@@ -311,7 +314,7 @@
                     
                     <div class="card" style="background: var(--accent); color: white; border: none;">
                         <h3 style="color: white;">Foto-Mission</h3>
-                        <p id="mTxt" style="text-align:center; font-size: 1.4rem; font-weight: 600; margin: 30px 0; color: white;">"${CONFIG.missions[0]}"</p>
+                        <p id="mTxt" style="text-align:center; font-size: 1.4rem; font-weight: 600; margin: 30px 0; color: white; transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
                         <button class="btn-action" style="background:white; color:var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
@@ -448,7 +451,7 @@
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <button class="btn-action" style="background:#e74c3c; color:white; margin-top:30px;" onclick="location.reload()">Beenden</button>
+                        <button class="btn-action" style="background:#e74c3c; color:white; margin-top:30px; border:none;" onclick="location.reload()">Beenden</button>
                     </div>
                 </main>
             `;
@@ -466,7 +469,6 @@
                 }
             });
 
-            // LIVE HIGHSCORE (Repariert: Nur nach score sortieren, um den Index-Fehler zu vermeiden)
             onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
                 list.innerHTML = "";
@@ -557,7 +559,28 @@
             };
         }
 
-        // --- NEUE QUIZ LOGIK ---
+        // --- SICHERE MISSION LOGIK ---
+        window.nextMission = () => {
+            let nextIdx = lastMissionIdx;
+            
+            // Garantiert eine NEUE Mission, niemals dieselbe zweimal
+            while(nextIdx === lastMissionIdx) {
+                nextIdx = Math.floor(Math.random() * CONFIG.missions.length);
+            }
+            lastMissionIdx = nextIdx;
+            
+            const txt = document.getElementById('mTxt');
+            if (txt) {
+                txt.style.opacity = '0'; // Weich ausblenden
+                
+                setTimeout(() => {
+                    txt.innerText = `"${CONFIG.missions[nextIdx]}"`;
+                    txt.style.opacity = '1'; // Weich einblenden
+                }, 200);
+            }
+        };
+
+        // --- QUIZ LOGIK ---
         window.startQuiz = () => {
             const n = document.getElementById('qNameInput').value.trim();
             if(!n) { alert("Bitte gib deinen Vornamen ein, um Punkte zu sammeln!"); return; }
@@ -618,7 +641,6 @@
             document.getElementById('qStartScreen').style.display = 'block';
             document.getElementById('qNameInput').value = "";
         };
-        // --- ENDE QUIZ LOGIK ---
 
         window.deleteEntry = async (coll, id) => { 
             if (confirm("Beitrag löschen?")) {
@@ -722,7 +744,6 @@
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('b-'+id).classList.add('active');
             
-            // Verzögerung für Canvas Initialisierung beim Tab Wechsel
             if(id === 'fun') {
                 setTimeout(initGames, 50); 
             }
@@ -776,7 +797,6 @@
         }
 
         function initGames() {
-            // Bingo
             const g = document.getElementById('bGrid');
             if (g && g.innerHTML.trim() === "") { 
                 const shuffledBingo = [...CONFIG.bingo].sort(() => 0.5 - Math.random()).slice(0, 9);
@@ -789,7 +809,6 @@
                 });
             }
 
-            // Rubbellos
             const canvas = document.getElementById('scratch');
             const container = document.getElementById('scratch-container');
             
@@ -799,7 +818,6 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                // Eukalyptus Rubbel-Fläche
                 ctx.fillStyle = '#8ba895'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 

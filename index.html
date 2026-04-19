@@ -17,7 +17,6 @@
 
     <style>
         /* --- EINBINDUNG DER SCHWUNGSCHRIFT --- */
-        /* Bitte stelle sicher, dass die Datei "brittany-signature.ttf" im gleichen Ordner liegt! */
         @font-face {
             font-family: 'Brittany Signature';
             src: url('brittany-signature.ttf') format('truetype');
@@ -76,15 +75,16 @@
         h1 { 
             /* Schwungschrift für die Hauptüberschriften */
             font-family: 'Brittany Signature', cursive;
-            font-size: 4.8rem; 
+            /* clamp() sorgt für eine automatische Größenanpassung ans Handydisplay */
+            font-size: clamp(2.8rem, 13vw, 4rem); 
             font-weight: normal;
-            line-height: 1.1; 
+            line-height: 1.2; 
             text-align: center; 
             background: linear-gradient(180deg, var(--text) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            padding: 10px 0; /* Verhindert das Abschneiden der Schnörkel durch den Gradienten */
+            margin-bottom: 10px;
+            padding: 15px 0; /* Mehr Padding, damit Schnörkel nicht vom Gradienten gecuttet werden */
         }
         
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }
@@ -211,7 +211,7 @@
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: 4rem; margin-bottom: 30px;">Lädt...</h1>
+        <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 30px; line-height: 1.3;">Lädt...</h1>
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
@@ -456,7 +456,7 @@
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Mitternachtsbuffet</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">Ausgewählte herzhafte Spezialitäten zum Ausklang des Abends</p>
 
-                        <p style="margin:25px 0 5px 0; font-size:3rem; color:var(--text); font-family: 'Brittany Signature', cursive;">Guten Appetit</p>
+                        <p style="margin:25px 0 5px 0; font-size:clamp(2.5rem, 8vw, 3rem); color:var(--text); font-family: 'Brittany Signature', cursive;">Guten Appetit</p>
                     </div>
                 </main>
 

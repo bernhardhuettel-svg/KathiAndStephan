@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark" id="mainHtml">
+<html lang="de" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -33,7 +33,8 @@
             --accent: #4A6B5B; 
             --accent-glow: #8EAB9D;
             
-            --surface: rgba(255, 255, 255, 0.65); 
+            /* Oberfläche der Karten gleicht sich dem Hintergrund an */
+            --surface: var(--bg); 
             --text: #1C2B24; 
             --text-muted: #526B5D;
             --border-glass: rgba(255, 255, 255, 0.4);
@@ -44,7 +45,8 @@
         [data-theme="dark"] { 
             /* Dark Mode angepasst an den Eukalyptus-Ton */
             --bg: #152019; 
-            --surface: rgba(30, 40, 35, 0.4); 
+            /* Oberfläche der Karten gleicht sich dem Hintergrund an */
+            --surface: var(--bg); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
             --border-glass: rgba(182, 215, 192, 0.15);
@@ -97,7 +99,8 @@
         
         .hero-subtitle { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 40px; }
 
-        .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; display: none; }
+        body.admin-mode .theme-toggle { display: block; }
         .theme-toggle:active { opacity: 1; }
 
         #ticker-wrap { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); z-index: 6000; height: 32px; border-radius: 16px; display: none; overflow: hidden; font-weight: 500; line-height: 32px; font-size: 0.75rem; letter-spacing: 0.05em; padding: 0 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }

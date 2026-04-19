@@ -228,13 +228,13 @@
                 { time: "22:00", event: "Hochzeitstorte" },
                 { time: "00:00", event: "Mitternachtssnack" }
             ],
-            menu: { v: "Carpaccio vom Weiderind", h: "Zartes Filet oder Trüffel-Pasta", d: "Candybar & Hochzeitstorte" },
+           
             missions: [
                 "Selfie mit der Braut", "Selfie mit dem Bräutigam", "Foto von den Tanzschuhen", "Bild vom ältesten Gast", 
                 "Ein Kuss-Foto von einem anderen Paar", "Die schönste Krawatte des Abends", "Jemand, der gerade herzhaft lacht",
                 "Selfie mit deinem gesamten Tisch", "Der verrückteste Tanz-Move", "Ein Foto der Trauzeugen in Aktion",
                 "Anstoßen! Ein 'Cheers'-Foto mit Gläsern", "Eine Detailaufnahme der Tischdeko", "Gruppenfoto mit Gästen, die du heute erst kennengelernt hast",
-                "Ein Foto aus der Froschperspektive (von ganz unten)", "Jung und Alt gemeinsam auf einem Bild", "Jemand, der heimlich an der Candybar nascht",
+                "Ein Foto aus der Froschperspektive (von ganz unten)", "Jung und Alt gemeinsam auf einem Bild",
                 "Ein romantischer Moment auf der Tanzfläche", "Selfie mit dem DJ oder der Band", "Ein Gast, der heimlich seine Schuhe ausgezogen hat",
                 "Ein Foto der Eltern des Brautpaares", "Ein stilvolles Schwarz-Weiß-Portrait eines Gastes", "Freudentränen oder ein sehr gerührtes Gesicht",
                 "Ein Selfie mit mindestens 5 Personen", "Jemand, der das gleiche Getränk hat wie du", "Die spektakulärste Frisur des Tages"
@@ -1003,13 +1003,27 @@
                     document.getElementById('pText').innerText = now < start ? "Tage · Stunden · Min · Sek" : (p < 100 ? "Live." : "Abgeschlossen.");
                 }
                 
-                document.querySelectorAll('.schedule-item').forEach(item => {
-                    const [sh, sm] = item.dataset.time.split(':');
-                    const sTime = new Date(now).setHours(sh, sm, 0);
-                    if(now >= sTime) {
-                        document.querySelectorAll('.schedule-item').forEach(i => i.classList.remove('active-schedule'));
-                        item.classList.add('active-schedule');
+                let activeIdx = 0;
+                let prevH = -1;
+                let dayOffset = 0;
+                const sItems = document.querySelectorAll('.schedule-item');
+                sItems.forEach((item, index) => {
+                    const [sh, sm] = item.dataset.time.split(':').map(Number);
+                    if (sh < prevH) dayOffset = 1; // Mitternacht überschritten
+                    prevH = sh;
+                    
+                    const sDate = new Date(CONFIG.date);
+                    sDate.setDate(sDate.getDate() + dayOffset);
+                    sDate.setHours(sh, sm, 0, 0);
+                    
+                    if (now >= sDate) {
+                        activeIdx = index;
                     }
+                });
+                
+                sItems.forEach((i, idx) => {
+                    if (idx === activeIdx) i.classList.add('active-schedule');
+                    else i.classList.remove('active-schedule');
                 });
             }, 1000);
         }

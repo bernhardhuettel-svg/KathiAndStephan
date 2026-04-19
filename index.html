@@ -33,24 +33,27 @@
             --accent: #4A6B5B; 
             --accent-glow: #8EAB9D;
             
-            /* Oberfläche der Karten gleicht sich dem Hintergrund an */
-            --surface: var(--bg); 
+            /* ECHTER GLAS-EFFEKT: Halbtransparentes Weiß, damit der Hintergrund durchscheint */
+            --surface: rgba(255, 255, 255, 0.25); 
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(255, 255, 255, 0.4);
-            --nav-bg: rgba(182, 215, 192, 0.85);
-            --aura: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+            
+            /* Zarter, glasiger Rahmen */
+            --border-glass: rgba(255, 255, 255, 0.35);
+            /* Navigation ebenfalls etwas glasiger */
+            --nav-bg: rgba(182, 215, 192, 0.65);
+            --aura: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
             /* Dark Mode angepasst an den Eukalyptus-Ton */
             --bg: #152019; 
-            /* Oberfläche der Karten gleicht sich dem Hintergrund an */
-            --surface: var(--bg); 
+            /* Halbtransparente, dunkle Oberfläche für den Dark Mode */
+            --surface: rgba(30, 40, 35, 0.35); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
             --border-glass: rgba(182, 215, 192, 0.15);
-            --nav-bg: rgba(21, 32, 25, 0.85);
+            --nav-bg: rgba(21, 32, 25, 0.65);
             --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.15) 0%, transparent 70%);
         }
         
@@ -125,6 +128,7 @@
         .card { 
             background: var(--surface); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
             border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-glass); position: relative; overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); /* Leichter Schatten hebt das Glas ab */
         }
 
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }

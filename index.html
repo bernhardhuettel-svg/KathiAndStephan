@@ -72,19 +72,22 @@
 
         h1, h2, h3, h4 { margin: 0; padding: 0; letter-spacing: -0.02em; }
         
-        h1 { 
-            /* Schwungschrift für die Hauptüberschriften */
+       h1 { 
             font-family: 'Brittany Signature', cursive;
-            /* clamp() sorgt für eine automatische Größenanpassung ans Handydisplay */
-            font-size: clamp(2.8rem, 13vw, 4rem); 
+            /* Macht die Schrift auf kleinen Displays noch ein Stück kleiner (10vw statt 13vw) */
+            font-size: clamp(2rem, 10vw, 4rem); 
             font-weight: normal;
-            line-height: 1.2; 
+            /* Etwas mehr Zeilenhöhe für die ausladenden Buchstaben nach oben/unten */
+            line-height: 1.4; 
             text-align: center; 
             background: linear-gradient(180deg, var(--text) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
-            padding: 15px 0; /* Mehr Padding, damit Schnörkel nicht vom Gradienten gecuttet werden */
+            /* GANZ WICHTIG: Padding an den Seiten (15px), damit rechts/links nichts abgeschnitten wird */
+            padding: 20px 15px; 
+            /* Verhindert, dass das "&" in eine neue Zeile rutscht, falls es mal eng wird */
+            white-space: nowrap; 
         }
         
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }

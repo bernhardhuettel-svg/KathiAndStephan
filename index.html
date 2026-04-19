@@ -12,28 +12,32 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
     <style>
-        /* --- APPLE PRO DESIGN SYSTEM (GLASSMORPHISM ULTIMATE) --- */
+        /* --- APPLE PRO DESIGN SYSTEM (EUKALYPTUS EDITION) --- */
         :root { 
-            --accent: #829a8a; 
-            --accent-glow: #a3bcae;
+            /* Sattes Eukalyptusgrün */
+            --accent: #5F8575; 
+            --accent-glow: #8EAB9D;
             
-            --bg: #f5f5f7; 
-            --surface: rgba(255, 255, 255, 0.6); 
-            --text: #1d1d1f; 
-            --text-muted: #86868b;
-            --border-glass: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --aura: radial-gradient(circle at 50% 30%, rgba(130, 154, 138, 0.15) 0%, transparent 60%);
+            /* Leichter Eukalyptus-Hauch im Hintergrund */
+            --bg: #F2F6F4; 
+            --surface: rgba(255, 255, 255, 0.7); 
+            /* Sehr dunkles Grün statt reinem Schwarz für harmonischeren Kontrast */
+            --text: #1C2B24; 
+            --text-muted: #6B8276;
+            --border-glass: rgba(95, 133, 117, 0.15);
+            --nav-bg: rgba(242, 246, 244, 0.85);
+            --aura: radial-gradient(circle at 50% 30%, rgba(95, 133, 117, 0.15) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
-            --bg: #000000; 
-            --surface: rgba(28, 28, 30, 0.4); 
-            --text: #f5f5f7; 
-            --text-muted: #86868b;
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(28, 28, 30, 0.7);
-            --aura: radial-gradient(circle at 50% 30%, rgba(130, 154, 138, 0.2) 0%, transparent 70%);
+            /* Fast schwarzes Grün für den Dark Mode */
+            --bg: #0A0D0B; 
+            --surface: rgba(30, 40, 35, 0.4); 
+            --text: #E8F0EC; 
+            --text-muted: #8EAB9D;
+            --border-glass: rgba(142, 171, 157, 0.15);
+            --nav-bg: rgba(10, 13, 11, 0.8);
+            --aura: radial-gradient(circle at 50% 30%, rgba(95, 133, 117, 0.25) 0%, transparent 70%);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -104,7 +108,7 @@
             width: 100%; background: var(--border-glass); border: none; color: var(--text); font-family: inherit;
             padding: 16px; border-radius: 14px; font-size: 1.05rem; transition: background 0.2s;
         }
-        input:focus, textarea:focus { outline: none; background: rgba(130, 154, 138, 0.2); }
+        input:focus, textarea:focus { outline: none; background: rgba(95, 133, 117, 0.2); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
         .btn-action { background: var(--text); color: var(--bg); border: none; padding: 16px; border-radius: 14px; font-weight: 600; font-size: 1rem; width: 100%; cursor: pointer; transition: transform 0.1s, opacity 0.2s; }
@@ -404,18 +408,33 @@
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
                         <div id="gRes" style="text-align:center; margin-top:20px; font-weight:500; font-size:1.1rem; line-height: 1.6;"></div>
                     </div>
-                    <div class="card">
-                        <h3>Festmenü</h3>
-                        <div style="padding: 10px 0;">
-                            <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700;">Vorspeise</p>
-                            <p style="margin:5px 0 20px 0; font-weight:500; font-size:1.1rem; color:var(--text);">${CONFIG.menu.v}</p>
-                            
-                            <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700;">Hauptgang</p>
-                            <p style="margin:5px 0 20px 0; font-weight:500; font-size:1.1rem; color:var(--text);">${CONFIG.menu.h}</p>
-                            
-                            <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700;">Dessert</p>
-                            <p style="margin:5px 0 0 0; font-weight:500; font-size:1.1rem; color:var(--text);">${CONFIG.menu.d}</p>
-                        </div>
+                    <div class="card" style="text-align: center;">
+                        <h3 style="margin-bottom: 25px; font-size: 1.6rem;">Menü</h3>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Vorspeisenbuffet</p>
+                        <p style="margin:8px 0 25px 0; font-weight:500; font-size:0.95rem; color:var(--text); line-height: 1.5;">Erlesene Kompositionen aus saisonalen und internationalen Spezialitäten</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Hauptgang</p>
+                        
+                        <p style="margin:15px 0 0 0; font-weight:600; font-size:1rem; color:var(--text);">Chicken Tikka Masala</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit Naan Brot</p>
+
+                        <p style="margin:0; font-weight:600; font-size:1rem; color:var(--text);">Tagliatelle aus dem Parmesanlaib</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit verschiedenen Pesto und Ölen</p>
+
+                        <p style="margin:0; font-weight:600; font-size:1rem; color:var(--text);">Surf & Turf - Rinderfilet und Garnelen</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit Hummersoße und pikantem Kartoffelgratin</p>
+
+                        <p style="margin:0; font-weight:600; font-size:1rem; color:var(--text);">Hamburger</p>
+                        <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit verschiedenen Toppings (auch vegan)</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Dessert</p>
+                        <p style="margin:8px 0 25px 0; font-weight:500; font-size:0.95rem; color:var(--text); line-height: 1.5;">Fein abgestimmte Dessertvariationen als süßer Höhepunkt</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Mitternachtsbuffet</p>
+                        <p style="margin:8px 0 25px 0; font-weight:500; font-size:0.95rem; color:var(--text); line-height: 1.5;">Ausgewählte herzhafte Spezialitäten zum Ausklang des Abends</p>
+
+                        <p style="margin:15px 0 5px 0; font-size:1.6rem; font-style: italic; color:var(--text); font-family: 'Georgia', serif;">Guten Appetit</p>
                     </div>
                 </main>
 

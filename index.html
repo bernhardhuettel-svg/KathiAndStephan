@@ -141,15 +141,27 @@
         input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.6); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
-        .btn-action { font-family: 'Montserrat', sans-serif; background: var(--text); color: var(--bg); border: none; padding: 16px; border-radius: 14px; font-weight: 500; font-size: 1rem; width: 100%; cursor: pointer; transition: transform 0.1s, opacity 0.2s; }
+        /* --- EINHEITLICHE BUTTONS --- */
+        .btn-action { 
+            font-family: 'Montserrat', sans-serif; 
+            background: var(--text); 
+            color: var(--bg); 
+            border: none; 
+            padding: 16px; 
+            border-radius: 14px; 
+            font-weight: 500; 
+            font-size: 1rem; 
+            width: 100%; 
+            cursor: pointer; 
+            transition: transform 0.1s, opacity 0.2s; 
+        }
         .btn-action:active { transform: scale(0.97); opacity: 0.8; }
-        .btn-action.secondary { background: rgba(255, 255, 255, 0.5); color: var(--text); border: 1px solid var(--border-glass); }
-        [data-theme="dark"] .btn-action.secondary { background: rgba(255, 255, 255, 0.1); }
         
-        /* --- ADMIN LÖSCH BUTTONS --- */
+        /* --- ADMIN LÖSCH BUTTONS (Jetzt auch einheitlich) --- */
         .btn-del { 
-            position: absolute; top: 12px; right: 12px; background: rgba(255, 59, 48, 0.2); 
-            backdrop-filter: blur(10px); color: #ff3b30; border: none; border-radius: 50%; 
+            position: absolute; top: 12px; right: 12px; 
+            background: var(--text); color: var(--bg); 
+            border: none; border-radius: 50%; 
             width: 28px; height: 28px; font-weight: 500; cursor: pointer; 
             display: none; 
             align-items: center; justify-content: center; z-index: 100; font-size: 12px; 
@@ -417,10 +429,10 @@
                         </div>
                     </div>
                     
-                    <div class="card" style="background: var(--surface); border: 1px solid var(--border-glass);">
+                    <div class="card">
                         <h3 style="color: var(--text);">Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
-                        <button class="btn-action" style="background:var(--text); color:var(--bg);" onclick="window.nextMission()">Neue Mission</button>
+                        <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
@@ -520,7 +532,7 @@
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
                         
                         <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 10px; margin-top: 10px;">
-                            <button class="btn-action secondary" style="pointer-events: none;">Foto auswählen</button>
+                            <button class="btn-action" style="pointer-events: none;">Foto auswählen</button>
                             <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
                         </div>
                         
@@ -533,7 +545,7 @@
                         
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                             <h3 style="margin:0;">Alle Bilder</h3>
-                            <button class="btn-action secondary" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
+                            <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
                         </div>
                         
                         <div id="zipProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
@@ -542,7 +554,7 @@
                         <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 400; display:none;"></p>
 
                         <div id="photoGrid"></div>
-                        <button id="loadMoreBtn" class="btn-action secondary" style="margin-top:20px; display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
+                        <button id="loadMoreBtn" class="btn-action" style="margin-top:20px; display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
                     </div>
                 </main>
 
@@ -562,7 +574,7 @@
                                 <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">${CONFIG.location}</p>
                             </div>
                             
-                            <button class="btn-action secondary" style="margin: 15px 0 25px 0;" 
+                            <button class="btn-action" style="margin: 15px 0 25px 0;" 
                                 onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
                                 In Google Maps öffnen
                             </button>
@@ -572,7 +584,7 @@
                                 <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
                             </div>
                             
-                            <button class="btn-action secondary" style="margin-top: 15px;" onclick="location.href='tel:${CONFIG.taxi}'">
+                            <button class="btn-action" style="margin-top: 15px;" onclick="location.href='tel:${CONFIG.taxi}'">
                                 Taxi rufen
                             </button>
                         </div>
@@ -583,9 +595,9 @@
                         <h3 style="color:#ff3b30;">Admin Konsole</h3>
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
-                        <button class="btn-action secondary" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
+                        <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
                         <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Songs, Highscore, etc.) zu löschen!</p>
-                        <button class="btn-action" style="background:#ff3b30; color:white; margin-top:15px; border:none;" onclick="location.reload()">Admin-Modus beenden</button>
+                        <button class="btn-action" style="margin-top:15px;" onclick="location.reload()">Admin-Modus beenden</button>
                     </div>
                 </main>
             `;
@@ -669,7 +681,7 @@
                             <img src="${displayUrl}" loading="lazy">
                             
                             <button onclick="event.stopPropagation(); window.downloadPhoto('${data.url}')" 
-                                    style="position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
+                                    style="position: absolute; bottom: 8px; right: 8px; background: var(--text); color: var(--bg); border: none; border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
                                 ↓
                             </button>
                             
@@ -837,7 +849,7 @@
             }
             
             let optionsHtml = q.o.map((opt, idx) => 
-                `<button class="btn-action secondary" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${opt}</button>`
+                `<button class="btn-action" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${opt}</button>`
             ).join('');
             
             qc.innerHTML = `

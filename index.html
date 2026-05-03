@@ -66,6 +66,7 @@
 
         h1, h2, h3, h4 { margin: 0; padding: 0; letter-spacing: -0.02em; }
         
+        /* NUR h1 bekommt die Schwungschrift (Kathi & Stephan, Menü, Galerie etc. ganz oben) */
         h1 { 
             font-family: 'Brittany Signature', cursive;
             font-size: clamp(2rem, 10vw, 4rem); 
@@ -82,41 +83,26 @@
             z-index: 1;
         }
 
-        /* --- GLOBALES H3-DESIGN FÜR ALLE KARTEN (WIE BEI DEN GETRÄNKEN) --- */
-        h3 { 
-            font-family: 'Brittany Signature', cursive;
-            font-size: clamp(2.5rem, 8vw, 3rem); 
-            font-weight: normal; 
-            color: var(--text); 
-            margin: 0 0 25px 0; 
-            text-align: center; 
-            line-height: 1.2;
-        }
-
-        /* --- SAFARI-FEHLERFREIES HERZ --- */
+        /* --- DEKO-HERZ: KOMPLETT BEREINIGT --- */
         .deco-heart {
             display: block;
             width: 32px;
-            height: 32px;
-            margin: 5px auto 35px auto;
-            /* Hintergrundbild statt <img>-Tag schützt vor WebKit-Clipping */
-            background-image: url('image_2.JPG');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            mix-blend-mode: multiply;
+            margin: 5px auto 30px auto;
+            /* Rahmen künstlich vergrößern, damit der Browser nichts abschneidet */
+            padding: 10px; 
+            box-sizing: content-box;
             opacity: 0.85;
-            position: relative;
-            z-index: 10;
-            transform: translateZ(0); /* Zwingt Safari zur sauberen Berechnung */
+            /* Alle wilden Filter/Hacks entfernt, da dein Bild transparent ist! */
         }
 
         [data-theme="dark"] .deco-heart {
             filter: invert(1);
-            mix-blend-mode: screen;
+            opacity: 0.85;
         }
         
+        /* Alle anderen Überschriften sauber in Montserrat Blockschrift */
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }
+        h3 { font-size: 1.2rem; font-weight: 500; color: var(--text); margin-bottom: 12px; }
         h4 { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.6; font-size: 1rem; font-weight: 300; color: var(--text-muted); margin: 0 0 15px 0; }
         
@@ -246,8 +232,7 @@
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
         
-        <!-- Das Herz ist jetzt ein absolut Safari-sicheres DIV -->
-        <div class="deco-heart" style="margin-bottom: 40px;"></div>
+        <img src="image_2.JPG" alt="Herz" class="deco-heart">
 
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
@@ -429,12 +414,12 @@
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="hero-subtitle">Wir heiraten</div>
                     
                     <div class="card">
-                        <h3>Countdown</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Countdown</h3>
                         <div id="timer" class="timer-display"></div>
                         <div class="progress-track">
                             <div id="pBar"></div>
@@ -443,7 +428,7 @@
                     </div>
                     
                     <div class="card">
-                        <h3>Zeitplan</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Zeitplan</h3>
                         <div class="timeline" id="scheduleContainer">
                             ${CONFIG.schedule.map(s => `<div class="timeline-item schedule-item" data-time="${s.time}">
                                 <div class="timeline-time">${s.time}</div>
@@ -453,13 +438,13 @@
                     </div>
                     
                     <div class="card">
-                        <h3>Foto-Mission</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
                         <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
-                        <h3>Story</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Story</h3>
                         <div class="timeline">
                             ${CONFIG.story.map(s=>`<div class="timeline-item">
                                 <div class="timeline-time">${s.y}</div>
@@ -472,7 +457,7 @@
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
@@ -483,10 +468,10 @@
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" style="text-align: center;">
-                        <h3>Menü</h3>
+                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Menü</h3>
 
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">VORSPEISENBUFFET</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">ERLESENE KOMPOSITIONEN AUS SAISONALEN UND INTERNATIONALEN SPEZIALITÄTEN</p>
@@ -511,11 +496,11 @@
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">MITTERNACHTSBUFFET</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">AUSGEWÄHLTE HERZHAFTE SPEZIALITÄTEN ZUM AUSKLANG DES ABENDS</p>
 
-                        <p style="margin:25px 0 5px 0; font-size:clamp(2.5rem, 8vw, 3rem); color:var(--text); font-family: 'Brittany Signature', cursive;">Guten Appetit</p>
+                        <p style="margin:25px 0 5px 0; font-size:1.2rem; font-weight: 500; color:var(--accent); text-transform: uppercase; letter-spacing: 2px;">Guten Appetit</p>
                     </div>
 
                     <div class="card" style="text-align: center;">
-                        <h3>Getränke</h3>
+                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Getränke</h3>
 
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Aperitifs</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Prosecco Rosè, Lillet Wild Berry,<br>Aperol Spritz, Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
@@ -536,7 +521,7 @@
                     </div>
 
                     <div class="card" style="text-align: center;">
-                        <h3>Cocktails</h3>
+                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Cocktails</h3>
 
                         <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">FLAVORED MOJITO</p>
                         <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, LIMEJUICE, LIMETTE, BRAUNER ZUCKER, WATER, ERDBEER, MINZE</p>
@@ -553,7 +538,7 @@
                         <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">PARADIESVOGEL <span style="font-size:0.8rem; font-weight:400;">(ALKOHOLFREI)</span></p>
                         <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">ANANAS, ORANGE, MARACUJA, ZITRONE, GRENADINE</p>
                         
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Cheers!</p>
+                        <p style="margin:0; font-size:1.2rem; font-weight: 500; color:var(--accent); text-transform: uppercase; letter-spacing: 2px;">Cheers!</p>
                         <p style="margin:8px 0 5px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Geöffnet ab ca. 20:30 Uhr</p>
                     </div>
                 </main>
@@ -561,10 +546,10 @@
                 <main id="fun" class="page">
                     <h1>Fun</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" id="qCard">
-                        <h3>Quiz</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Quiz</h3>
                         
                         <div id="qStartScreen">
                             <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
@@ -581,12 +566,12 @@
                     </div>
                     
                     <div class="card">
-                        <h3>Bingo</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Bingo</h3>
                         <div id="bGrid"></div>
                     </div>
                     
                    <div class="card">
-                        <h3>Rubbellos</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Rubbellos</h3>
                         <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                             <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
@@ -597,7 +582,7 @@
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
@@ -614,7 +599,7 @@
                         
                         <hr style="border:none; border-top:1px solid var(--border-glass); margin:25px 0 25px 0;">
                         
-                        <h3>Alle Bilder</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Alle Bilder</h3>
                         <div style="display:flex; justify-content:center; margin-bottom:15px;">
                             <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
                         </div>
@@ -632,17 +617,17 @@
                 <main id="info" class="page">
                     <h1>Infos</h1>
                     
-                    <div class="deco-heart"></div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
-                        <h3>Gästebuch</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Gästebuch</h3>
                         <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; resize:none;"></textarea>
                         <button class="btn-action" style="margin-top:10px;" onclick="window.addWish()">Senden</button>
                         <div id="wList" style="margin-top:25px;"></div>
                     </div>
                     
                     <div class="card">
-                        <h3>Location & WLAN</h3>
+                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Location & WLAN</h3>
                             <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
                                 <p style="margin:0 0 5px 0; font-size:0.85rem;">Adresse</p>
                                 <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">${CONFIG.location}</p>
@@ -666,7 +651,7 @@
 
                 <main id="admin" class="page">
                     <div class="card" style="border:1px solid #ff3b30;">
-                        <h3 style="color:#ff3b30; font-family: 'Montserrat', sans-serif;">Admin Konsole</h3>
+                        <h3 style="color:#ff3b30; text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Admin Konsole</h3>
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>

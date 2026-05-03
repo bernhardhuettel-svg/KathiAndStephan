@@ -24,30 +24,26 @@
             font-style: normal;
         }
 
-        /* --- DESIGN SYSTEM: ECHTER GLAS-EFFEKT --- */
+        /* --- REINES WEISS & KLARES DESIGN --- */
         :root { 
-            /* Sehr weiches Off-White/Eukalyptus, damit sich die weißen Glas-Karten abheben */
-            --bg: #F3F6F4; 
+            --bg: #FFFFFF; /* Reines Weiß, wie gewünscht */
             --accent: #4A6B5B; 
-            /* Echtes, halbdurchsichtiges Milchglas für die Karten */
-            --surface: rgba(255, 255, 255, 0.45); 
+            --surface: rgba(255, 255, 255, 0.7); 
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(255, 255, 255, 0.8);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            /* Sichtbarere, aber elegante Aura im Hintergrund für Tiefe */
-            --aura: radial-gradient(circle at 10% 10%, rgba(182, 215, 192, 0.25) 0%, transparent 60%),
-                    radial-gradient(circle at 90% 90%, rgba(182, 215, 192, 0.2) 0%, transparent 50%);
+            --border-glass: rgba(0, 0, 0, 0.06); /* Zarter grauer Rahmen für Kontrast auf Weiß */
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --aura: radial-gradient(circle at 50% 0%, rgba(182, 215, 192, 0.15) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
             --bg: #152019; 
-            --surface: rgba(255, 255, 255, 0.08); 
+            --surface: rgba(255, 255, 255, 0.05); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
-            --border-glass: rgba(255, 255, 255, 0.15);
+            --border-glass: rgba(255, 255, 255, 0.1);
             --nav-bg: rgba(21, 32, 25, 0.85);
-            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.1) 0%, transparent 70%);
+            --aura: none;
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -86,32 +82,19 @@
             z-index: 1;
         }
 
-        /* --- DER ULTIMATIVE SAFARI-HERZ-FIX --- */
-        .heart-wrapper {
-            width: 40px; 
-            height: 40px;
-            margin: 5px auto 30px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Verhindert hartes Abschneiden auf Container-Ebene */
-            overflow: visible !important; 
-        }
-
-        .heart-wrapper img {
-            width: 32px;
-            height: auto;
+        /* --- DEKO-HERZ: SIMPEL & ABSCHNEIDE-SICHER --- */
+        .deco-heart {
             display: block;
-            object-fit: contain;
-            /* Zwingt Safari zur 3D-Hardwarebeschleunigung, verhindert Render-Clipping-Bugs! */
-            -webkit-transform: translate3d(0, 0, 0); 
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
+            width: 32px;
+            margin: 5px auto 35px auto;
+            /* Dieser Innenabstand ist die "Schutzzone" gegen Safari */
+            padding: 20px;
+            box-sizing: content-box;
+            opacity: 0.85;
         }
 
-        [data-theme="dark"] .heart-wrapper img {
+        [data-theme="dark"] .deco-heart {
             filter: invert(1);
-            opacity: 0.85;
         }
         
         /* Standard-Überschriften in Blockschrift (Montserrat) */
@@ -145,7 +128,7 @@
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 500px;
             background: var(--nav-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
             display: flex; justify-content: space-around; padding: 15px 5px; border-radius: 30px; z-index: 4000; 
-            border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
         nav button { font-family: 'Montserrat', sans-serif; background: none; border: none; color: var(--text-muted); font-size: 0.60rem; font-weight: 500; cursor: pointer; flex: 1; display: flex; flex-direction: column; align-items: center; transition: color 0.2s ease; padding: 0 2px;}
         nav button.active { color: var(--text); font-weight: 600; }
@@ -158,26 +141,25 @@
         
         .card { 
             background: var(--surface); 
-            /* Hier passiert die Magie des Glas-Effekts: */
-            backdrop-filter: blur(20px) saturate(160%); 
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            backdrop-filter: blur(20px) saturate(180%); 
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-radius: 24px; 
             padding: 24px; 
             margin-bottom: 20px; 
             border: 1px solid var(--border-glass); 
             position: relative; 
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* Zarter Schatten für den weißen Hintergrund */
         }
 
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
 
         input, textarea {
-            width: 100%; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--border-glass); color: var(--text); font-family: 'Montserrat', sans-serif; font-weight: 300;
+            width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px solid var(--border-glass); color: var(--text); font-family: 'Montserrat', sans-serif; font-weight: 300;
             padding: 16px; border-radius: 14px; font-size: 1.05rem; min-height: 55px; line-height: 1.5; transition: background 0.2s;
         }
-        [data-theme="dark"] input, [data-theme="dark"] textarea { background: rgba(0, 0, 0, 0.2); }
-        input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.9); }
+        [data-theme="dark"] input, [data-theme="dark"] textarea { background: rgba(0, 0, 0, 0.2); border-color: rgba(255,255,255,0.1); }
+        input:focus, textarea:focus { outline: none; background: #FFFFFF; }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
         .btn-action { 
@@ -215,14 +197,14 @@
         #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
         
         #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bingo-cell { aspect-ratio: 1; background: rgba(255, 255, 255, 0.5); border: 1px solid var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 400; transition: all 0.2s; color: var(--text); }
-        [data-theme="dark"] .bingo-cell { background: rgba(255, 255, 255, 0.05); }
+        .bingo-cell { aspect-ratio: 1; background: rgba(255, 255, 255, 0.8); border: 1px solid var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 400; transition: all 0.2s; color: var(--text); }
+        [data-theme="dark"] .bingo-cell { background: rgba(255, 255, 255, 0.05); border-color: rgba(255,255,255,0.1); }
 
         #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
-        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--border-glass); cursor: pointer; }
+        .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: rgba(0,0,0,0.05); cursor: pointer; }
         .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         
-        .progress-track { background: rgba(255, 255, 255, 0.6); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
+        .progress-track { background: rgba(0, 0, 0, 0.05); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
         [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.1); }
         #pBar { background: var(--accent); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 3px; }
         
@@ -265,9 +247,7 @@
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
         
-        <div class="heart-wrapper">
-            <img src="image_2.JPG" alt="Herz">
-        </div>
+        <img src="image_2.JPG" alt="Herz" class="deco-heart">
 
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
@@ -449,9 +429,7 @@
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="hero-subtitle">Wir heiraten</div>
                     
@@ -494,9 +472,7 @@
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
@@ -507,9 +483,7 @@
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" style="text-align: center;">
                         <h3 class="cursive-text" style="margin-bottom: 25px;">Menü</h3>
@@ -587,9 +561,7 @@
                 <main id="fun" class="page">
                     <h1>Fun</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" id="qCard">
                         <h3>Quiz</h3>
@@ -615,7 +587,7 @@
                     
                    <div class="card">
                         <h3>Rubbellos</h3>
-                        <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                        <div id="scratch-container" style="position:relative; background:rgba(0,0,0,0.05); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                             <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
                         </div>
@@ -625,9 +597,7 @@
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
@@ -637,7 +607,7 @@
                             <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
                         </div>
                         
-                        <div id="uploadProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
+                        <div id="uploadProgress" style="display: none; width: 100%; background: rgba(0,0,0,0.05); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
                             <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
                         <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 400;"></p>
@@ -649,7 +619,7 @@
                             <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
                         </div>
                         
-                        <div id="zipProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
+                        <div id="zipProgress" style="display: none; width: 100%; background: rgba(0,0,0,0.05); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
                             <div id="zipBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
                         </div>
                         <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 400; display:none;"></p>
@@ -662,9 +632,7 @@
                 <main id="info" class="page">
                     <h1>Infos</h1>
                     
-                    <div class="heart-wrapper">
-                        <img src="image_2.JPG" alt="Herz">
-                    </div>
+                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <h3>Gästebuch</h3>
@@ -747,7 +715,7 @@
                 const list = document.getElementById('wList'); if(!list) return;
                 let html = "";
                 snap.forEach(d => {
-                    html += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
+                    html += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: rgba(0,0,0,0.03); position:relative;">
                         <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
                         <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;

@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#B6D7C0">
     <title>KATHI & STEPHAN | THE WEDDING APP</title>
     
-    <!-- PWA Manifest für Offline-Fähigkeit -->
-    <link rel="manifest" href="./manifest.json">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     
     <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -30,32 +26,42 @@
 
         /* --- APPLE PRO DESIGN SYSTEM (EUKALYPTUS EDITION) --- */
         :root { 
-            --bg: #B6D7C0; 
+            /* Hintergrund in sauberem Weiß */
+            --bg: #FFFFFF; 
+            
+            /* Akzentfarbe dunkelgrün */
             --accent: #4A6B5B; 
             --accent-glow: #8EAB9D;
-            --surface: rgba(255, 255, 255, 0.25); 
+            
+            /* ECHTER GLAS-EFFEKT: Die Kästchen (Surface) sind jetzt in Eukalyptus (#B6D7C0 als RGBA) */
+            --surface: rgba(182, 215, 192, 0.55); 
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(255, 255, 255, 0.35);
-            --nav-bg: rgba(182, 215, 192, 0.65);
-            --aura: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 60%);
+            
+            /* Rahmen passend zum Eukalyptus */
+            --border-glass: rgba(182, 215, 192, 0.8);
+            /* Navigation weiß-glasig für starken Kontrast zum Seitenhintergrund */
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            /* Leichter Eukalyptus-Glow im Hintergrund */
+            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.25) 0%, transparent 60%);
         }
         
         [data-theme="dark"] { 
+            /* Dark Mode angepasst */
             --bg: #152019; 
-            --surface: rgba(30, 40, 35, 0.35); 
+            --surface: rgba(182, 215, 192, 0.15); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
-            --border-glass: rgba(182, 215, 192, 0.15);
-            --nav-bg: rgba(21, 32, 25, 0.65);
-            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.15) 0%, transparent 70%);
+            --border-glass: rgba(182, 215, 192, 0.25);
+            --nav-bg: rgba(21, 32, 25, 0.85);
+            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.1) 0%, transparent 70%);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
+            font-weight: 300; 
             background-color: var(--bg);
             background-image: var(--aura);
             background-attachment: fixed;
@@ -123,11 +129,11 @@
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
 
         input, textarea {
-            width: 100%; background: rgba(255, 255, 255, 0.4); border: 1px solid var(--border-glass); color: var(--text); font-family: 'Montserrat', sans-serif; font-weight: 300;
+            width: 100%; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--border-glass); color: var(--text); font-family: 'Montserrat', sans-serif; font-weight: 300;
             padding: 16px; border-radius: 14px; font-size: 1.05rem; transition: background 0.2s;
         }
         [data-theme="dark"] input, [data-theme="dark"] textarea { background: rgba(0, 0, 0, 0.2); }
-        input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.6); }
+        input:focus, textarea:focus { outline: none; background: rgba(255, 255, 255, 0.9); }
         input::placeholder, textarea::placeholder { color: var(--text-muted); }
         
         .btn-action { 
@@ -172,7 +178,7 @@
         .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--border-glass); cursor: pointer; }
         .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         
-        .progress-track { background: rgba(255, 255, 255, 0.4); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
+        .progress-track { background: rgba(255, 255, 255, 0.6); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; }
         [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.1); }
         #pBar { background: var(--accent); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 3px; }
         
@@ -213,7 +219,7 @@
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 30px; line-height: 1.3;">Kathi & Stephan</h1>
+        <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 30px; line-height: 1.3;">Lädt...</h1>
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
@@ -228,232 +234,12 @@
     </div>
 
     <nav id="mainNav"></nav>
-    
-    <div id="content-area">
-        <!-- DIE STATISCHEN SEITEN -->
-        <main id="home" class="page active">
-            <h1 id="homeName" onclick="window.adminTrigger()" style="cursor:pointer;">Kathi & Stephan</h1>
-            <div class="hero-subtitle">Wir heiraten</div>
-            
-            <div class="card">
-                <h3>Countdown</h3>
-                <div id="timer" class="timer-display"></div>
-                <div class="progress-track">
-                    <div id="pBar"></div>
-                </div>
-                <p id="pText" style="text-align:center; font-size:0.85rem; margin-top:10px;"></p>
-            </div>
-            
-            <div class="card">
-                <h3>Zeitplan</h3>
-                <div class="timeline" id="scheduleContainer" style="margin-top: 20px;"></div>
-            </div>
-            
-            <div class="card">
-                <h3 style="color: var(--text);">Foto-Mission</h3>
-                <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"Lade Mission..."</p>
-                <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
-            </div>
-            
-            <div class="card">
-                <h3>Story</h3>
-                <div class="timeline" id="storyContainer" style="margin-top: 20px;"></div>
-            </div>
-        </main>
-
-        <main id="guests" class="page">
-            <h1>Dein Platz</h1>
-            <div class="card">
-                <input type="text" id="gSearch" placeholder="Vorname eingeben...">
-                <div id="gRes" style="text-align:center; margin-top:20px; font-weight:400; font-size:1.1rem; line-height: 1.6;"></div>
-            </div>
-        </main>
-
-<main id="food" class="page">
-            <h1>Essen & Trinken</h1>
-            
-            <div class="card" style="text-align: center;">
-                <h3 style="margin-bottom: 25px; font-size: 1.6rem; font-weight: 400;">Menü</h3>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Vorspeisenbuffet</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">Erlesene Kompositionen aus saisonalen und internationalen Spezialitäten</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Hauptgang</p>
-                
-                <p style="margin:15px 0 0 0; font-weight:400; font-size:1.05rem; color:var(--text);">Chicken Tikka Masala</p>
-                <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit Naan Brot</p>
-
-                <p style="margin:0; font-weight:400; font-size:1.05rem; color:var(--text);">Tagliatelle aus dem Parmesanlaib</p>
-                <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit verschiedenen Pesto und Ölen</p>
-
-                <p style="margin:0; font-weight:400; font-size:1.05rem; color:var(--text);">Surf & Turf - Rinderfilet und Garnelen</p>
-                <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit Hummersoße und pikantem Kartoffelgratin</p>
-
-                <p style="margin:0; font-weight:400; font-size:1.05rem; color:var(--text);">Hamburger</p>
-                <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">mit verschiedenen Toppings (auch vegan)</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Dessert</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">Fein abgestimmte Dessertvariationen als süßer Höhepunkt</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Mitternachtsbuffet</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">Ausgewählte herzhafte Spezialitäten zum Ausklang des Abends</p>
-
-                <p style="margin:25px 0 5px 0; font-size:clamp(2.5rem, 8vw, 3rem); color:var(--text); font-family: 'Brittany Signature', cursive;">Guten Appetit</p>
-            </div>
-
-            <div class="card" style="text-align: center;">
-                <h3 style="margin-bottom: 25px; font-size: clamp(2.5rem, 8vw, 3rem); color: var(--text); font-family: 'Brittany Signature', cursive;">Getränke</h3>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Aperitifs</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Prosecco Rosè, Lillet Wild Berry,<br>Aperol Spritz, Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Alkoholfrei</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Mineralwasser (prickelnd, medium, still)<br>Apfelschorle<br>Traubensaft, Orangensaft<br>Orangenlimo, Zitronenlimo<br>Cola-Mix<br>Coca-Cola, Coca-Cola Light</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Biere</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Radler<br>Urtyp Hell (auch Alkoholfrei)<br>Pilsener<br>Hefeweizen leicht<br>Hefeweizen Hell (auch Alkoholfrei)</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Weine</p>
-                
-                <p style="margin:8px 0 5px 0; font-weight:400; font-size:1.05rem; color:var(--text); text-transform: uppercase;">Rotwein</p>
-                <p style="margin:0 0 15px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Tardus - Primitivo Appassimento</p>
-
-                <p style="margin:0; font-weight:400; font-size:1.05rem; color:var(--text); text-transform: uppercase;">Weisswein</p>
-                <p style="margin:0 0 25px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Pfalz - Weingut Kirchner Weissburgunder</p>
-
-                <p style="margin:0; font-size:0.9rem; text-transform:uppercase; font-weight:700; letter-spacing: 1.5px; color:var(--accent);">Cocktails</p>
-                <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Findet ihr an der Bar</p>
-            </div>
-        </main>
-
-        <main id="fun" class="page">
-            <h1>Fun</h1>
-            
-            <div class="card" id="qCard">
-                <h3>Quiz</h3>
-                
-                <div id="qStartScreen">
-                    <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
-                    <input type="text" id="qNameInput" placeholder="Dein Vorname..." style="margin-bottom: 15px;">
-                    <button class="btn-action" onclick="window.startQuiz()">Jetzt Spielen</button>
-                    
-                    <div style="margin-top:30px;">
-                        <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Top 10 Highscore</h4>
-                        <div id="hsList" style="min-height: 100px;">Wird geladen...</div>
-                    </div>
-                </div>
-
-                <div id="qActiveScreen" style="display:none; margin-top: 20px;"></div>
-            </div>
-            
-            <div class="card">
-                <h3>Bingo</h3>
-                <div id="bGrid" style="margin-top: 20px;"></div>
-            </div>
-            
-           <div class="card">
-                <h3>Rubbellos</h3>
-                <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px;">
-                    <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
-                    <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
-                </div>
-            </div>
-        </main>
-
-        <main id="gal" class="page">
-            <h1>Galerie</h1>
-            <div class="card">
-                <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
-                
-                <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 10px; margin-top: 10px;">
-                    <button class="btn-action" style="pointer-events: none;">Foto auswählen</button>
-                    <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
-                </div>
-                
-                <div id="uploadProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
-                    <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
-                </div>
-                <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 400;"></p>
-                
-                <hr style="border:none; border-top:1px solid var(--border-glass); margin:25px 0 15px 0;">
-                
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3 style="margin:0;">Alle Bilder</h3>
-                    <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
-                </div>
-                
-                <div id="zipProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
-                    <div id="zipBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
-                </div>
-                <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 400; display:none;"></p>
-
-                <div id="photoGrid"></div>
-                <button id="loadMoreBtn" class="btn-action" style="margin-top:20px; display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
-            </div>
-        </main>
-
-        <main id="info" class="page">
-            <h1>Infos</h1>
-            <div class="card">
-                <h3>Gästebuch</h3>
-                <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; margin-top:10px; resize:none;"></textarea>
-                <button class="btn-action" style="margin-top:10px;" onclick="window.addWish()">Senden</button>
-                <div id="wList" style="margin-top:25px;"></div>
-            </div>
-            
-            <div class="card">
-                <h3>Location & WLAN</h3>
-                    <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
-                        <p style="margin:0 0 5px 0; font-size:0.85rem;">Adresse</p>
-                        <p id="infoLocation" style="margin:0; font-weight:500; font-size:1rem; color:var(--text);"></p>
-                    </div>
-                    
-                    <button class="btn-action" style="margin: 15px 0 25px 0;" onclick="window.openGoogleMaps()">
-                        In Google Maps öffnen
-                    </button>
-                
-                    <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
-                        <p style="margin:0 0 5px 0; font-size:0.85rem;">WLAN</p>
-                        <p id="infoWlan" style="margin:0; font-weight:500; font-size:1rem; color:var(--text);"></p>
-                    </div>
-                    
-                    <button class="btn-action" style="margin-top: 15px;" onclick="window.callTaxi()">
-                        Taxi rufen
-                    </button>
-            </div>
-        </main>
-
-        <main id="admin" class="page">
-            <div class="card" style="border:1px solid #ff3b30;">
-                <h3 style="color:#ff3b30;">Admin Konsole</h3>
-                <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
-                <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
-                <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Highscore, etc.) zu löschen!</p>
-                <button class="btn-action" style="margin-top:15px;" onclick="location.reload()">Admin-Modus beenden</button>
-            </div>
-        </main>
-    </div>
+    <div id="content-area"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, doc, setDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // SERVICE WORKER REGISTRIERUNG (Für Offline PWA - flüssiges Laden!)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Setup gescheitert:', err));
-            });
-        }
-
-        // SICHERHEITSFUNKTION (XSS-Schutz für Highscore & Gästebuch)
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
-
-        // EXAKT DEINE ORIGINAL-DATEN! NICHTS GEKÜRZT.
         const CONFIG = {
             adminPW: "1234",
             names: "Kathi & Stephan",
@@ -524,6 +310,7 @@
             apiKey: "AIzaSyBenRmxIC5g1dHGF1d6zqsRrjVJR5FsgqA",
             authDomain: "hochzeitkathiundstephan-d9c8f.firebaseapp.com",
             projectId: "hochzeitkathiundstephan-d9c8f",
+            storageBucket: "hochzeitkathiundstephan-d9c8f.appspot.com",
             appId: "1:72862147972:web:60e6c4cd27af8119f469d1"
         };
 
@@ -558,38 +345,22 @@
         };
 
         window.showLightbox = (url) => {
-            document.getElementById('lightbox-img').src = url;
-            document.getElementById('lightbox').classList.add('active');
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = url;
+            lb.classList.add('active');
         };
 
         window.closeLightbox = () => {
-            document.getElementById('lightbox').classList.remove('active');
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('active');
             setTimeout(() => document.getElementById('lightbox-img').src = "", 300);
         };
-
-        function populateStaticData() {
-            document.getElementById('homeName').innerText = CONFIG.names;
-            document.getElementById('mTxt').innerText = `"${CONFIG.missions[0]}"`;
-            document.getElementById('infoLocation').innerText = CONFIG.location;
-            document.getElementById('infoWlan').innerHTML = `Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}`;
-            
-            document.getElementById('scheduleContainer').innerHTML = CONFIG.schedule.map(s => 
-                `<div class="timeline-item schedule-item" data-time="${s.time}">
-                    <div class="timeline-time">${s.time}</div>
-                    <div class="timeline-event">${s.event}</div>
-                </div>`).join('');
-                
-            document.getElementById('storyContainer').innerHTML = CONFIG.story.map(s => 
-                `<div class="timeline-item">
-                    <div class="timeline-time">${s.y}</div>
-                    <div class="timeline-event">${s.t}</div>
-                </div>`).join('');
-        }
 
         function init() {
             document.getElementById('splashName').innerText = CONFIG.names;
             renderNav();
-            populateStaticData();
+            renderPages(); 
             if(db) setupGlobalFirebase(); 
             startCountdown();
             setupSearchDebounce(); 
@@ -603,9 +374,6 @@
             const html = document.getElementById('mainHtml');
             html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         };
-        
-        window.openGoogleMaps = () => window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank');
-        window.callTaxi = () => location.href='tel:' + CONFIG.taxi;
 
         function renderNav() {
             const tabs = [
@@ -616,10 +384,228 @@
                 {id:'gal', i:'📸', l:'Galerie'}, 
                 {id:'info', i:'ℹ️', l:'Info'}
             ];
+            
             document.getElementById('mainNav').innerHTML = tabs.map(t => `
                 <button onclick="window.showPage('${t.id}')" id="b-${t.id}"><span>${t.i}</span>${t.l}</button>
             `).join('');
-            document.getElementById('b-home').classList.add('active');
+        }
+
+        function renderPages() {
+            document.getElementById('content-area').innerHTML = `
+                <main id="home" class="page active">
+                    <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
+                    <div class="hero-subtitle">Wir heiraten</div>
+                    
+                    <div class="card">
+                        <h3>Countdown</h3>
+                        <div id="timer" class="timer-display"></div>
+                        <div class="progress-track">
+                            <div id="pBar"></div>
+                        </div>
+                        <p id="pText" style="text-align:center; font-size:0.85rem; margin-top:10px;"></p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Zeitplan</h3>
+                        <div class="timeline" id="scheduleContainer" style="margin-top: 20px;">
+                            ${CONFIG.schedule.map(s => `<div class="timeline-item schedule-item" data-time="${s.time}">
+                                <div class="timeline-time">${s.time}</div>
+                                <div class="timeline-event">${s.event}</div>
+                            </div>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="color: var(--text);">Foto-Mission</h3>
+                        <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
+                        <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Story</h3>
+                        <div class="timeline" style="margin-top: 20px;">
+                            ${CONFIG.story.map(s=>`<div class="timeline-item">
+                                <div class="timeline-time">${s.y}</div>
+                                <div class="timeline-event">${s.t}</div>
+                            </div>`).join('')}
+                        </div>
+                    </div>
+                </main>
+
+                <main id="guests" class="page">
+                    <h1>Dein Platz</h1>
+                    <div class="card">
+                        <input type="text" id="gSearch" placeholder="Vorname eingeben...">
+                        <div id="gRes" style="text-align:center; margin-top:20px; font-weight:400; font-size:1.1rem; line-height: 1.6;"></div>
+                    </div>
+                </main>
+
+                <main id="food" class="page">
+                    <h1>Essen & Trinken</h1>
+                    
+                    <div class="card" style="text-align: center;">
+                        <h3 style="margin-bottom: 25px; font-size: 1.6rem; font-weight: 400;">Menü</h3>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">VORSPEISENBUFFET</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">ERLESENE KOMPOSITIONEN AUS SAISONALEN UND INTERNATIONALEN SPEZIALITÄTEN</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">HAUPTGANG</p>
+                        
+                        <p style="margin:15px 0 0 0; font-weight:500; font-size:1rem; color:var(--text);">CHICKEN TIKKA MASALA</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT NAAN BROT</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">TAGLIATELLE AUS DEM PARMESANLAIB</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT VERSCHIEDENEN PESTO UND ÖLEN</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">SURF & TURF - RINDERFILET UND GARNELEN</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT HUMMERSOßE UND PIKANTEM KARTOFFELGRATIN</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">HAMBURGER</p>
+                        <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT VERSCHIEDENEN TOPPINGS (AUCH VEGAN)</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">DESSERT</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">FEIN ABGESTIMMTE DESSERTVARIATIONEN ALS SÜßER HÖHEPUNKT</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">MITTERNACHTSBUFFET</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">AUSGEWÄHLTE HERZHAFTE SPEZIALITÄTEN ZUM AUSKLANG DES ABENDS</p>
+
+                        <p style="margin:25px 0 5px 0; font-size:clamp(2.5rem, 8vw, 3rem); color:var(--text); font-family: 'Brittany Signature', cursive;">Guten Appetit</p>
+                    </div>
+
+                    <div class="card" style="text-align: center;">
+                        <h3 style="margin-bottom: 25px; font-size: clamp(2.5rem, 8vw, 3rem); color: var(--text); font-family: 'Brittany Signature', cursive;">Getränke</h3>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Aperitifs</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Prosecco Rosè, Lillet Wild Berry,<br>Aperol Spritz, Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Alkoholfrei</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Mineralwasser (prickelnd, medium, still)<br>Apfelschorle<br>Traubensaft, Orangensaft<br>Orangenlimo, Zitronenlimo<br>Cola-Mix<br>Coca-Cola, Coca-Cola Light</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Biere</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Radler<br>Urtyp Hell (auch Alkoholfrei)<br>Pilsener<br>Hefeweizen leicht<br>Hefeweizen Hell (auch Alkoholfrei)</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Weine</p>
+                        
+                        <p style="margin:8px 0 5px 0; font-weight:500; font-size:0.95rem; color:var(--text); text-transform: uppercase;">Rotwein</p>
+                        <p style="margin:0 0 15px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Tardus - Primitivo Appassimento</p>
+
+                        <p style="margin:0; font-weight:500; font-size:0.95rem; color:var(--text); text-transform: uppercase;">Weisswein</p>
+                        <p style="margin:0 0 25px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Pfalz - Weingut Kirchner Weissburgunder</p>
+
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Cocktails</p>
+                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Findet ihr an der Bar ab ca. 20:30 Uhr</p>
+                    </div>
+                </main>
+
+                <main id="fun" class="page">
+                    <h1>Fun</h1>
+                    
+                    <div class="card" id="qCard">
+                        <h3>Quiz</h3>
+                        
+                        <div id="qStartScreen">
+                            <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
+                            <input type="text" id="qNameInput" placeholder="Dein Vorname..." style="margin-bottom: 15px;">
+                            <button class="btn-action" onclick="window.startQuiz()">Jetzt Spielen</button>
+                            
+                            <div style="margin-top:30px;">
+                                <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Top 10 Highscore</h4>
+                                <div id="hsList" style="min-height: 100px;">Wird geladen...</div>
+                            </div>
+                        </div>
+
+                        <div id="qActiveScreen" style="display:none; margin-top: 20px;"></div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Bingo</h3>
+                        <div id="bGrid" style="margin-top: 20px;"></div>
+                    </div>
+                    
+                   <div class="card">
+                        <h3>Rubbellos</h3>
+                        <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top: 15px;">
+                            <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
+                            <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
+                        </div>
+                    </div>
+                </main>
+
+                <main id="gal" class="page">
+                    <h1>Galerie</h1>
+                    <div class="card">
+                        <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
+                        
+                        <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 10px; margin-top: 10px;">
+                            <button class="btn-action" style="pointer-events: none;">Foto auswählen</button>
+                            <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
+                        </div>
+                        
+                        <div id="uploadProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
+                            <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 400;"></p>
+                        
+                        <hr style="border:none; border-top:1px solid var(--border-glass); margin:25px 0 15px 0;">
+                        
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                            <h3 style="margin:0;">Alle Bilder</h3>
+                            <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
+                        </div>
+                        
+                        <div id="zipProgress" style="display: none; width: 100%; background: var(--border-glass); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
+                            <div id="zipBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 400; display:none;"></p>
+
+                        <div id="photoGrid"></div>
+                        <button id="loadMoreBtn" class="btn-action" style="margin-top:20px; display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
+                    </div>
+                </main>
+
+                <main id="info" class="page">
+                    <h1>Infos</h1>
+                    <div class="card">
+                        <h3>Gästebuch</h3>
+                        <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; margin-top:10px; resize:none;"></textarea>
+                        <button class="btn-action" style="margin-top:10px;" onclick="window.addWish()">Senden</button>
+                        <div id="wList" style="margin-top:25px;"></div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Location & WLAN</h3>
+                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
+                                <p style="margin:0 0 5px 0; font-size:0.85rem;">Adresse</p>
+                                <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">${CONFIG.location}</p>
+                            </div>
+                            
+                            <button class="btn-action" style="margin: 15px 0 25px 0;" 
+                                onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
+                                In Google Maps öffnen
+                            </button>
+                        
+                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
+                                <p style="margin:0 0 5px 0; font-size:0.85rem;">WLAN</p>
+                                <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
+                            </div>
+                            
+                            <button class="btn-action" style="margin-top: 15px;" onclick="location.href='tel:${CONFIG.taxi}'">
+                                Taxi rufen
+                            </button>
+                        </div>
+                </main>
+
+                <main id="admin" class="page">
+                    <div class="card" style="border:1px solid #ff3b30;">
+                        <h3 style="color:#ff3b30;">Admin Konsole</h3>
+                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
+                        <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
+                        <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
+                        <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Highscore, etc.) zu löschen!</p>
+                        <button class="btn-action" style="margin-top:15px;" onclick="location.reload()">Admin-Modus beenden</button>
+                    </div>
+                </main>
+            `;
         }
 
         function setupGlobalFirebase() {
@@ -627,7 +613,7 @@
                 const data = d.data();
                 const wrap = document.getElementById('ticker-wrap');
                 if(data?.active) {
-                    document.getElementById('ticker-content').innerText = "+++ " + escapeHTML(data.text) + " +++";
+                    document.getElementById('ticker-content').innerText = "+++ " + data.text + " +++";
                     wrap.style.display = 'block';
                 } else {
                     wrap.style.display = 'none';
@@ -644,7 +630,7 @@
                     const s = d.data();
                     html += `<div class="hs-item" style="align-items: center;">
                         <span class="hs-rank">${rank}.</span>
-                        <span class="hs-name">${escapeHTML(s.name)}</span>
+                        <span class="hs-name">${s.name}</span>
                         <span class="hs-score">${s.score} Pkt.</span>
                         <button class="btn-del" onclick="window.deleteEntry('highscores','${d.id}')">✕</button>
                     </div>`;
@@ -661,7 +647,7 @@
                 let html = "";
                 snap.forEach(d => {
                     html += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: var(--border-glass); position:relative;">
-                        <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${escapeHTML(d.data().msg)}</p>
+                        <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
                         <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
                 });
@@ -671,29 +657,39 @@
 
         function initGalleryListener() {
             if(photoUnsubscribe) photoUnsubscribe();
+            
             photoUnsubscribe = onSnapshot(query(collection(db, "photos"), orderBy("time", "desc"), limit(photoLimit)), (snap) => {
                 const grid = document.getElementById('photoGrid'); if(!grid) return;
                 let html = "";
+                
                 snap.forEach(d => {
                     const data = d.data();
                     const displayUrl = data.thumb || data.url;
                     html += `
                         <div class="photo-wrapper" onclick="window.showLightbox('${data.url}')">
                             <img src="${displayUrl}" loading="lazy">
+                            
                             <button onclick="event.stopPropagation(); window.downloadPhoto('${data.url}')" 
                                     style="position: absolute; bottom: 8px; right: 8px; background: var(--text); color: var(--bg); border: none; border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 16px; z-index: 10; display: flex; align-items: center; justify-content: center;">
                                 ↓
                             </button>
+                            
                             <button class="btn-del" onclick="event.stopPropagation(); window.deleteEntry('photos','${d.id}')">✕</button>
                          </div>`;
                 });
                 grid.innerHTML = html;
+
                 const btn = document.getElementById('loadMoreBtn');
-                if(btn) btn.style.display = snap.docs.length >= photoLimit ? 'block' : 'none';
+                if(btn) {
+                    btn.style.display = snap.docs.length >= photoLimit ? 'block' : 'none';
+                }
             });
         }
 
-        window.loadMorePhotos = () => { photoLimit += 6; initGalleryListener(); };
+        window.loadMorePhotos = () => {
+            photoLimit += 6; 
+            initGalleryListener();
+        };
 
         function setupSearchDebounce() {
             document.getElementById('gSearch').oninput = (e) => {
@@ -701,71 +697,26 @@
                 searchTimeout = setTimeout(() => {
                     const v = e.target.value.toLowerCase().trim();
                     const res = document.getElementById('gRes');
+                    
                     if(v.length < 2) { res.innerHTML = ""; return; } 
+
                     let matches = [];
                     CONFIG.seating.forEach(tisch => {
                         tisch.n.forEach(name => {
                             if(name.toLowerCase().includes(v)) {
-                                matches.push(`<span style="font-weight:500; font-size:1.4rem; color:var(--text);">${escapeHTML(name)}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Dein Platz:</span> <span style="color:var(--accent); font-weight:600;">${tisch.t}</span>`);
+                                matches.push(`<span style="font-weight:500; font-size:1.4rem; color:var(--text);">${name}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Dein Platz:</span> <span style="color:var(--accent); font-weight:600;">${tisch.t}</span>`);
                             }
                         });
                     });
-                    res.innerHTML = matches.length > 0 ? matches.join('<br><br><hr style="width:30px; margin:0 auto; border-color:var(--border-glass);"><br>') : "Nicht gefunden.";
+
+                    if(matches.length > 0) {
+                        res.innerHTML = matches.join('<br><br><hr style="width:30px; margin:0 auto; border-color:var(--border-glass);"><br>');
+                    } else {
+                        res.innerHTML = "Nicht gefunden.";
+                    }
                 }, 300); 
             };
         }
-
-        // ORIGINAL IMGBB UPLOAD! Kostenlos und unbegrenzt.
-        window.uploadPhoto = async (input) => {
-            if(!input.files || !input.files[0]) return;
-            let file = input.files[0];
-            
-            const progressContainer = document.getElementById('uploadProgress');
-            const progressBar = document.getElementById('uploadBar');
-            const progressText = document.getElementById('uploadText');
-
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '10%';
-            progressText.innerText = 'Vorbereiten...';
-
-            try {
-                if(window.imageCompression) {
-                    file = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1920 });
-                }
-
-                progressText.innerText = 'Hochladen (via ImgBB)...';
-                progressBar.style.width = '40%';
-
-                let formData = new FormData();
-                formData.append("image", file);
-
-                const response = await fetch("https://api.imgbb.com/1/upload?key=80d19d6d4d10e14c8d276c7d80c63b05&expiration=15552000", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if(result.success) {
-                    progressBar.style.width = '80%';
-                    progressText.innerText = 'Speichern in Datenbank...';
-
-                    await addDoc(collection(db, "photos"), { 
-                        url: result.data.url, 
-                        thumb: result.data.thumb.url,
-                        time: serverTimestamp() 
-                    });
-
-                    progressBar.style.width = '100%';
-                    progressText.innerText = 'Erfolgreich!';
-                    window.showToast("✅ Foto hochgeladen!");
-                    setTimeout(() => { progressContainer.style.display = 'none'; input.value = ""; }, 2000);
-                }
-            } catch (error) {
-                window.showToast("Fehler beim Hochladen.");
-                progressContainer.style.display = 'none';
-            }
-        };
 
         window.downloadAllPhotos = async () => {
             if(!confirm("Möchtest du wirklich alle Fotos als ZIP-Datei herunterladen? Bei sehr vielen Bildern kann das einen Moment dauern.")) return;
@@ -784,7 +735,9 @@
                 const querySnapshot = await getDocs(q);
                 
                 const urls = [];
-                querySnapshot.forEach((doc) => urls.push(doc.data().url));
+                querySnapshot.forEach((doc) => {
+                    urls.push(doc.data().url);
+                });
 
                 if(urls.length === 0) {
                     window.showToast("Es gibt noch keine Fotos zum Herunterladen.");
@@ -836,7 +789,9 @@
 
         window.nextMission = () => {
             let nextIdx = lastMissionIdx;
-            while(nextIdx === lastMissionIdx) { nextIdx = Math.floor(Math.random() * CONFIG.missions.length); }
+            while(nextIdx === lastMissionIdx) {
+                nextIdx = Math.floor(Math.random() * CONFIG.missions.length);
+            }
             lastMissionIdx = nextIdx;
             
             const txt = document.getElementById('mTxt');
@@ -883,7 +838,7 @@
             }
             
             let optionsHtml = q.o.map((opt, idx) => 
-                `<button class="btn-action" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${escapeHTML(opt)}</button>`
+                `<button class="btn-action" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${opt}</button>`
             ).join('');
             
             qc.innerHTML = `
@@ -891,13 +846,15 @@
                     <span>Frage ${window.qStep + 1} / ${CONFIG.quiz.length}</span>
                     <span style="font-weight:600; color:var(--accent);">${window.qScore} Pkt</span>
                 </div>
-                <p style="text-align:left; margin: 0 0 25px 0; font-size: 1.25rem; font-weight: 500; color:var(--text); line-height:1.4;">${escapeHTML(q.q)}</p>
+                <p style="text-align:left; margin: 0 0 25px 0; font-size: 1.25rem; font-weight: 500; color:var(--text); line-height:1.4;">${q.q}</p>
                 ${optionsHtml}
             `;
         };
 
         window.answerQ = (selectedIndex) => {
-            if(selectedIndex === CONFIG.quiz[window.qStep].a) window.qScore++;
+            if(selectedIndex === CONFIG.quiz[window.qStep].a) {
+                window.qScore++;
+            }
             window.qStep++;
             window.runQuiz();
         };
@@ -935,6 +892,57 @@
             } catch (e) { window.open(url, '_blank'); }
         };
 
+        window.uploadPhoto = async (input) => {
+            if(!input.files || !input.files[0]) return;
+            let file = input.files[0];
+            
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadBar');
+            const progressText = document.getElementById('uploadText');
+
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '10%';
+            progressText.innerText = 'Vorbereiten...';
+
+            try {
+                if(window.imageCompression) {
+                    file = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1920 });
+                }
+
+                progressText.innerText = 'Hochladen...';
+                progressBar.style.width = '40%';
+
+                let formData = new FormData();
+                formData.append("image", file);
+
+                const response = await fetch("https://api.imgbb.com/1/upload?key=80d19d6d4d10e14c8d276c7d80c63b05&expiration=15552000", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if(result.success) {
+                    progressBar.style.width = '80%';
+                    progressText.innerText = 'Speichern...';
+
+                    await addDoc(collection(db, "photos"), { 
+                        url: result.data.url, 
+                        thumb: result.data.thumb.url,
+                        time: serverTimestamp() 
+                    });
+
+                    progressBar.style.width = '100%';
+                    progressText.innerText = 'Erfolgreich!';
+                    window.showToast("✅ Foto hochgeladen!");
+                    setTimeout(() => { progressContainer.style.display = 'none'; input.value = ""; }, 2000);
+                }
+            } catch (error) {
+                window.showToast("Fehler beim Hochladen.");
+                progressContainer.style.display = 'none';
+            }
+        };
+
         window.addWish = async () => {
             const i = document.getElementById('wIn');
             if(!i.value) return;
@@ -965,9 +973,10 @@
             if(id === 'gal') {
                 if(!galLoaded && db) { initGalleryListener(); galLoaded = true; }
             }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
-        
+
         window.adminTrigger = () => {
             adminClicks++;
             if(adminClicks >= 5) {
@@ -978,7 +987,7 @@
                     if(prompt("Passcode:") === CONFIG.adminPW) { 
                         document.body.classList.add('admin-mode');
                         window.showPage('admin'); 
-                        window.showToast("✅ Admin-Modus aktiv!");
+                        window.showToast("✅ Admin-Modus aktiv! Lösch-Buttons sichtbar.");
                     }
                 }
             }
@@ -993,8 +1002,13 @@
                 const s = Math.floor((diff / 1000) % 60);
                 
                 const pad = (num) => String(num).padStart(2, '0');
+                
                 const t = document.getElementById('timer');
-                if (t) t.innerText = diff > 0 ? `${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}` : "00:00:00:00";
+                if (t) {
+                    t.innerText = diff > 0 
+                        ? `${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}` 
+                        : "00:00:00:00";
+                }
                 
                 const now = new Date();
                 const start = new Date(CONFIG.date);
@@ -1012,14 +1026,16 @@
                 const sItems = document.querySelectorAll('.schedule-item');
                 sItems.forEach((item, index) => {
                     const [sh, sm] = item.dataset.time.split(':').map(Number);
-                    if (sh < prevH) dayOffset = 1; 
+                    if (sh < prevH) dayOffset = 1; // Mitternacht überschritten
                     prevH = sh;
                     
                     const sDate = new Date(CONFIG.date);
                     sDate.setDate(sDate.getDate() + dayOffset);
                     sDate.setHours(sh, sm, 0, 0);
                     
-                    if (now >= sDate) activeIdx = index;
+                    if (now >= sDate) {
+                        activeIdx = index;
+                    }
                 });
                 
                 sItems.forEach((i, idx) => {
@@ -1047,6 +1063,7 @@
             
             if (canvas && container.offsetWidth > 0 && !canvas.isInitialized) {
                 const ctx = canvas.getContext('2d');
+                
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
@@ -1083,15 +1100,7 @@
             }
         }
 
-        // Startet die App sofort sicher, egal wie schnell der Browser ist
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            init();
-        } else {
-            window.addEventListener('DOMContentLoaded', init);
-        }
-    </script>
-</body>
-</html>
+        window.onload = init;
     </script>
 </body>
 </html>

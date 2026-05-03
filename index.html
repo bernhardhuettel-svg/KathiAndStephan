@@ -86,7 +86,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0px;
-            /* Genug Platz nach unten, aber als eigene Ebene (z-index) isoliert */
             padding: 20px 20px 25px 20px; 
             white-space: nowrap; 
             position: relative;
@@ -96,17 +95,15 @@
         /* --- DEKO-HERZ STYLING --- */
         .deco-heart {
             display: block;
-            /* Echter Abstand nach oben, damit es nicht in die Überschrift ragt */
-            margin: 5px auto 30px auto; 
-            width: 28px; /* Minimal vergrößert für bessere Sichtbarkeit */
+            margin: 15px auto 35px auto; 
+            width: 28px;
+            /* FESTE HÖHE LÖST DAS ABSCHNEIDE-PROBLEM: */
+            height: 28px; 
+            object-fit: contain;
             mix-blend-mode: multiply; 
             opacity: 0.85;
-            
-            /* Anti-Abschneide-Tricks für Safari/Mobile */
             position: relative;
             z-index: 10;
-            transform: translateZ(0); 
-            overflow: visible;
         }
         [data-theme="dark"] .deco-heart {
             filter: invert(1); 
@@ -244,7 +241,7 @@
 
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
-        <img src="image_2.JPG" alt="Herz" class="deco-heart" style="margin-bottom: 40px;">
+        <img src="image_2.JPG" alt="Herz" class="deco-heart">
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
@@ -524,9 +521,29 @@
 
                         <p style="margin:0; font-weight:500; font-size:0.95rem; color:var(--text); text-transform: uppercase;">Weisswein</p>
                         <p style="margin:0 0 25px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Pfalz - Weingut Kirchner Weissburgunder</p>
+                    </div>
 
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Cocktails</p>
-                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Findet ihr an der Bar ab ca. 20:30 Uhr</p>
+                    <!-- NEUE COCKTAILKARTE -->
+                    <div class="card" style="text-align: center;">
+                        <h3 style="margin-bottom: 25px; font-size: clamp(2.5rem, 8vw, 3rem); color: var(--text); font-family: 'Brittany Signature', cursive;">Cocktails</h3>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">FLAVORED MOJITO</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, LIMEJUICE, LIMETTE, BRAUNER ZUCKER, WATER, ERDBEER, MINZE</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">MAITAI</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, ANANAS, ORANGE, MANDEL, LIMEJUICE</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">SEX ON THE BEACH</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">WODKA, ORANGE, PFIRSICH, ZITRONE, GRENADINE</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">CUBA LIBRE</p>
+                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">HAVANA, COCACOLA, LIMETTE</p>
+
+                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">PARADIESVOGEL <span style="font-size:0.8rem; font-weight:400;">(ALKOHOLFREI)</span></p>
+                        <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">ANANAS, ORANGE, MARACUJA, ZITRONE, GRENADINE</p>
+                        
+                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Cheers!</p>
+                        <p style="margin:8px 0 5px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Geöffnet ab ca. 20:30 Uhr</p>
                     </div>
                 </main>
 

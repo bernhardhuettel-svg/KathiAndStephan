@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wedding-app-v2';
+const CACHE_NAME = 'wedding-app-v3'; // Ein letztes Mal erhöht, um den alten Cache zu sprengen
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,26 +9,37 @@ const ASSETS_TO_CACHE = [
   'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js'
 ];
 
-// Installieren und Cachen
+// Installieren und Basis-Assets cachen
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(ASSETS_TO_CACHE))
   );
+  self.skipWaiting(); // Zwingt den neuen Service Worker, sofort aktiv zu werden
 });
 
-// Anfragen abfangen (Cache First, dann Netzwerk)
+// Anfragen abfangen: NETWORK FIRST Strategie
 self.addEventListener('fetch', event => {
-  // Firebase Firestore/Storage Anfragen NICHT cachen (das macht Firebase intern)
-  if (event.request.url.includes('firestore.googleapis.com') || event.request.url.includes('firebasestorage.googleapis.com')) {
+  // Firebase-Datenbank/Storage-Anfragen NICHT cachen (das macht Firebase intern)
+  if (event.request.url.includes('firestore.googleapis.com') || event.request.url.includes('api.imgbb.com')) {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        if (response) return response; // Aus dem Cache laden
-        return fetch(event.request); // Sonst aus dem Internet laden
+        // Wir haben eine frische Antwort aus dem Netz! 
+        // Wir geben sie zurück und aktualisieren gleichzeitig den Offline-Cache damit.
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Wir sind offline oder haben mieses Netz (fetch schlägt fehl). 
+        // Also greifen wir auf den gespeicherten Cache zurück.
+        return caches.match(event.request);
       })
   );
 });
@@ -42,4 +53,5 @@ self.addEventListener('activate', event => {
       }));
     })
   );
+  self.clients.claim(); // Übernimmt sofort die Kontrolle über alle offenen Tabs
 });

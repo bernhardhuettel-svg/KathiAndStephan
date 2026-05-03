@@ -66,10 +66,10 @@
 
         h1, h2, h3, h4 { margin: 0; padding: 0; letter-spacing: -0.02em; }
         
-        /* NUR h1 bekommt die Schwungschrift (Kathi & Stephan, Menü, Galerie etc. ganz oben) */
+        /* h1: Hauptseiten-Titel in Schwungschrift */
         h1 { 
             font-family: 'Brittany Signature', cursive;
-            font-size: clamp(2rem, 10vw, 4rem); 
+            font-size: clamp(2.5rem, 10vw, 4rem); 
             font-weight: normal;
             line-height: 1.4; 
             text-align: center; 
@@ -83,16 +83,16 @@
             z-index: 1;
         }
 
-        /* --- DEKO-HERZ: KOMPLETT BEREINIGT --- */
+        /* --- DEKO-HERZ: EXTREMER RAHMEN-SCHUTZ --- */
         .deco-heart {
             display: block;
             width: 32px;
-            margin: 5px auto 30px auto;
-            /* Rahmen künstlich vergrößern, damit der Browser nichts abschneidet */
-            padding: 10px; 
+            /* Großer negativer Margin, um das extreme Padding wieder auszugleichen */
+            margin: -15px auto 10px auto; 
+            /* RIESIGES Padding, das das Abschneiden durch Safari unmöglich macht */
+            padding: 25px; 
             box-sizing: content-box;
             opacity: 0.85;
-            /* Alle wilden Filter/Hacks entfernt, da dein Bild transparent ist! */
         }
 
         [data-theme="dark"] .deco-heart {
@@ -100,12 +100,23 @@
             opacity: 0.85;
         }
         
-        /* Alle anderen Überschriften sauber in Montserrat Blockschrift */
+        /* Standard-Überschriften in Blockschrift (Montserrat) */
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }
-        h3 { font-size: 1.2rem; font-weight: 500; color: var(--text); margin-bottom: 12px; }
+        h3 { font-size: 1.6rem; font-weight: 500; color: var(--text); margin-bottom: 20px; text-align: center; }
         h4 { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.6; font-size: 1rem; font-weight: 300; color: var(--text-muted); margin: 0 0 15px 0; }
         
+        /* Die CSS-Klasse für die Menü-Inhalte, die auch Schwungschrift haben sollen */
+        .cursive-text {
+            font-family: 'Brittany Signature', cursive !important;
+            font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
+            font-weight: normal !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            color: var(--text) !important;
+            line-height: 1.2;
+        }
+
         .hero-subtitle { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 40px; }
 
         .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; display: none; }
@@ -419,7 +430,7 @@
                     <div class="hero-subtitle">Wir heiraten</div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Countdown</h3>
+                        <h3>Countdown</h3>
                         <div id="timer" class="timer-display"></div>
                         <div class="progress-track">
                             <div id="pBar"></div>
@@ -428,7 +439,7 @@
                     </div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Zeitplan</h3>
+                        <h3>Zeitplan</h3>
                         <div class="timeline" id="scheduleContainer">
                             ${CONFIG.schedule.map(s => `<div class="timeline-item schedule-item" data-time="${s.time}">
                                 <div class="timeline-time">${s.time}</div>
@@ -438,13 +449,13 @@
                     </div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Foto-Mission</h3>
+                        <h3>Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
                         <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Story</h3>
+                        <h3>Story</h3>
                         <div class="timeline">
                             ${CONFIG.story.map(s=>`<div class="timeline-item">
                                 <div class="timeline-time">${s.y}</div>
@@ -471,7 +482,7 @@
                     <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" style="text-align: center;">
-                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Menü</h3>
+                        <h3 class="cursive-text" style="margin-bottom: 25px;">Menü</h3>
 
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">VORSPEISENBUFFET</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">ERLESENE KOMPOSITIONEN AUS SAISONALEN UND INTERNATIONALEN SPEZIALITÄTEN</p>
@@ -496,11 +507,11 @@
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">MITTERNACHTSBUFFET</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">AUSGEWÄHLTE HERZHAFTE SPEZIALITÄTEN ZUM AUSKLANG DES ABENDS</p>
 
-                        <p style="margin:25px 0 5px 0; font-size:1.2rem; font-weight: 500; color:var(--accent); text-transform: uppercase; letter-spacing: 2px;">Guten Appetit</p>
+                        <p class="cursive-text" style="margin:25px 0 5px 0;">Guten Appetit</p>
                     </div>
 
                     <div class="card" style="text-align: center;">
-                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Getränke</h3>
+                        <h3 class="cursive-text" style="margin-bottom: 25px;">Getränke</h3>
 
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Aperitifs</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Prosecco Rosè, Lillet Wild Berry,<br>Aperol Spritz, Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
@@ -521,7 +532,7 @@
                     </div>
 
                     <div class="card" style="text-align: center;">
-                        <h3 style="text-align: center; font-size: 1.8rem; font-weight: 500; margin-bottom: 25px;">Cocktails</h3>
+                        <h3 class="cursive-text" style="margin-bottom: 25px;">Cocktails</h3>
 
                         <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">FLAVORED MOJITO</p>
                         <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, LIMEJUICE, LIMETTE, BRAUNER ZUCKER, WATER, ERDBEER, MINZE</p>
@@ -549,7 +560,7 @@
                     <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card" id="qCard">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Quiz</h3>
+                        <h3>Quiz</h3>
                         
                         <div id="qStartScreen">
                             <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
@@ -566,12 +577,12 @@
                     </div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Bingo</h3>
+                        <h3>Bingo</h3>
                         <div id="bGrid"></div>
                     </div>
                     
                    <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Rubbellos</h3>
+                        <h3>Rubbellos</h3>
                         <div id="scratch-container" style="position:relative; background:var(--border-glass); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
                             <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
                             <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
@@ -599,7 +610,7 @@
                         
                         <hr style="border:none; border-top:1px solid var(--border-glass); margin:25px 0 25px 0;">
                         
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Alle Bilder</h3>
+                        <h3>Alle Bilder</h3>
                         <div style="display:flex; justify-content:center; margin-bottom:15px;">
                             <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
                         </div>
@@ -620,14 +631,14 @@
                     <img src="image_2.JPG" alt="Herz" class="deco-heart">
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Gästebuch</h3>
+                        <h3>Gästebuch</h3>
                         <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; resize:none;"></textarea>
                         <button class="btn-action" style="margin-top:10px;" onclick="window.addWish()">Senden</button>
                         <div id="wList" style="margin-top:25px;"></div>
                     </div>
                     
                     <div class="card">
-                        <h3 style="text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Location & WLAN</h3>
+                        <h3>Location & WLAN</h3>
                             <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
                                 <p style="margin:0 0 5px 0; font-size:0.85rem;">Adresse</p>
                                 <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">${CONFIG.location}</p>
@@ -651,7 +662,7 @@
 
                 <main id="admin" class="page">
                     <div class="card" style="border:1px solid #ff3b30;">
-                        <h3 style="color:#ff3b30; text-align: center; font-size: 1.6rem; font-weight: 500; margin-bottom: 20px;">Admin Konsole</h3>
+                        <h3 style="color:#ff3b30;">Admin Konsole</h3>
                         <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
                         <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>

@@ -24,27 +24,28 @@
             font-style: normal;
         }
 
-        /* --- APPLE PRO DESIGN SYSTEM (EUKALYPTUS EDITION) --- */
+        /* --- DESIGN SYSTEM: WEISSER HINTERGRUND & MILCHGLAS --- */
         :root { 
-            --bg: #FFFFFF; 
+            --bg: #FFFFFF; /* Reines Weiß als Grundfarbe */
             --accent: #4A6B5B; 
-            --accent-glow: #8EAB9D;
-            --surface: rgba(182, 215, 192, 0.55); 
+            --surface: rgba(255, 255, 255, 0.65); /* Halbdurchsichtiges Weiß für den echten Glas-Effekt */
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(182, 215, 192, 0.8);
+            --border-glass: rgba(255, 255, 255, 0.9); /* Weiße Glaskanten */
             --nav-bg: rgba(255, 255, 255, 0.85);
-            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.25) 0%, transparent 60%);
+            /* Ein extrem sanfter Hauch von Eukalyptus im Hintergrund, damit das Glas sichtbar verschwimmen kann */
+            --aura: radial-gradient(circle at 0% 0%, rgba(182, 215, 192, 0.15) 0%, transparent 50%), 
+                    radial-gradient(circle at 100% 100%, rgba(182, 215, 192, 0.1) 0%, transparent 50%);
         }
         
         [data-theme="dark"] { 
             --bg: #152019; 
-            --surface: rgba(182, 215, 192, 0.15); 
+            --surface: rgba(255, 255, 255, 0.05); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
-            --border-glass: rgba(182, 215, 192, 0.25);
+            --border-glass: rgba(255, 255, 255, 0.1);
             --nav-bg: rgba(21, 32, 25, 0.85);
-            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.1) 0%, transparent 70%);
+            --aura: none;
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -81,23 +82,6 @@
             white-space: nowrap; 
             position: relative;
             z-index: 1;
-        }
-
-        /* --- DEKO-HERZ: EXTREMER RAHMEN-SCHUTZ --- */
-        .deco-heart {
-            display: block;
-            width: 32px;
-            /* Großer negativer Margin, um das extreme Padding wieder auszugleichen */
-            margin: -15px auto 10px auto; 
-            /* RIESIGES Padding, das das Abschneiden durch Safari unmöglich macht */
-            padding: 25px; 
-            box-sizing: content-box;
-            opacity: 0.85;
-        }
-
-        [data-theme="dark"] .deco-heart {
-            filter: invert(1);
-            opacity: 0.85;
         }
         
         /* Standard-Überschriften in Blockschrift (Montserrat) */
@@ -143,9 +127,17 @@
         @keyframes blurIn { from { opacity: 0; filter: blur(10px); transform: translateY(10px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
         
         .card { 
-            background: var(--surface); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-glass); position: relative; overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); 
+            background: var(--surface); 
+            backdrop-filter: blur(25px) saturate(180%); 
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 24px; 
+            padding: 24px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--border-glass); 
+            position: relative; 
+            overflow: hidden;
+            /* Ein schöner, weicher Schatten, der die Karte plastisch macht */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
         }
 
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
@@ -243,7 +235,10 @@
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
         
-        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+        <!-- SAFARI HERZ-FIX: Einfacher Container, pures Bild -->
+        <div style="text-align: center; margin: 10px 0 35px 0;">
+            <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+        </div>
 
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
@@ -425,7 +420,9 @@
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="hero-subtitle">Wir heiraten</div>
                     
@@ -468,7 +465,9 @@
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
@@ -479,7 +478,9 @@
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="card" style="text-align: center;">
                         <h3 class="cursive-text" style="margin-bottom: 25px;">Menü</h3>
@@ -549,7 +550,7 @@
                         <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">PARADIESVOGEL <span style="font-size:0.8rem; font-weight:400;">(ALKOHOLFREI)</span></p>
                         <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">ANANAS, ORANGE, MARACUJA, ZITRONE, GRENADINE</p>
                         
-                        <p style="margin:0; font-size:1.2rem; font-weight: 500; color:var(--accent); text-transform: uppercase; letter-spacing: 2px;">Cheers!</p>
+                        <p class="cursive-text" style="margin:25px 0 5px 0;">Cheers!</p>
                         <p style="margin:8px 0 5px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Geöffnet ab ca. 20:30 Uhr</p>
                     </div>
                 </main>
@@ -557,7 +558,9 @@
                 <main id="fun" class="page">
                     <h1>Fun</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="card" id="qCard">
                         <h3>Quiz</h3>
@@ -593,7 +596,9 @@
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="card">
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
@@ -628,7 +633,9 @@
                 <main id="info" class="page">
                     <h1>Infos</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <div style="text-align: center; margin: 10px 0 35px 0;">
+                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    </div>
                     
                     <div class="card">
                         <h3>Gästebuch</h3>

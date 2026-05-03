@@ -24,26 +24,25 @@
             font-style: normal;
         }
 
-        /* --- REINES WEISS & KLARES DESIGN --- */
+        /* --- REINES WEISS & EUKALYPTUS GLAS --- */
         :root { 
-            --bg: #FFFFFF; /* Reines Weiß, wie gewünscht */
+            --bg: #FFFFFF; /* Absolut reines Weiß für den Hintergrund */
             --accent: #4A6B5B; 
-            --surface: rgba(255, 255, 255, 0.7); 
+            --surface: rgba(182, 215, 192, 0.55); /* Das Eukalyptus-Grün als halbtransparente Kachel */
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(0, 0, 0, 0.06); /* Zarter grauer Rahmen für Kontrast auf Weiß */
+            --border-glass: rgba(182, 215, 192, 0.8);
             --nav-bg: rgba(255, 255, 255, 0.9);
-            --aura: radial-gradient(circle at 50% 0%, rgba(182, 215, 192, 0.15) 0%, transparent 60%);
+            --aura: none; /* Keine Verläufe im Hintergrund mehr */
         }
         
         [data-theme="dark"] { 
             --bg: #152019; 
-            --surface: rgba(255, 255, 255, 0.05); 
+            --surface: rgba(182, 215, 192, 0.15); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
-            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glass: rgba(182, 215, 192, 0.25);
             --nav-bg: rgba(21, 32, 25, 0.85);
-            --aura: none;
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -75,14 +74,14 @@
             background: linear-gradient(180deg, var(--text) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0px;
-            padding: 20px 20px 25px 20px; 
+            margin-bottom: 0px; 
+            padding: 20px 20px 0px 20px; 
             white-space: nowrap; 
             position: relative;
             z-index: 1;
         }
 
-        /* --- DEKO-HERZ: SIMPEL & ABSCHNEIDE-SICHER --- */
+        /* --- DEKO-HERZ: SIMPEL & ABSCHNEIDE-SICHER (PNG Version) --- */
         .deco-heart {
             display: block;
             width: 32px;
@@ -141,15 +140,15 @@
         
         .card { 
             background: var(--surface); 
-            backdrop-filter: blur(20px) saturate(180%); 
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(25px) saturate(180%); 
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             border-radius: 24px; 
             padding: 24px; 
             margin-bottom: 20px; 
             border: 1px solid var(--border-glass); 
             position: relative; 
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* Zarter Schatten für den weißen Hintergrund */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
         }
 
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
@@ -197,7 +196,7 @@
         #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
         
         #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .bingo-cell { aspect-ratio: 1; background: rgba(255, 255, 255, 0.8); border: 1px solid var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 400; transition: all 0.2s; color: var(--text); }
+        .bingo-cell { aspect-ratio: 1; background: rgba(255, 255, 255, 0.5); border: 1px solid var(--border-glass); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.85rem; padding: 5px; cursor: pointer; font-weight: 400; transition: all 0.2s; color: var(--text); }
         [data-theme="dark"] .bingo-cell { background: rgba(255, 255, 255, 0.05); border-color: rgba(255,255,255,0.1); }
 
         #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
@@ -247,9 +246,9 @@
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
         
-        <img src="image_2.JPG" alt="Herz" class="deco-heart">
-
-        <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
+        <img src="image_2.png" alt="Herz" class="deco-heart">
+        
+        <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden; margin-top: 10px;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
     </div>
@@ -429,7 +428,7 @@
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="hero-subtitle">Wir heiraten</div>
                     
@@ -472,7 +471,7 @@
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
@@ -483,7 +482,7 @@
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card" style="text-align: center;">
                         <h3 class="cursive-text" style="margin-bottom: 25px;">Menü</h3>
@@ -561,7 +560,7 @@
                 <main id="fun" class="page">
                     <h1>Fun</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card" id="qCard">
                         <h3>Quiz</h3>
@@ -597,7 +596,7 @@
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
@@ -632,7 +631,7 @@
                 <main id="info" class="page">
                     <h1>Infos</h1>
                     
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card">
                         <h3>Gästebuch</h3>

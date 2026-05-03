@@ -1083,7 +1083,15 @@
             }
         }
 
-        window.onload = init;
+        // Startet die App sofort sicher, egal wie schnell der Browser ist
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            init();
+        } else {
+            window.addEventListener('DOMContentLoaded', init);
+        }
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>

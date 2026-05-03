@@ -1,0 +1,17 @@
+{
+  "name": "Kathi & Stephan Wedding",
+  "short_name": "Wedding",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#B6D7C0",
+  "theme_color": "#4A6B5B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

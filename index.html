@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -93,18 +93,29 @@
         }
 
         /* --- DEKO-HERZ STYLING --- */
-        .deco-heart {
-            display: block;
-            margin: 15px auto 35px auto; 
-            width: 28px;
-            /* FESTE HÖHE LÖST DAS ABSCHNEIDE-PROBLEM: */
-            height: 28px; 
-            object-fit: contain;
-            mix-blend-mode: multiply; 
-            opacity: 0.85;
+        .heart-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 5px 0 30px 0;
             position: relative;
             z-index: 10;
+            transform: translateZ(0);
+            overflow: visible !important;
         }
+
+        .deco-heart {
+            width: 32px; 
+            height: auto;
+            /* Polsterung nach unten: Sichert die Spitze vor dem Browser-Abschneiden! */
+            padding: 4px; 
+            box-sizing: content-box;
+            mix-blend-mode: multiply; 
+            opacity: 0.85;
+            display: block;
+        }
+
         [data-theme="dark"] .deco-heart {
             filter: invert(1); 
             mix-blend-mode: screen; 
@@ -183,11 +194,12 @@
         body.admin-mode .btn-del { display: flex; }
         .hs-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
+        /* Timeline einheitlich gefärbt */
         .timeline { display: flex; flex-direction: column; gap: 15px; }
         .timeline-item { display: flex; align-items: flex-start; gap: 15px; }
         .timeline-time { font-weight: 500; font-variant-numeric: tabular-nums; min-width: 50px; color: var(--text); }
-        .timeline-event { color: var(--text-muted); font-weight: 300; }
-        .active-schedule .timeline-time, .active-schedule .timeline-event { color: var(--accent); font-weight: 500; }
+        .timeline-event { color: var(--text); font-weight: 400; } /* Komplett einheitliche Farbe */
+        .active-schedule .timeline-time, .active-schedule .timeline-event { color: var(--accent); font-weight: 600; }
 
         #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
         
@@ -241,7 +253,11 @@
 
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
-        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+        
+        <div class="heart-wrap" style="margin-bottom: 40px;">
+            <img src="image_2.JPG" alt="Herz" class="deco-heart">
+        </div>
+
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
             <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
         </div>
@@ -421,7 +437,11 @@
             document.getElementById('content-area').innerHTML = `
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
+                    
                     <div class="hero-subtitle">Wir heiraten</div>
                     
                     <div class="card">
@@ -444,7 +464,7 @@
                     </div>
                     
                     <div class="card">
-                        <h3 style="color: var(--text);">Foto-Mission</h3>
+                        <h3>Foto-Mission</h3>
                         <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
                         <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
                     </div>
@@ -462,7 +482,11 @@
 
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
+                    
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
                         <div id="gRes" style="text-align:center; margin-top:20px; font-weight:400; font-size:1.1rem; line-height: 1.6;"></div>
@@ -471,10 +495,13 @@
 
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
                     
                     <div class="card" style="text-align: center;">
-                        <h3 style="margin-bottom: 25px; font-size: 1.6rem; font-weight: 400;">Menü</h3>
+                        <h3 style="margin-bottom: 25px; font-size: clamp(2.5rem, 8vw, 3rem); color: var(--text); font-family: 'Brittany Signature', cursive;">Menü</h3>
 
                         <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">VORSPEISENBUFFET</p>
                         <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5;">ERLESENE KOMPOSITIONEN AUS SAISONALEN UND INTERNATIONALEN SPEZIALITÄTEN</p>
@@ -523,7 +550,6 @@
                         <p style="margin:0 0 25px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Pfalz - Weingut Kirchner Weissburgunder</p>
                     </div>
 
-                    <!-- NEUE COCKTAILKARTE -->
                     <div class="card" style="text-align: center;">
                         <h3 style="margin-bottom: 25px; font-size: clamp(2.5rem, 8vw, 3rem); color: var(--text); font-family: 'Brittany Signature', cursive;">Cocktails</h3>
 
@@ -549,7 +575,10 @@
 
                 <main id="fun" class="page">
                     <h1>Fun</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
                     
                     <div class="card" id="qCard">
                         <h3>Quiz</h3>
@@ -584,7 +613,11 @@
 
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
+                    
                     <div class="card">
                         <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
                         
@@ -617,7 +650,11 @@
 
                 <main id="info" class="page">
                     <h1>Infos</h1>
-                    <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    
+                    <div class="heart-wrap">
+                        <img src="image_2.JPG" alt="Herz" class="deco-heart">
+                    </div>
+                    
                     <div class="card">
                         <h3>Gästebuch</h3>
                         <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; margin-top:10px; resize:none;"></textarea>

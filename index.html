@@ -24,28 +24,30 @@
             font-style: normal;
         }
 
-        /* --- DESIGN SYSTEM: WEISSER HINTERGRUND & MILCHGLAS --- */
+        /* --- DESIGN SYSTEM: ECHTER GLAS-EFFEKT --- */
         :root { 
-            --bg: #FFFFFF; /* Reines Weiß als Grundfarbe */
+            /* Sehr weiches Off-White/Eukalyptus, damit sich die weißen Glas-Karten abheben */
+            --bg: #F3F6F4; 
             --accent: #4A6B5B; 
-            --surface: rgba(255, 255, 255, 0.65); /* Halbdurchsichtiges Weiß für den echten Glas-Effekt */
+            /* Echtes, halbdurchsichtiges Milchglas für die Karten */
+            --surface: rgba(255, 255, 255, 0.45); 
             --text: #1C2B24; 
             --text-muted: #526B5D;
-            --border-glass: rgba(255, 255, 255, 0.9); /* Weiße Glaskanten */
+            --border-glass: rgba(255, 255, 255, 0.8);
             --nav-bg: rgba(255, 255, 255, 0.85);
-            /* Ein extrem sanfter Hauch von Eukalyptus im Hintergrund, damit das Glas sichtbar verschwimmen kann */
-            --aura: radial-gradient(circle at 0% 0%, rgba(182, 215, 192, 0.15) 0%, transparent 50%), 
-                    radial-gradient(circle at 100% 100%, rgba(182, 215, 192, 0.1) 0%, transparent 50%);
+            /* Sichtbarere, aber elegante Aura im Hintergrund für Tiefe */
+            --aura: radial-gradient(circle at 10% 10%, rgba(182, 215, 192, 0.25) 0%, transparent 60%),
+                    radial-gradient(circle at 90% 90%, rgba(182, 215, 192, 0.2) 0%, transparent 50%);
         }
         
         [data-theme="dark"] { 
             --bg: #152019; 
-            --surface: rgba(255, 255, 255, 0.05); 
+            --surface: rgba(255, 255, 255, 0.08); 
             --text: #E8F0EC; 
             --text-muted: #8EAB9D;
-            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glass: rgba(255, 255, 255, 0.15);
             --nav-bg: rgba(21, 32, 25, 0.85);
-            --aura: none;
+            --aura: radial-gradient(circle at 50% 30%, rgba(182, 215, 192, 0.1) 0%, transparent 70%);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -83,6 +85,34 @@
             position: relative;
             z-index: 1;
         }
+
+        /* --- DER ULTIMATIVE SAFARI-HERZ-FIX --- */
+        .heart-wrapper {
+            width: 40px; 
+            height: 40px;
+            margin: 5px auto 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Verhindert hartes Abschneiden auf Container-Ebene */
+            overflow: visible !important; 
+        }
+
+        .heart-wrapper img {
+            width: 32px;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            /* Zwingt Safari zur 3D-Hardwarebeschleunigung, verhindert Render-Clipping-Bugs! */
+            -webkit-transform: translate3d(0, 0, 0); 
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+        }
+
+        [data-theme="dark"] .heart-wrapper img {
+            filter: invert(1);
+            opacity: 0.85;
+        }
         
         /* Standard-Überschriften in Blockschrift (Montserrat) */
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }
@@ -90,7 +120,7 @@
         h4 { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.6; font-size: 1rem; font-weight: 300; color: var(--text-muted); margin: 0 0 15px 0; }
         
-        /* Die CSS-Klasse für die Menü-Inhalte, die auch Schwungschrift haben sollen */
+        /* Die CSS-Klasse für die Menü-Inhalte in Schwungschrift */
         .cursive-text {
             font-family: 'Brittany Signature', cursive !important;
             font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
@@ -113,7 +143,7 @@
 
         nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 500px;
-            background: var(--nav-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+            background: var(--nav-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
             display: flex; justify-content: space-around; padding: 15px 5px; border-radius: 30px; z-index: 4000; 
             border: 1px solid var(--border-glass); box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
@@ -128,16 +158,16 @@
         
         .card { 
             background: var(--surface); 
-            backdrop-filter: blur(25px) saturate(180%); 
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            /* Hier passiert die Magie des Glas-Effekts: */
+            backdrop-filter: blur(20px) saturate(160%); 
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
             border-radius: 24px; 
             padding: 24px; 
             margin-bottom: 20px; 
             border: 1px solid var(--border-glass); 
             position: relative; 
             overflow: hidden;
-            /* Ein schöner, weicher Schatten, der die Karte plastisch macht */
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
         }
 
         .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
@@ -235,9 +265,8 @@
     <div id="splash">
         <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
         
-        <!-- SAFARI HERZ-FIX: Einfacher Container, pures Bild -->
-        <div style="text-align: center; margin: 10px 0 35px 0;">
-            <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+        <div class="heart-wrapper">
+            <img src="image_2.JPG" alt="Herz">
         </div>
 
         <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden;">
@@ -420,8 +449,8 @@
                 <main id="home" class="page active">
                     <h1 onclick="window.adminTrigger()" style="cursor:pointer;">${CONFIG.names}</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="hero-subtitle">Wir heiraten</div>
@@ -465,8 +494,8 @@
                 <main id="guests" class="page">
                     <h1>Dein Platz</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="card">
@@ -478,8 +507,8 @@
                 <main id="food" class="page">
                     <h1>Essen & Trinken</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="card" style="text-align: center;">
@@ -558,8 +587,8 @@
                 <main id="fun" class="page">
                     <h1>Fun</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="card" id="qCard">
@@ -596,8 +625,8 @@
                 <main id="gal" class="page">
                     <h1>Galerie</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="card">
@@ -633,8 +662,8 @@
                 <main id="info" class="page">
                     <h1>Infos</h1>
                     
-                    <div style="text-align: center; margin: 10px 0 35px 0;">
-                        <img src="image_2.JPG" alt="Herz" style="width: 32px; height: auto; display: inline-block;">
+                    <div class="heart-wrapper">
+                        <img src="image_2.JPG" alt="Herz">
                     </div>
                     
                     <div class="card">

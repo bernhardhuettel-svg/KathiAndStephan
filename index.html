@@ -71,13 +71,13 @@
             font-family: 'Brittany Signature', cursive;
             font-size: clamp(2.5rem, 10vw, 4rem); 
             font-weight: normal;
-            line-height: 1.6; /* Erhöht, damit Schrift nicht abschneidet */
+            line-height: 1.6; 
             text-align: center; 
             background: linear-gradient(180deg, var(--text) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0px; 
-            padding: 20px 20px 15px 20px; /* Padding-Bottom hinzugefügt */
+            padding: 20px 20px 15px 20px; 
             white-space: nowrap; 
             position: relative;
             z-index: 1;
@@ -111,8 +111,8 @@
             text-transform: none !important;
             letter-spacing: normal !important;
             color: var(--text) !important;
-            line-height: 1.6 !important; /* Erhöht gegen Abschneiden */
-            padding: 10px 0; /* Puffer oben/unten */
+            line-height: 1.6 !important; 
+            padding: 10px 0; 
         }
 
         .hero-subtitle { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 40px; }
@@ -163,6 +163,7 @@
         .page.active .card:nth-child(4) { animation-delay: 0.4s; }
         .page.active .card:nth-child(5) { animation-delay: 0.5s; }
         .page.active .card:nth-child(6) { animation-delay: 0.6s; }
+        .page.active .card:nth-child(7) { animation-delay: 0.7s; }
 
         .page.active .timeline-item {
             animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -182,12 +183,11 @@
             -webkit-backdrop-filter: blur(20px) saturate(160%);
             border-radius: 24px; 
             padding: 24px; 
-            margin-bottom: 30px; /* Mehr Whitespace zwischen den Karten */
+            margin-bottom: 30px; 
             border: 1px solid var(--border-glass); 
             border-top: 1px solid rgba(255, 255, 255, 0.9); 
             border-left: 1px solid rgba(255, 255, 255, 0.6); 
             position: relative; 
-            /* overflow: hidden; -> Entfernt, damit Schwungschriftkarten Platz haben */
             box-shadow: 0 10px 30px rgba(74, 107, 91, 0.12); 
         }
 
@@ -226,10 +226,10 @@
             border: 1px solid rgba(255,255,255,0.3); 
             padding: 16px; 
             border-radius: 14px; 
-            font-weight: 600; /* Fetter, weil Großbuchstaben */
-            font-size: 0.95rem; /* Etwas kleiner für Eleganz */
-            letter-spacing: 0.15em; /* Typografie-Upgrade: Gesperrte Großbuchstaben */
-            text-transform: uppercase; /* Typografie-Upgrade */
+            font-weight: 600; 
+            font-size: 0.95rem; 
+            letter-spacing: 0.15em; 
+            text-transform: uppercase; 
             width: 100%; 
             cursor: pointer; 
             transition: all 0.2s ease; 
@@ -656,6 +656,23 @@
 
                         <div id="qActiveScreen" style="display:none; margin-top: 20px;"></div>
                     </div>
+
+                    <!-- FUSSBALL TIPPSPIEL -->
+                    <div class="card" id="tippCard">
+                        <h3>Tippspiel</h3>
+                        <p style="text-align:center; margin-top:0;">
+                            <b>FC Bayern vs. VfB Stuttgart</b><br>
+                            <span style="font-size:0.85rem; color:var(--text-muted);">Trage deinen Namen und dein Wunschergebnis ein.</span>
+                        </p>
+                        <input type="text" id="tippName" placeholder="Dein Vorname..." style="margin-bottom: 10px;">
+                        <input type="text" id="tippValue" placeholder="Dein Tipp (z.B. 2:1)" style="margin-bottom: 15px;">
+                        <button class="btn-action" onclick="window.submitTipp()">Tipp abgeben</button>
+                        
+                        <div style="margin-top:30px;">
+                            <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Alle Tipps</h4>
+                            <div id="tippList" style="min-height: 50px;">Lade Tipps...</div>
+                        </div>
+                    </div>
                     
                     <div class="card">
                         <h3>Bingo</h3>
@@ -768,6 +785,7 @@
         }
 
         function initFunListeners() {
+            // Highscore Listener
             onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
                 let html = "";
@@ -783,6 +801,22 @@
                     rank++;
                 });
                 if(html === "") html = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
+                list.innerHTML = html;
+            });
+
+            // Tippspiel Listener
+            onSnapshot(query(collection(db, "tipps"), orderBy("time", "desc")), (snap) => {
+                const list = document.getElementById('tippList'); if(!list) return;
+                let html = "";
+                snap.forEach(d => {
+                    const s = d.data();
+                    html += `<div class="hs-item" style="align-items: center;">
+                        <span class="hs-name" style="font-weight: 500;">${s.name}</span>
+                        <span class="hs-score" style="font-size: 1.1rem; color: var(--text); background: rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 8px;">${s.tipp}</span>
+                        <button class="btn-del" onclick="window.deleteEntry('tipps','${d.id}')">✕</button>
+                    </div>`;
+                });
+                if(html === "") html = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Tipps abgegeben.</p>";
                 list.innerHTML = html;
             });
         }
@@ -1011,6 +1045,31 @@
             document.getElementById('qNameInput').value = "";
         };
 
+        /* Funktion um das Tippspiel abzusenden */
+        window.submitTipp = async () => {
+            const name = document.getElementById('tippName').value.trim();
+            const tipp = document.getElementById('tippValue').value.trim();
+            
+            if(!name || !tipp) {
+                window.showToast("Bitte gib deinen Namen und einen Tipp ein!");
+                return;
+            }
+            
+            try {
+                await addDoc(collection(db, "tipps"), { 
+                    name: name, 
+                    tipp: tipp, 
+                    time: serverTimestamp() 
+                });
+                
+                document.getElementById('tippName').value = "";
+                document.getElementById('tippValue').value = "";
+                window.showToast("⚽ Tipp erfolgreich abgegeben!");
+            } catch (error) {
+                window.showToast("Fehler beim Speichern des Tipps.");
+            }
+        };
+
         window.deleteEntry = async (coll, id) => { 
             if (confirm("Möchtest du diesen Eintrag wirklich löschen?")) {
                 try {
@@ -1213,11 +1272,11 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                /* --- EDLES HOCHZEITS-GOLD FÜR DAS RUBBELLOS --- */
-                ctx.fillStyle = '#D4AF37'; 
+                /* --- ALTROSA FÜR DAS RUBBELLOS --- */
+                ctx.fillStyle = '#aa8a8d'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#ffffff'; /* Weißer Text auf dem Gold */
+                ctx.fillStyle = '#ffffff'; 
                 ctx.font = "bold 18px 'Montserrat', sans-serif";
                 ctx.textAlign = "center";
                 ctx.fillText("FREIRUBBELN", canvas.width/2, canvas.height/2 + 6);

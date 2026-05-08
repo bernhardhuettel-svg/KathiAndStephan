@@ -28,6 +28,7 @@
         :root { 
             --bg: #FFFFFF; 
             --accent: #4A6B5B; 
+            --accent-muted: #749C86; /* Neue Farbe hinzugefügt */
             --surface: rgba(182, 215, 192, 0.4); 
             --surface-gradient: linear-gradient(135deg, rgba(182, 215, 192, 0.65) 0%, rgba(182, 215, 192, 0.25) 100%); 
             --text: #1C2B24; 
@@ -113,6 +114,48 @@
             color: var(--text) !important;
             line-height: 1.6 !important; 
             padding: 10px 0; 
+        }
+
+        /* --- MENÜ & GETRÄNKE FORMATIERUNG --- */
+        .menu-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin: 35px 0 15px 0;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 8px;
+        }
+
+        .menu-item {
+            margin-bottom: 22px;
+        }
+
+        .menu-item-title {
+            margin: 0 0 4px 0;
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        .menu-item-desc {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            line-height: 1.6;
+        }
+
+        .menu-note {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            text-transform: none;
+            margin-top: -15px;
+            margin-bottom: 25px;
         }
 
         .hero-subtitle { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 40px; }
@@ -562,76 +605,112 @@
                     
                     <img src="image_2.png" alt="Herz" class="deco-heart">
                     
+                    <!-- KARTE 1: DAS MENÜ -->
                     <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 25px;">Menü</h3>
+                        <h3 class="cursive-text" style="margin-bottom: 10px;">Menü</h3>
 
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">VORSPEISENBUFFET</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">ERLESENE KOMPOSITIONEN AUS SAISONALEN UND INTERNATIONALEN SPEZIALITÄTEN</p>
+                        <div class="menu-category">Vorspeisenbuffet</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Erlesene Kompositionen aus saisonalen und internationalen Spezialitäten</p>
+                        </div>
 
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">HAUPTGANG</p>
+                        <div class="menu-category">Hauptgang</div>
                         
-                        <p style="margin:0; font-size:0.85rem; color:var(--accent-muted); text-transform: uppercase;">CHICKEN TIKKA MASALA</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT NAAN BROT</p>
+                        <div class="menu-item">
+                            <p class="menu-item-title" style="color: var(--accent-muted);">Chicken Tikka Masala</p>
+                            <p class="menu-item-desc">Mit Naan Brot</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.85rem; color:var(--accent-muted); text-transform: uppercase;">TAGLIATELLE AUS DEM PARMESANLAIB</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT VERSCHIEDENEN PESTO UND ÖLEN</p>
+                        <div class="menu-item">
+                            <p class="menu-item-title" style="color: var(--accent-muted);">Tagliatelle aus dem Parmesanlaib</p>
+                            <p class="menu-item-desc">Mit verschiedenen Pesto und Ölen</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.85rem; color:var(--accent-muted); text-transform: uppercase;">SURF & TURF - RINDERFILET UND GARNELEN</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT HUMMERSOßE UND PIKANTEM KARTOFFELGRATIN</p>
+                        <div class="menu-item">
+                            <p class="menu-item-title" style="color: var(--accent-muted);">Surf & Turf - Rinderfilet und Garnelen</p>
+                            <p class="menu-item-desc">Mit Hummersoße und pikantem Kartoffelgratin</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.85rem; color:var(--accent-muted); text-transform: uppercase;">HAMBURGER</p>
-                        <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">MIT VERSCHIEDENEN TOPPINGS (AUCH VEGAN)</p>
+                        <div class="menu-item">
+                            <p class="menu-item-title" style="color: var(--accent-muted);">Hamburger</p>
+                            <p class="menu-item-desc">Mit verschiedenen Toppings (auch Vegan)</p>
+                        </div>
 
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">DESSERT</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">FEIN ABGESTIMMTE DESSERTVARIATIONEN ALS SÜßER HÖHEPUNKT</p>
+                        <div class="menu-category">Dessert</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Fein abgestimmte Dessertvariationen als süßer Höhepunkt</p>
+                        </div>
 
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">MITTERNACHTSBUFFET</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">AUSGEWÄHLTE HERZHAFTE SPEZIALITÄTEN ZUM AUSKLANG DES ABENDS</p>
+                        <div class="menu-category">Mitternachtsbuffet</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Ausgewählte herzhafte Spezialitäten zum Ausklang des Abends</p>
+                        </div>
 
-                        <p class="cursive-text" style="margin:25px 0 5px 0;">Guten Appetit</p>
+                        <p class="cursive-text" style="margin:30px 0 5px 0;">Guten Appetit</p>
                     </div>
 
+                    <!-- KARTE 2: GETRÄNKE -->
                     <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 25px;">Getränke</h3>
+                        <h3 class="cursive-text" style="margin-bottom: 10px;">Getränke</h3>
 
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Aperitifs</p>
-                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Prosecco Rosè, Lillet Wild Berry,<br>Aperol Spritz, Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
+                        <div class="menu-category">Aperitifs</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Prosecco Rosè<br>Lillet Wild Berry<br>Aperol Spritz<br>Campari Amalfi<br>Maracuja Spritz (Alkoholfrei)</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Alkoholfrei</p>
-                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Mineralwasser (prickelnd, medium, still)<br>Apfelschorle<br>Traubensaft, Orangensaft<br>Orangenlimo, Zitronenlimo<br>Cola-Mix<br>Coca-Cola, Coca-Cola Light</p>
+                        <div class="menu-category">Alkoholfrei</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Mineralwasser (prickelnd, medium, still)<br>Apfelschorle<br>Traubensaft, Orangensaft<br>Orangenlimo, Zitronenlimo<br>Cola-Mix<br>Coca-Cola, Coca-Cola Light</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Biere</p>
-                        <p style="margin:8px 0 25px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Radler<br>Urtyp Hell (auch Alkoholfrei)<br>Pilsener<br>Hefeweizen leicht<br>Hefeweizen Hell (auch Alkoholfrei)</p>
+                        <div class="menu-category">Biere</div>
+                        <div class="menu-item">
+                            <p class="menu-item-desc">Radler<br>Urtyp Hell (auch Alkoholfrei)<br>Pilsener<br>Hefeweizen leicht<br>Hefeweizen Hell (auch Alkoholfrei)</p>
+                        </div>
 
-                        <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:500; letter-spacing: 1.5px; color:var(--accent);">Weine</p>
-                        
-                        <p style="margin:8px 0 5px 0; font-weight:500; font-size:0.95rem; color:var(--text); text-transform: uppercase;">Rotwein</p>
-                        <p style="margin:0 0 15px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Tardus - Primitivo Appassimento</p>
-
-                        <p style="margin:0; font-weight:500; font-size:0.95rem; color:var(--text); text-transform: uppercase;">Weisswein</p>
-                        <p style="margin:0 0 25px 0; font-weight:300; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">Pfalz - Weingut Kirchner Weissburgunder</p>
+                        <div class="menu-category">Weine</div>
+                        <div class="menu-item">
+                            <p class="menu-item-title">Rotwein</p>
+                            <p class="menu-item-desc">Tardus - Primitivo Appassimento</p>
+                        </div>
+                        <div class="menu-item">
+                            <p class="menu-item-title">Weisswein</p>
+                            <p class="menu-item-desc">Pfalz - Weingut Kirchner Weissburgunder</p>
+                        </div>
                     </div>
 
+                    <!-- KARTE 3: COCKTAILS -->
                     <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 25px;">Cocktails</h3>
-
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">FLAVORED MOJITO</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, LIMEJUICE, LIMETTE, BRAUNER ZUCKER, WATER, ERDBEER, MINZE</p>
-
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">MAITAI</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">RUM, ANANAS, ORANGE, MANDEL, LIMEJUICE</p>
-
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">SEX ON THE BEACH</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">WODKA, ORANGE, PFIRSICH, ZITRONE, GRENADINE</p>
-
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">CUBA LIBRE</p>
-                        <p style="margin:2px 0 15px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">HAVANA, COCACOLA, LIMETTE</p>
-
-                        <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">PARADIESVOGEL <span style="font-size:0.8rem; font-weight:400;">(ALKOHOLFREI)</span></p>
-                        <p style="margin:2px 0 25px 0; font-size:0.85rem; color:var(--text-muted); text-transform: uppercase;">ANANAS, ORANGE, MARACUJA, ZITRONE, GRENADINE</p>
+                        <h3 class="cursive-text" style="margin-bottom: 10px;">Cocktails</h3>
                         
-                        <p class="cursive-text" style="margin:25px 0 5px 0;">Cheers!</p>
-                        <p style="margin:8px 0 5px 0; font-weight:300; font-size:0.95rem; color:var(--text); line-height: 1.5; text-transform: uppercase;">Geöffnet ab ca. 20:30 Uhr</p>
+                        <p class="menu-note">Geöffnet ab ca. 20:30 Uhr</p>
+
+                        <div class="menu-item">
+                            <p class="menu-item-title">Flavored Mojito</p>
+                            <p class="menu-item-desc">Rum, Limejuice, Limette, brauner Zucker, Water, Erdbeer, Minze</p>
+                        </div>
+
+                        <div class="menu-item">
+                            <p class="menu-item-title">Maitai</p>
+                            <p class="menu-item-desc">Rum, Ananas, Orange, Mandel, Limejuice</p>
+                        </div>
+
+                        <div class="menu-item">
+                            <p class="menu-item-title">Sex on the Beach</p>
+                            <p class="menu-item-desc">Wodka, Orange, Pfirsich, Zitrone, Grenadine</p>
+                        </div>
+
+                        <div class="menu-item">
+                            <p class="menu-item-title">Cuba Libre</p>
+                            <p class="menu-item-desc">Havana, Coca-Cola, Limette</p>
+                        </div>
+
+                        <div class="menu-item">
+                            <p class="menu-item-title">Paradiesvogel <span style="font-size:0.8rem; font-weight:400; text-transform:none;">(Alkoholfrei)</span></p>
+                            <p class="menu-item-desc">Ananas, Orange, Maracuja, Zitrone, Grenadine</p>
+                        </div>
+                        
+                        <p class="cursive-text" style="margin:30px 0 5px 0;">Cheers!</p>
                     </div>
                 </main>
 

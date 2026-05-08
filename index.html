@@ -24,11 +24,11 @@
             font-style: normal;
         }
 
-        /* --- REINES WEISS & EUKALYPTUS GLAS --- */
+        /* --- FARBEN & THEME VARIABLEN --- */
         :root { 
             --bg: #FFFFFF; 
             --accent: #4A6B5B; 
-            --accent-muted: #749C86; /* Neue Farbe hinzugefügt */
+            --accent-muted: #749C86;
             --surface: rgba(182, 215, 192, 0.4); 
             --surface-gradient: linear-gradient(135deg, rgba(182, 215, 192, 0.65) 0%, rgba(182, 215, 192, 0.25) 100%); 
             --text: #1C2B24; 
@@ -67,7 +67,7 @@
 
         h1, h2, h3, h4 { margin: 0; padding: 0; letter-spacing: -0.02em; }
         
-        /* h1: Hauptseiten-Titel in Schwungschrift (Paddings & Line-Height repariert) */
+        /* --- TYPOGRAFIE --- */
         h1 { 
             font-family: 'Brittany Signature', cursive;
             font-size: clamp(2.5rem, 10vw, 4rem); 
@@ -84,27 +84,11 @@
             z-index: 1;
         }
 
-        /* --- DEKO-HERZ: SIMPEL & ABSCHNEIDE-SICHER (PNG Version) --- */
-        .deco-heart {
-            display: block;
-            width: 32px;
-            margin: 5px auto 35px auto;
-            padding: 20px;
-            box-sizing: content-box;
-            opacity: 0.85;
-        }
-
-        [data-theme="dark"] .deco-heart {
-            filter: invert(1);
-        }
-        
-        /* Standard-Überschriften in Blockschrift (Montserrat) */
         h2 { font-size: 2.2rem; font-weight: 400; color: var(--text); margin-bottom: 25px; }
         h3 { font-size: 1.6rem; font-weight: 500; color: var(--text); margin-bottom: 20px; text-align: center; }
         h4 { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 10px; }
         p { line-height: 1.6; font-size: 1rem; font-weight: 300; color: var(--text-muted); margin: 0 0 15px 0; }
         
-        /* Die CSS-Klasse für die Menü-Inhalte in Schwungschrift (Repariert) */
         .cursive-text {
             font-family: 'Brittany Signature', cursive !important;
             font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
@@ -116,50 +100,100 @@
             padding: 10px 0; 
         }
 
-        /* --- MENÜ & GETRÄNKE FORMATIERUNG --- */
-        .menu-category {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            color: var(--accent);
-            margin: 35px 0 15px 0;
-            border-bottom: 1px solid var(--border-glass);
-            padding-bottom: 8px;
-        }
+        /* --- ALLGEMEINE HILFSKLASSEN (UTILITIES) --- */
+        .text-center { text-align: center !important; }
+        .text-left { text-align: left !important; }
+        .mt-0 { margin-top: 0 !important; }
+        .mt-10 { margin-top: 10px !important; }
+        .mt-15 { margin-top: 15px !important; }
+        .mt-20 { margin-top: 20px !important; }
+        .mt-25 { margin-top: 25px !important; }
+        .mt-30 { margin-top: 30px !important; }
+        .mb-0 { margin-bottom: 0 !important; }
+        .mb-10 { margin-bottom: 10px !important; }
+        .mb-15 { margin-bottom: 15px !important; }
+        .mb-20 { margin-bottom: 20px !important; }
+        .mb-25 { margin-bottom: 25px !important; }
+        .mb-30 { margin-bottom: 30px !important; }
+        .pb-25 { padding-bottom: 25px !important; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        
+        .divider { border: none; border-top: 1px solid var(--border-glass); margin: 25px 0; }
+        .divider-small { width: 30px; margin: 0 auto; border-color: var(--border-glass); }
 
-        .menu-item {
-            margin-bottom: 22px;
-        }
-
-        .menu-item-title {
-            margin: 0 0 4px 0;
-            font-weight: 500;
-            font-size: 1.05rem;
-            color: var(--text);
-            text-transform: uppercase;
-        }
-
-        .menu-item-desc {
-            margin: 0;
-            font-size: 0.85rem;
-            font-weight: 300;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            line-height: 1.6;
-        }
-
-        .menu-note {
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            text-transform: none;
-            margin-top: -15px;
-            margin-bottom: 25px;
-        }
-
+        /* --- SPEZIFISCHE KOMPONENTEN --- */
+        .deco-heart { display: block; width: 32px; margin: 5px auto 35px auto; padding: 20px; box-sizing: content-box; opacity: 0.85; }
+        [data-theme="dark"] .deco-heart { filter: invert(1); }
+        
         .hero-subtitle { text-align: center; font-size: 0.9rem; color: var(--accent); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 40px; }
+        
+        /* --- MENÜ KOMPONENTEN --- */
+        .menu-header { margin-bottom: 10px; }
+        .menu-footer { margin: 30px 0 5px 0; }
+        .menu-badge { font-size: 0.8rem; font-weight: 400; text-transform: none; }
+        .menu-highlight { color: var(--accent-muted); }
+        
+        .menu-category { font-size: 0.9rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.15em; color: var(--accent); margin: 35px 0 15px 0; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; }
+        .menu-item { margin-bottom: 22px; }
+        .menu-item-title { margin: 0 0 4px 0; font-weight: 500; font-size: 1.05rem; color: var(--text); text-transform: uppercase; }
+        .menu-item-desc { margin: 0; font-size: 0.85rem; font-weight: 300; color: var(--text-muted); text-transform: uppercase; line-height: 1.6; }
+        .menu-note { font-size: 0.8rem; font-weight: 400; color: var(--text-muted); text-transform: none; margin-top: -15px; margin-bottom: 25px; }
 
+        /* --- FUN & SPIELE --- */
+        .section-subtitle { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid var(--border-glass); padding-bottom: 5px; margin-bottom: 10px; }
+        
+        .scratch-container { position: relative; background: rgba(0,0,0,0.05); height: 160px; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .scratch-text { font-weight: 500; color: var(--text); font-size: 1.3rem; text-align: center; line-height: 1.4; }
+        .scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: none; }
+        
+        .quiz-result-title { margin-bottom: 15px; text-align: center; }
+        .quiz-result-text { text-align: center; font-size: 1.2rem; margin-bottom: 20px; color: var(--text); }
+        .quiz-score-highlight { color: var(--accent); font-size: 1.5rem; font-weight: bold; }
+        .quiz-header { font-size: 0.85rem; color: var(--text-muted); }
+        .quiz-score-display { font-weight: 600; color: var(--accent); }
+        .quiz-question { text-align: left; margin: 0 0 25px 0; font-size: 1.25rem; font-weight: 500; color: var(--text); line-height: 1.4; }
+        .btn-quiz-option { margin-bottom: 10px; text-align: left; padding-left: 20px; }
+        
+        .tipp-badge { font-size: 1.1rem; color: var(--text); background: rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 8px; }
+        .mission-text { text-align: center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease; }
+        
+        /* --- PLATZSUCHE --- */
+        .search-result { text-align: center; margin-top: 20px; font-weight: 400; font-size: 1.1rem; line-height: 1.6; }
+        .search-name { font-weight: 500; font-size: 1.4rem; color: var(--text); }
+        .search-table-label { color: var(--text-muted); font-size: 0.9rem; }
+        .search-table-value { color: var(--accent); font-weight: 600; }
+
+        /* --- GALERIE UPLOAD --- */
+        .upload-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; margin: 10px 0; }
+        .pointer-none { pointer-events: none; }
+        .file-input-hidden { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+        .progress-container { display: none; width: 100%; background: rgba(0,0,0,0.05); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px; }
+        .progress-bar { background: var(--text); height: 100%; width: 0%; transition: width 0.3s; }
+        .progress-text { text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 400; display: none; }
+        .btn-small { width: auto; padding: 8px 15px; font-size: 0.8rem; border-radius: 10px; }
+
+        /* --- INFOS & GÄSTEBUCH --- */
+        .textarea-large { height: 120px; resize: none; }
+        .info-block { padding: 15px 0; border-bottom: 1px solid var(--border-glass); }
+        .info-label { margin: 0 0 5px 0; font-size: 0.85rem; color: var(--text-muted); }
+        .info-value { margin: 0; font-weight: 500; font-size: 1rem; color: var(--text); }
+        
+        .guestbook-entry { padding: 20px; margin-bottom: 15px; border-radius: 16px; background: rgba(0,0,0,0.03); position: relative; }
+        .guestbook-text { margin: 0; line-height: 1.5; padding-right: 25px; color: var(--text); }
+        .btn-del-corner { top: 15px; right: 15px; width: 22px; height: 22px; font-size: 10px; }
+
+        /* --- ADMIN KONSOL --- */
+        .card-admin { border: 1px solid #ff3b30; }
+        .admin-title { color: #ff3b30; }
+        .admin-hint { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; }
+
+        /* --- SPLASH SCREEN --- */
+        .splash-title { font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3; }
+        .loader-track { width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden; margin-top: 10px; }
+        .loader-bar { width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out; }
+
+        /* --- THEME TOGGLE & TICKER --- */
         .theme-toggle { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; cursor: pointer; z-index: 6500; opacity: 0.6; transition: opacity 0.3s; display: none; }
         body.admin-mode .theme-toggle { display: block; }
         .theme-toggle:active { opacity: 1; }
@@ -168,7 +202,7 @@
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 15s linear infinite; text-transform: uppercase; }
         @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* Navigation mit echten SVG Icons */
+        /* --- NAVIGATION --- */
         nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 500px;
             background: var(--nav-bg); 
@@ -182,24 +216,21 @@
         nav button { font-family: 'Montserrat', sans-serif; background: none; border: none; color: var(--text-muted); font-size: 0.60rem; font-weight: 500; cursor: pointer; flex: 1; display: flex; flex-direction: column; align-items: center; transition: color 0.2s ease; padding: 0 2px;}
         nav button.active { color: var(--text); font-weight: 600; }
         
-        /* Das Styling für die SVG Icons */
         .nav-icon { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 4px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), stroke-width 0.2s; }
         nav button.active .nav-icon { stroke-width: 2; transform: scale(1.15); stroke: var(--accent); }
         nav button span { transition: transform 0.2s; }
         nav button.active span { transform: scale(1.05); color: var(--accent); }
 
+        /* --- LAYOUT & KARTEN --- */
         .page { display: none; padding: 60px 20px 20px; max-width: 600px; margin: 0 auto; }
         .page.active { display: block; }
         
-        /* --- MICRO-ANIMATIONS FÜR KACHELN UND LISTEN --- */
         @keyframes slideUpFade {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .page.active .card {
-            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
+        .page.active .card { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
         .page.active .card:nth-child(1) { animation-delay: 0.1s; }
         .page.active .card:nth-child(2) { animation-delay: 0.2s; }
         .page.active .card:nth-child(3) { animation-delay: 0.3s; }
@@ -208,9 +239,7 @@
         .page.active .card:nth-child(6) { animation-delay: 0.6s; }
         .page.active .card:nth-child(7) { animation-delay: 0.7s; }
 
-        .page.active .timeline-item {
-            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
+        .page.active .timeline-item { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
         .page.active .timeline-item:nth-child(1) { animation-delay: 0.2s; }
         .page.active .timeline-item:nth-child(2) { animation-delay: 0.3s; }
         .page.active .timeline-item:nth-child(3) { animation-delay: 0.4s; }
@@ -234,8 +263,7 @@
             box-shadow: 0 10px 30px rgba(74, 107, 91, 0.12); 
         }
 
-        .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
-
+        /* --- FORMULARE & BUTTONS --- */
         input, textarea {
             width: 100%; 
             background: rgba(255, 255, 255, 0.65); 
@@ -279,10 +307,7 @@
             box-shadow: 0 6px 20px rgba(74, 107, 91, 0.25);
             text-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
-        .btn-action:active { 
-            transform: scale(0.97); 
-            box-shadow: 0 2px 10px rgba(74, 107, 91, 0.2); 
-        }
+        .btn-action:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(74, 107, 91, 0.2); }
         
         .btn-del { 
             position: absolute; top: 12px; right: 12px; 
@@ -295,7 +320,8 @@
         body.admin-mode .btn-del { display: flex; }
         .hs-item .btn-del { position: relative; top: 0; right: 0; width: 26px; height: 26px; font-size: 11px; margin-left: 10px; }
 
-        /* --- ZENTRIERTER ZEITPLAN & STORY --- */
+        /* --- TIMELINE --- */
+        .timer-display { font-size: 3rem; font-weight: 400; letter-spacing: -0.05em; text-align: center; font-variant-numeric: tabular-nums; margin: 20px 0; color: var(--text); }
         .timeline { display: flex; flex-direction: column; gap: 24px; }
         .timeline-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
         .timeline-time { font-weight: 600; font-variant-numeric: tabular-nums; font-size: 0.95rem; color: var(--accent); letter-spacing: 0.05em; }
@@ -305,6 +331,7 @@
 
         #splash { position: fixed; inset: 0; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
         
+        /* --- BINGO & HIGHSCORE --- */
         #bGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .bingo-cell { 
             aspect-ratio: 1; 
@@ -319,6 +346,13 @@
         }
         [data-theme="dark"] .bingo-cell { background: rgba(255, 255, 255, 0.05); border-color: rgba(255,255,255,0.1); }
 
+        .hs-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 0.95rem; font-weight: 300;}
+        .hs-item:last-child { border-bottom: none; }
+        .hs-rank { font-weight: 500; color: var(--accent); width: 25px; display: inline-block; }
+        .hs-name { flex: 1; font-weight: 400; color: var(--text); }
+        .hs-score { font-weight: 500; color: var(--accent); }
+
+        /* --- FOTOS & LIGHTBOX --- */
         #photoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
         .photo-wrapper { position: relative; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: rgba(0,0,0,0.05); cursor: pointer; }
         .photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
@@ -326,37 +360,16 @@
         .progress-track { background: rgba(182, 215, 192, 0.3); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 15px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); }
         [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.1); }
         #pBar { background: var(--accent); height: 100%; width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 3px; }
-        
-        .hs-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-glass); font-size: 0.95rem; font-weight: 300;}
-        .hs-item:last-child { border-bottom: none; }
-        .hs-rank { font-weight: 500; color: var(--accent); width: 25px; display: inline-block; }
-        .hs-name { flex: 1; font-weight: 400; color: var(--text); }
-        .hs-score { font-weight: 500; color: var(--accent); }
 
-        #toast-container {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 9999; display: flex; flex-direction: column; gap: 10px;
-            align-items: center; pointer-events: none; width: 90%; max-width: 400px;
-        }
-        .toast {
-            background: var(--nav-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-            color: var(--text); padding: 14px 24px; border-radius: 100px; font-weight: 400; font-size: 0.95rem; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-glass);
-            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toastOut 0.4s 2.6s ease-in forwards;
-        }
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; width: 90%; max-width: 400px; }
+        .toast { background: var(--nav-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); color: var(--text); padding: 14px 24px; border-radius: 100px; font-weight: 400; font-size: 0.95rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-glass); animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toastOut 0.4s 2.6s ease-in forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(-20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-20px) scale(0.9); } }
 
-        #lightbox {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            z-index: 8000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px;
-        }
+        #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 8000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; }
         #lightbox.active { display: flex; opacity: 1; }
         #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 16px; box-shadow: 0 10px 50px rgba(0,0,0,0.5); object-fit: contain; }
-        .btn-close-lightbox {
-            position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
-            border: none; border-radius: 50%; width: 44px; height: 44px; color: white; font-size: 22px; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
+        .btn-close-lightbox { position: absolute; top: 30px; right: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: none; border-radius: 50%; width: 44px; height: 44px; color: white; font-size: 22px; font-weight: 300; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -364,12 +377,12 @@
     <div id="ticker-wrap"><div class="ticker-text" id="ticker-content">+++ WILLKOMMEN +++</div></div>
 
     <div id="splash">
-        <h1 id="splashName" style="font-size: clamp(3rem, 15vw, 5rem); margin-bottom: 0px; padding-bottom: 25px; line-height: 1.3;">Lädt...</h1>
+        <h1 id="splashName" class="splash-title">Lädt...</h1>
         
         <img src="image_2.png" alt="Herz" class="deco-heart">
         
-        <div style="width: 120px; height: 2px; background: var(--border-glass); border-radius: 2px; overflow: hidden; margin-top: 10px;">
-            <div style="width: 50%; height: 100%; background: var(--text); transform: translateX(-100%); animation: bootLoad 1.5s infinite ease-in-out;"></div>
+        <div class="loader-track">
+            <div class="loader-bar"></div>
         </div>
     </div>
     <style>@keyframes bootLoad { 50% { transform: translateX(200%); } 100% { transform: translateX(200%); } }</style>
@@ -528,7 +541,6 @@
             html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         };
 
-        /* Hochwertige SVG Icons statt Emojis in der Navigation */
         function renderNav() {
             const tabs = [
                 {id:'home', i:'<svg viewBox="0 0 24 24" class="nav-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>', l:'Home'},
@@ -540,7 +552,7 @@
             ];
             
             document.getElementById('mainNav').innerHTML = tabs.map(t => `
-                <button onclick="window.showPage('${t.id}')" id="b-${t.id}">${t.i}<span>${t.l}</span></button>
+                <button onclick="window.showPage('${t.id}')" id="b-${t.id}" aria-label="${t.l}">${t.i}<span>${t.l}</span></button>
             `).join('');
         }
 
@@ -559,7 +571,7 @@
                         <div class="progress-track">
                             <div id="pBar"></div>
                         </div>
-                        <p id="pText" style="text-align:center; font-size:0.85rem; margin-top:10px;"></p>
+                        <p id="pText" class="text-center mt-10 mb-0" style="font-size:0.85rem;"></p>
                     </div>
                     
                     <div class="card">
@@ -574,7 +586,7 @@
                     
                     <div class="card">
                         <h3>Foto-Mission</h3>
-                        <p id="mTxt" style="text-align:center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease;">"${CONFIG.missions[0]}"</p>
+                        <p id="mTxt" class="mission-text">"${CONFIG.missions[0]}"</p>
                         <button class="btn-action" onclick="window.nextMission()">Neue Mission</button>
                     </div>
                     
@@ -596,7 +608,7 @@
                     
                     <div class="card">
                         <input type="text" id="gSearch" placeholder="Vorname eingeben...">
-                        <div id="gRes" style="text-align:center; margin-top:20px; font-weight:400; font-size:1.1rem; line-height: 1.6;"></div>
+                        <div id="gRes" class="search-result"></div>
                     </div>
                 </main>
 
@@ -606,8 +618,8 @@
                     <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <!-- KARTE 1: DAS MENÜ -->
-                    <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 10px;">Menü</h3>
+                    <div class="card text-center">
+                        <h3 class="cursive-text menu-header">Menü</h3>
 
                         <div class="menu-category">Vorspeisenbuffet</div>
                         <div class="menu-item">
@@ -617,22 +629,22 @@
                         <div class="menu-category">Hauptgang</div>
                         
                         <div class="menu-item">
-                            <p class="menu-item-title" style="color: var(--accent-muted);">Chicken Tikka Masala</p>
+                            <p class="menu-item-title menu-highlight">Chicken Tikka Masala</p>
                             <p class="menu-item-desc">Mit Naan Brot</p>
                         </div>
 
                         <div class="menu-item">
-                            <p class="menu-item-title" style="color: var(--accent-muted);">Tagliatelle aus dem Parmesanlaib</p>
+                            <p class="menu-item-title menu-highlight">Tagliatelle aus dem Parmesanlaib</p>
                             <p class="menu-item-desc">Mit verschiedenen Pesto und Ölen</p>
                         </div>
 
                         <div class="menu-item">
-                            <p class="menu-item-title" style="color: var(--accent-muted);">Surf & Turf - Rinderfilet und Garnelen</p>
+                            <p class="menu-item-title menu-highlight">Surf & Turf - Rinderfilet und Garnelen</p>
                             <p class="menu-item-desc">Mit Hummersoße und pikantem Kartoffelgratin</p>
                         </div>
 
                         <div class="menu-item">
-                            <p class="menu-item-title" style="color: var(--accent-muted);">Hamburger</p>
+                            <p class="menu-item-title menu-highlight">Hamburger</p>
                             <p class="menu-item-desc">Mit verschiedenen Toppings (auch Vegan)</p>
                         </div>
 
@@ -646,12 +658,12 @@
                             <p class="menu-item-desc">Ausgewählte herzhafte Spezialitäten zum Ausklang des Abends</p>
                         </div>
 
-                        <p class="cursive-text" style="margin:30px 0 5px 0;">Guten Appetit</p>
+                        <p class="cursive-text menu-footer">Guten Appetit</p>
                     </div>
 
                     <!-- KARTE 2: GETRÄNKE -->
-                    <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 10px;">Getränke</h3>
+                    <div class="card text-center">
+                        <h3 class="cursive-text menu-header">Getränke</h3>
 
                         <div class="menu-category">Aperitifs</div>
                         <div class="menu-item">
@@ -680,8 +692,8 @@
                     </div>
 
                     <!-- KARTE 3: COCKTAILS -->
-                    <div class="card" style="text-align: center;">
-                        <h3 class="cursive-text" style="margin-bottom: 10px;">Cocktails</h3>
+                    <div class="card text-center">
+                        <h3 class="cursive-text menu-header">Cocktails</h3>
                         
                         <p class="menu-note">Geöffnet ab ca. 20:30 Uhr</p>
 
@@ -706,11 +718,11 @@
                         </div>
 
                         <div class="menu-item">
-                            <p class="menu-item-title">Paradiesvogel <span style="font-size:0.8rem; font-weight:400; text-transform:none;">(Alkoholfrei)</span></p>
+                            <p class="menu-item-title">Paradiesvogel <span class="menu-badge">(Alkoholfrei)</span></p>
                             <p class="menu-item-desc">Ananas, Orange, Maracuja, Zitrone, Grenadine</p>
                         </div>
                         
-                        <p class="cursive-text" style="margin:30px 0 5px 0;">Cheers!</p>
+                        <p class="cursive-text menu-footer">Cheers!</p>
                     </div>
                 </main>
 
@@ -723,32 +735,32 @@
                         <h3>Quiz</h3>
                         
                         <div id="qStartScreen">
-                            <p style="text-align:center; color:var(--text); margin-bottom: 15px;">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
-                            <input type="text" id="qNameInput" placeholder="Dein Vorname..." style="margin-bottom: 15px;">
+                            <p class="text-center mb-15">Teste dein Wissen über uns und klettere an die Spitze der Bestenliste!</p>
+                            <input type="text" id="qNameInput" placeholder="Dein Vorname..." class="mb-15">
                             <button class="btn-action" onclick="window.startQuiz()">Jetzt Spielen</button>
                             
-                            <div style="margin-top:30px;">
-                                <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Top 10 Highscore</h4>
+                            <div class="mt-30">
+                                <h4 class="section-subtitle">Top 10 Highscore</h4>
                                 <div id="hsList" style="min-height: 100px;">Wird geladen...</div>
                             </div>
                         </div>
 
-                        <div id="qActiveScreen" style="display:none; margin-top: 20px;"></div>
+                        <div id="qActiveScreen" class="mt-20" style="display:none;"></div>
                     </div>
 
                     <!-- FUSSBALL TIPPSPIEL -->
                     <div class="card" id="tippCard">
                         <h3>Tippspiel</h3>
-                        <p style="text-align:center; margin-top:0;">
+                        <p class="text-center mt-0">
                             <b>FC Bayern vs. VfB Stuttgart</b><br>
-                            <span style="font-size:0.85rem; color:var(--text-muted);">Trage deinen Namen und dein Wunschergebnis ein.</span>
+                            <span class="info-label">Trage deinen Namen und dein Wunschergebnis ein.</span>
                         </p>
-                        <input type="text" id="tippName" placeholder="Dein Vorname..." style="margin-bottom: 10px;">
-                        <input type="text" id="tippValue" placeholder="Dein Tipp (z.B. 2:1)" style="margin-bottom: 15px;">
+                        <input type="text" id="tippName" placeholder="Dein Vorname..." class="mb-10">
+                        <input type="text" id="tippValue" placeholder="Dein Tipp (z.B. 2:1)" class="mb-15">
                         <button class="btn-action" onclick="window.submitTipp()">Tipp abgeben</button>
                         
-                        <div style="margin-top:30px;">
-                            <h4 style="text-transform:uppercase; font-size:0.85rem; letter-spacing:1px; color:var(--text-muted); border-bottom:1px solid var(--border-glass); padding-bottom:5px; margin-bottom:10px;">Alle Tipps</h4>
+                        <div class="mt-30">
+                            <h4 class="section-subtitle">Alle Tipps</h4>
                             <div id="tippList" style="min-height: 50px;">Lade Tipps...</div>
                         </div>
                     </div>
@@ -760,9 +772,9 @@
                     
                    <div class="card">
                         <h3>Rubbellos</h3>
-                        <div id="scratch-container" style="position:relative; background:rgba(0,0,0,0.05); height:160px; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
-                            <span style="font-weight:500; color:var(--text); font-size:1.3rem; text-align:center; line-height:1.4;">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
-                            <canvas id="scratch" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:crosshair; touch-action:none;"></canvas>
+                        <div id="scratch-container" class="scratch-container">
+                            <span class="scratch-text">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
+                            <canvas id="scratch" class="scratch-canvas"></canvas>
                         </div>
                     </div>
                 </main>
@@ -773,32 +785,32 @@
                     <img src="image_2.png" alt="Herz" class="deco-heart">
                     
                     <div class="card">
-                        <p style="text-align:center; margin-top:0;">Teile deine Fotos mit uns.</p>
+                        <p class="text-center mt-0">Teile deine Fotos mit uns.</p>
                         
-                        <div style="position: relative; overflow: hidden; display: inline-block; width: 100%; margin-bottom: 10px; margin-top: 10px;">
-                            <button class="btn-action" style="pointer-events: none;">Foto auswählen</button>
-                            <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
+                        <div class="upload-wrapper">
+                            <button class="btn-action pointer-none">Foto auswählen</button>
+                            <input type="file" id="fileInput" accept="image/*" onchange="window.uploadPhoto(this)" class="file-input-hidden">
                         </div>
                         
-                        <div id="uploadProgress" style="display: none; width: 100%; background: rgba(0,0,0,0.05); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 10px;">
-                            <div id="uploadBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        <div id="uploadProgress" class="progress-container">
+                            <div id="uploadBar" class="progress-bar"></div>
                         </div>
-                        <p id="uploadText" style="text-align: center; font-size: 0.85rem; margin-top: 10px; font-weight: 400;"></p>
+                        <p id="uploadText" class="progress-text"></p>
                         
-                        <hr style="border:none; border-top:1px solid var(--border-glass); margin:25px 0 25px 0;">
+                        <hr class="divider">
                         
                         <h3>Alle Bilder</h3>
-                        <div style="display:flex; justify-content:center; margin-bottom:15px;">
-                            <button class="btn-action" style="width:auto; padding:8px 15px; font-size:0.8rem; border-radius:10px;" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
+                        <div class="flex-center mb-15">
+                            <button class="btn-action btn-small" onclick="window.downloadAllPhotos()">📦 ZIP Download</button>
                         </div>
                         
-                        <div id="zipProgress" style="display: none; width: 100%; background: rgba(0,0,0,0.05); border-radius: 3px; height: 6px; overflow: hidden; margin-bottom: 10px;">
-                            <div id="zipBar" style="background: var(--text); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        <div id="zipProgress" class="progress-container mb-10">
+                            <div id="zipBar" class="progress-bar"></div>
                         </div>
-                        <p id="zipText" style="text-align: center; font-size: 0.85rem; margin-top: 5px; margin-bottom: 15px; font-weight: 400; display:none;"></p>
+                        <p id="zipText" class="progress-text mb-15"></p>
 
                         <div id="photoGrid"></div>
-                        <button id="loadMoreBtn" class="btn-action" style="margin-top:20px; display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
+                        <button id="loadMoreBtn" class="btn-action mt-20" style="display:none;" onclick="window.loadMorePhotos()">Weitere Bilder laden ↓</button>
                     </div>
                 </main>
 
@@ -809,42 +821,42 @@
                     
                     <div class="card">
                         <h3>Gästebuch</h3>
-                        <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." style="height:120px; resize:none;"></textarea>
-                        <button class="btn-action" style="margin-top:10px;" onclick="window.addWish()">Senden</button>
-                        <div id="wList" style="margin-top:25px;"></div>
+                        <textarea id="wIn" placeholder="Hinterlasse eine Nachricht..." class="textarea-large"></textarea>
+                        <button class="btn-action mt-10" onclick="window.addWish()">Senden</button>
+                        <div id="wList" class="mt-25"></div>
                     </div>
                     
                     <div class="card">
                         <h3>Location & WLAN</h3>
-                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
-                                <p style="margin:0 0 5px 0; font-size:0.85rem;">Adresse</p>
-                                <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">${CONFIG.location}</p>
+                            <div class="info-block">
+                                <p class="info-label">Adresse</p>
+                                <p class="info-value">${CONFIG.location}</p>
                             </div>
                             
-                            <button class="btn-action" style="margin: 15px 0 25px 0;" 
+                            <button class="btn-action mt-15 mb-25" 
                                 onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.location), '_blank')">
                                 In Google Maps öffnen
                             </button>
                         
-                            <div style="padding: 15px 0; border-bottom: 1px solid var(--border-glass);">
-                                <p style="margin:0 0 5px 0; font-size:0.85rem;">WLAN</p>
-                                <p style="margin:0; font-weight:500; font-size:1rem; color:var(--text);">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
+                            <div class="info-block">
+                                <p class="info-label">WLAN</p>
+                                <p class="info-value">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
                             </div>
                             
-                            <button class="btn-action" style="margin-top: 15px;" onclick="location.href='tel:${CONFIG.taxi}'">
+                            <button class="btn-action mt-15" onclick="location.href='tel:${CONFIG.taxi}'">
                                 Taxi rufen
                             </button>
                         </div>
                 </main>
 
                 <main id="admin" class="page">
-                    <div class="card" style="border:1px solid #ff3b30;">
-                        <h3 style="color:#ff3b30;">Admin Konsole</h3>
-                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." style="margin-bottom:15px;">
+                    <div class="card card-admin">
+                        <h3 class="admin-title">Admin Konsole</h3>
+                        <input type="text" id="tIn" placeholder="Live-Ticker Text..." class="mb-15">
                         <button class="btn-action" onclick="window.setTicker(true)">Ticker aktivieren</button>
-                        <button class="btn-action" style="margin-top:10px;" onclick="window.setTicker(false)">Ticker aus</button>
-                        <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:20px;">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Highscore, etc.) zu löschen!</p>
-                        <button class="btn-action" style="margin-top:15px;" onclick="location.reload()">Admin-Modus beenden</button>
+                        <button class="btn-action mt-10" onclick="window.setTicker(false)">Ticker aus</button>
+                        <p class="admin-hint">Tipp: Du kannst nun in die anderen Tabs wechseln, um Einträge (Bilder, Highscore, etc.) zu löschen!</p>
+                        <button class="btn-action mt-15" onclick="location.reload()">Admin-Modus beenden</button>
                     </div>
                 </main>
             `;
@@ -864,14 +876,13 @@
         }
 
         function initFunListeners() {
-            // Highscore Listener
             onSnapshot(query(collection(db, "highscores"), orderBy("score", "desc"), limit(10)), (snap) => {
                 const list = document.getElementById('hsList'); if(!list) return;
                 let html = "";
                 let rank = 1;
                 snap.forEach(d => {
                     const s = d.data();
-                    html += `<div class="hs-item" style="align-items: center;">
+                    html += `<div class="hs-item">
                         <span class="hs-rank">${rank}.</span>
                         <span class="hs-name">${s.name}</span>
                         <span class="hs-score">${s.score} Pkt.</span>
@@ -879,23 +890,22 @@
                     </div>`;
                     rank++;
                 });
-                if(html === "") html = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Einträge. Zeig was du kannst!</p>";
+                if(html === "") html = "<p class='info-label mt-0'>Noch keine Einträge. Zeig was du kannst!</p>";
                 list.innerHTML = html;
             });
 
-            // Tippspiel Listener
             onSnapshot(query(collection(db, "tipps"), orderBy("time", "desc")), (snap) => {
                 const list = document.getElementById('tippList'); if(!list) return;
                 let html = "";
                 snap.forEach(d => {
                     const s = d.data();
-                    html += `<div class="hs-item" style="align-items: center;">
+                    html += `<div class="hs-item">
                         <span class="hs-name" style="font-weight: 500;">${s.name}</span>
-                        <span class="hs-score" style="font-size: 1.1rem; color: var(--text); background: rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 8px;">${s.tipp}</span>
+                        <span class="tipp-badge">${s.tipp}</span>
                         <button class="btn-del" onclick="window.deleteEntry('tipps','${d.id}')">✕</button>
                     </div>`;
                 });
-                if(html === "") html = "<p style='font-size:0.9rem; color:var(--text-muted);'>Noch keine Tipps abgegeben.</p>";
+                if(html === "") html = "<p class='info-label mt-0'>Noch keine Tipps abgegeben.</p>";
                 list.innerHTML = html;
             });
         }
@@ -905,9 +915,9 @@
                 const list = document.getElementById('wList'); if(!list) return;
                 let html = "";
                 snap.forEach(d => {
-                    html += `<div style="padding:20px; margin-bottom:15px; border-radius: 16px; background: rgba(0,0,0,0.03); position:relative;">
-                        <p style="margin:0; line-height: 1.5; padding-right: 25px; color:var(--text);">${d.data().msg}</p>
-                        <button class="btn-del" style="top:15px; right:15px; width:22px; height:22px; font-size:10px;" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
+                    html += `<div class="guestbook-entry">
+                        <p class="guestbook-text">${d.data().msg}</p>
+                        <button class="btn-del btn-del-corner" onclick="window.deleteEntry('guestbook','${d.id}')">✕</button>
                     </div>`;
                 });
                 list.innerHTML = html;
@@ -963,13 +973,13 @@
                     CONFIG.seating.forEach(tisch => {
                         tisch.n.forEach(name => {
                             if(name.toLowerCase().includes(v)) {
-                                matches.push(`<span style="font-weight:500; font-size:1.4rem; color:var(--text);">${name}</span><br><span style="color:var(--text-muted); font-size:0.9rem;">Dein Platz:</span> <span style="color:var(--accent); font-weight:600;">${tisch.t}</span>`);
+                                matches.push(`<span class="search-name">${name}</span><br><span class="search-table-label">Dein Platz:</span> <span class="search-table-value">${tisch.t}</span>`);
                             }
                         });
                     });
 
                     if(matches.length > 0) {
-                        res.innerHTML = matches.join('<br><br><hr style="width:30px; margin:0 auto; border-color:var(--border-glass);"><br>');
+                        res.innerHTML = matches.join('<br><br><hr class="divider divider-small"><br>');
                     } else {
                         res.innerHTML = "Nicht gefunden.";
                     }
@@ -1081,8 +1091,8 @@
             
             if(!q) { 
                 qc.innerHTML = `
-                    <h3 style='margin-bottom:15px; text-align:center;'>Quiz beendet!</h3>
-                    <p style='text-align:center; font-size:1.2rem; margin-bottom:20px; color:var(--text);'>Du hast <b style="color:var(--accent); font-size:1.5rem;">${window.qScore}</b> Punkte erreicht!</p>
+                    <h3 class="quiz-result-title">Quiz beendet!</h3>
+                    <p class="quiz-result-text">Du hast <b class="quiz-score-highlight">${window.qScore}</b> Punkte erreicht!</p>
                     <button class="btn-action" onclick="window.resetQuiz()">Zurück zur Übersicht</button>
                 `;
                 
@@ -1097,15 +1107,15 @@
             }
             
             let optionsHtml = q.o.map((opt, idx) => 
-                `<button class="btn-action" style="margin-bottom:10px; text-align:left; padding-left:20px;" onclick="window.answerQ(${idx})">${opt}</button>`
+                `<button class="btn-action btn-quiz-option" onclick="window.answerQ(${idx})">${opt}</button>`
             ).join('');
             
             qc.innerHTML = `
-                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
+                <div class="flex-between quiz-header mb-15">
                     <span>Frage ${window.qStep + 1} / ${CONFIG.quiz.length}</span>
-                    <span style="font-weight:600; color:var(--accent);">${window.qScore} Pkt</span>
+                    <span class="quiz-score-display">${window.qScore} Pkt</span>
                 </div>
-                <p style="text-align:left; margin: 0 0 25px 0; font-size: 1.25rem; font-weight: 500; color:var(--text); line-height:1.4;">${q.q}</p>
+                <p class="quiz-question">${q.q}</p>
                 ${optionsHtml}
             `;
         };
@@ -1124,7 +1134,6 @@
             document.getElementById('qNameInput').value = "";
         };
 
-        /* Funktion um das Tippspiel abzusenden */
         window.submitTipp = async () => {
             const name = document.getElementById('tippName').value.trim();
             const tipp = document.getElementById('tippValue').value.trim();
@@ -1351,7 +1360,6 @@
                 canvas.width = container.offsetWidth;
                 canvas.height = container.offsetHeight;
 
-                /* --- ALTROSA FÜR DAS RUBBELLOS --- */
                 ctx.fillStyle = '#aa8a8d'; 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 

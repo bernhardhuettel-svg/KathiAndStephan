@@ -773,7 +773,7 @@
                    <div class="card">
                         <h3>Rubbellos</h3>
                         <div id="scratch-container" class="scratch-container">
-                            <span class="scratch-text">GEWINN:<br><span style="color:var(--accent);">1x SCHNAPS! 🥃</span></span>
+                            <span class="scratch-text">ERGEBNIS:<br><span id="scratch-prize" style="color:var(--accent);">Wird geladen...</span></span>
                             <canvas id="scratch" class="scratch-canvas"></canvas>
                         </div>
                     </div>
@@ -1355,6 +1355,20 @@
             const container = document.getElementById('scratch-container');
             
             if (canvas && container.offsetWidth > 0 && !canvas.isInitialized) {
+                // --- NEUER CODE: ZUFALLSGENERATOR ---
+                const prizeElement = document.getElementById('scratch-prize');
+                if (prizeElement) {
+                    const isWinner = Math.random() > 0.5;
+                    if (isWinner) {
+                        prizeElement.innerText = "1x Lolli! 🍭";
+                        prizeElement.style.color = "var(--accent)";
+                    } else {
+                        prizeElement.innerText = "Niete! 😢";
+                        prizeElement.style.color = "var(--text-muted)";
+                    }
+                }
+                // --- ENDE DES NEUEN CODES ---
+
                 const ctx = canvas.getContext('2d');
                 
                 canvas.width = container.offsetWidth;

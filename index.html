@@ -767,7 +767,18 @@
                     
                     <div class="card">
                         <h3>Bingo</h3>
+                        
+                        <!-- NEU: Beschreibung für das Bingo -->
+                        <p class="text-center mt-0 mb-15" style="font-size: 0.85rem;">
+                            Beobachte die Feier gut! Klicke auf ein Feld, sobald du das Ereignis siehst. Hast du 3 Felder in einer Reihe (horizontal, vertikal oder diagonal), gibt es eine Überraschung!
+                        </p>
+                        
                         <div id="bGrid"></div>
+                        
+                        <!-- NEU: Gewinnmeldung (Standardmäßig unsichtbar) -->
+                        <div id="bingo-prize" style="display: none; text-align: center; margin-top: 20px; font-size: 1.2rem; font-weight: 500; color: var(--accent);">
+                            BINGO! 🎉 Gewinn: 1x Shot an der Bar! 🥃
+                        </div>
                     </div>
                     
                    <div class="card">
@@ -1342,11 +1353,55 @@
             const g = document.getElementById('bGrid');
             if (g && g.innerHTML.trim() === "") { 
                 const shuffledBingo = [...CONFIG.bingo].sort(() => 0.5 - Math.random()).slice(0, 9);
-                shuffledBingo.forEach(b => {
+                
+                // --- NEU: BINGO LOGIK ---
+                // Wir speichern den Zustand der 9 Felder (false = nicht geklickt, true = geklickt)
+                let bingoState = [false, false, false, false, false, false, false, false, false];
+                let hasWon = false; // Verhindert, dass man mehrmals gewinnt
+                
+                // Alle möglichen Gewinnlinien (Index-Nummern der 9 Felder in unserem Grid)
+                const winLines = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Waagerecht
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Senkrecht
+                    [0, 4, 8], [2, 4, 6]             // Diagonal
+                ];
+
+                shuffledBingo.forEach((b, index) => {
                     const d = document.createElement('div');
                     d.className = "bingo-cell";
                     d.innerText = b;
-                    d.onclick = () => { d.style.background = "var(--accent)"; d.style.color = "var(--bg)"; d.style.transform = "scale(0.95)"; d.style.border = "none"; };
+                    
+                    d.onclick = () => { 
+                        // Wenn schon gewonnen wurde oder das Feld schon grün ist, machen wir nichts mehr
+                        if (hasWon || bingoState[index]) return; 
+
+                        // Optische Anpassung
+                        d.style.background = "var(--accent)"; 
+                        d.style.color = "var(--bg)"; 
+                        d.style.transform = "scale(0.95)"; 
+                        d.style.border = "none"; 
+
+                        // Feld im Hintergrund als "geklickt" markieren
+                        bingoState[index] = true;
+
+                        // Prüfen, ob eine der Gewinnlinien komplett ist
+                        for (let line of winLines) {
+                            const [a, b, c] = line;
+                            if (bingoState[a] && bingoState[b] && bingoState[c]) {
+                                hasWon = true; // Bingo gefunden!
+                                
+                                // Die schöne Meldung unten einblenden
+                                const prizeMsg = document.getElementById('bingo-prize');
+                                if(prizeMsg) {
+                                    prizeMsg.style.display = "block";
+                                }
+                                
+                                // Extra Toast-Benachrichtigung für direktes Feedback
+                                window.showToast("🎉 BINGO! Du hast gewonnen!");
+                                break; // Schleife abbrechen, Gewinn steht fest
+                            }
+                        }
+                    };
                     g.appendChild(d);
                 });
             }
@@ -1355,7 +1410,7 @@
             const container = document.getElementById('scratch-container');
             
             if (canvas && container.offsetWidth > 0 && !canvas.isInitialized) {
-                // --- NEUER CODE: ZUFALLSGENERATOR ---
+                // Zufallsgenerator für Rubbellos
                 const prizeElement = document.getElementById('scratch-prize');
                 if (prizeElement) {
                     const isWinner = Math.random() > 0.5;
@@ -1367,7 +1422,6 @@
                         prizeElement.style.color = "var(--text-muted)";
                     }
                 }
-                // --- ENDE DES NEUEN CODES ---
 
                 const ctx = canvas.getContext('2d');
                 

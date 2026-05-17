@@ -157,23 +157,6 @@
         
         .tipp-badge { font-size: 1.1rem; color: var(--text); background: rgba(255,255,255,0.4); padding: 2px 8px; border-radius: 8px; }
         .mission-text { text-align: center; font-size: 1.2rem; font-weight: 500; margin: 30px 0; color: var(--text); transition: opacity 0.2s ease; }
-
-        /* --- TIC TAC TOE --- */
-        .ttt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 250px; margin: 0 auto; }
-        .ttt-cell { 
-            aspect-ratio: 1; 
-            background: rgba(255, 255, 255, 0.5); 
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border-glass); 
-            border-top: 1px solid rgba(255,255,255,0.8);
-            border-radius: 14px; 
-            display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; font-weight: 500; transition: all 0.2s; color: var(--text); 
-            box-shadow: 0 4px 15px rgba(74, 107, 91, 0.05);
-        }
-        [data-theme="dark"] .ttt-cell { background: rgba(255, 255, 255, 0.05); border-color: rgba(255,255,255,0.1); }
-        .ttt-cell.x { color: var(--accent); }
-        .ttt-cell.o { color: var(--text-muted); }
         
         /* --- PLATZSUCHE --- */
         .search-result { text-align: center; margin-top: 20px; font-weight: 400; font-size: 1.1rem; line-height: 1.6; }
@@ -255,7 +238,6 @@
         .page.active .card:nth-child(5) { animation-delay: 0.5s; }
         .page.active .card:nth-child(6) { animation-delay: 0.6s; }
         .page.active .card:nth-child(7) { animation-delay: 0.7s; }
-        .page.active .card:nth-child(8) { animation-delay: 0.8s; }
 
         .page.active .timeline-item { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
         .page.active .timeline-item:nth-child(1) { animation-delay: 0.2s; }
@@ -518,16 +500,6 @@
         let galLoaded = false;
         let photoLimit = 6;
         let photoUnsubscribe = null;
-
-        // --- TIC TAC TOE VARIABLEN ---
-        let tttBoard = ["", "", "", "", "", "", "", "", ""];
-        let tttCurrentPlayer = "X";
-        let tttGameActive = true;
-        const tttWinConditions = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],
-            [0, 4, 8], [2, 4, 6]
-        ];
 
         window.showToast = (msg) => {
             const container = document.getElementById('toast-container');
@@ -802,28 +774,6 @@
                             BINGO! 🎉 Gewinn: 1x Lolli! 🍭
                         </div>
                     </div>
-
-                    <!-- TIC TAC TOE KARTEN BLOCK ANFANG -->
-                    <div class="card">
-                        <h3>Tic Tac Toe</h3>
-                        <p class="text-center mt-0 mb-15" style="font-size: 0.85rem;">
-                            Spiele eine Runde gegen deinen Sitznachbarn!
-                        </p>
-                        <div id="ttt-board" class="ttt-grid">
-                            <div class="ttt-cell" onclick="window.tttMove(this, 0)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 1)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 2)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 3)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 4)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 5)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 6)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 7)"></div>
-                            <div class="ttt-cell" onclick="window.tttMove(this, 8)"></div>
-                        </div>
-                        <div id="ttt-status" class="text-center mt-15" style="font-weight: 500; color: var(--accent);">X ist am Zug</div>
-                        <button class="btn-action mt-15" onclick="window.tttReset()">Neustart</button>
-                    </div>
-                    <!-- TIC TAC TOE KARTEN BLOCK ENDE -->
                     
                    <div class="card">
                         <h3>Rubbellos</h3>
@@ -1392,65 +1342,6 @@
                 });
             }, 1000);
         }
-
-        // --- TIC TAC TOE FUNKTIONEN ---
-        window.tttMove = (element, index) => {
-            if (tttBoard[index] !== "" || !tttGameActive) return;
-
-            // Zug ausführen
-            tttBoard[index] = tttCurrentPlayer;
-            element.innerText = tttCurrentPlayer;
-            element.classList.add(tttCurrentPlayer.toLowerCase());
-
-            // Überprüfen, ob das Spiel vorbei ist
-            checkTttWin();
-        };
-
-        function checkTttWin() {
-            let roundWon = false;
-            for (let i = 0; i <= 7; i++) {
-                const winCondition = tttWinConditions[i];
-                const a = tttBoard[winCondition[0]];
-                const b = tttBoard[winCondition[1]];
-                const c = tttBoard[winCondition[2]];
-                if (a === "" || b === "" || c === "") continue;
-                if (a === b && b === c) {
-                    roundWon = true;
-                    break;
-                }
-            }
-
-            const statusElement = document.getElementById('ttt-status');
-
-            if (roundWon) {
-                statusElement.innerText = `Spieler ${tttCurrentPlayer} hat gewonnen! 🎉`;
-                tttGameActive = false;
-                window.showToast(`Spieler ${tttCurrentPlayer} gewinnt!`);
-                return;
-            }
-
-            const roundDraw = !tttBoard.includes("");
-            if (roundDraw) {
-                statusElement.innerText = "Unentschieden! 🤝";
-                tttGameActive = false;
-                return;
-            }
-
-            // Spieler wechseln
-            tttCurrentPlayer = tttCurrentPlayer === "X" ? "O" : "X";
-            statusElement.innerText = `${tttCurrentPlayer} ist am Zug`;
-        }
-
-        window.tttReset = () => {
-            tttBoard = ["", "", "", "", "", "", "", "", ""];
-            tttCurrentPlayer = "X";
-            tttGameActive = true;
-            document.getElementById('ttt-status').innerText = "X ist am Zug";
-            document.querySelectorAll('.ttt-cell').forEach(cell => {
-                cell.innerText = "";
-                cell.classList.remove('x', 'o');
-            });
-        };
 
         function initGames() {
             const g = document.getElementById('bGrid');

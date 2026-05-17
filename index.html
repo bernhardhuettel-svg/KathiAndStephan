@@ -405,7 +405,7 @@
             adminPW: "1234",
             names: "Kathi & Stephan",
             date: "2026-05-23T14:00:00",
-            wlan: { ssid: "Hochzeit-Gast", pw: "liebe2026" },
+            wlan: { ssid: "BHS Guest", user: "kathiundstephan", pw: "46169" },
             taxi: "0170 1234567",
             location: "Paul-Engel-Straße 1, 92729 Weiherhammer",
             story: [
@@ -456,19 +456,19 @@
             ],
             bingo: ["Kuss", "Tanz", "Prost", "Lachen", "Torte", "Rede", "DJ", "Wein", "Selfie", "Träne", "Blumen", "Buffet"],
             seating: [
-                { t: "Tisch 1", n: ["Stephan", "Kathi", "Ruth", "Silvia", "Reiner", "Werner", "Barbara"] },
-                { t: "Tisch 2", n: ["Matthias", "Ela", "Anja", "Berni", "Lena", "Verena", "Fabian", "Tom"] },
-                { t: "Tisch 3", n: ["Daniel", "Anastasia", "Ulli", "Christina", "Gerd", "Uschi", "Gita"] },
-                { t: "Tisch 4", n: ["Edith", "Carmen", "Sebastian", "Lorenz", "Beate", "Alexander", "Karl"] },
-                { t: "Tisch 5", n: ["Renate", "Bernhard", "Daniel", "Maria", "Annika", "Nicole", "Michaela", "Siegfried"] },
-                { t: "Tisch 6", n: ["Nadine", "Silke", "Armin", "Peter"] },
-                { t: "Tisch 7", n: ["Gerlinde", "Roland", "Thomas", "Melanie", "Moritz", "Marie", "Martin"] },
+                { t: "Tisch 1", n: ["Stephan", "Kathi", "Ruth", "Reiner", "Silvia", "Werner", "Barbara"] },
+                { t: "Tisch 2", n: ["Matthias", "Ela", "Anja", "Berni", "Lena", "Fabian", "Verena", "Tom"] },
+                { t: "Tisch 3", n: ["Daniel H.", "Christina", "Anastasia", "Ulli", "Gerd", "Uschi", "Gitta"] },
+                { t: "Tisch 4", n: ["Edith", "Carmen", "Sebastian D.", "Lorenz", "Alexander", "Beate", "Karl"] },
+                { t: "Tisch 5", n: ["Renate", "Bernhard", "Daniel B.", "Maria", "Annika", "Nicole", "Michaela", "Siegfried"] },
+                { t: "Tisch 6", n: ["Nadine", "Silke", "Peter S.", "Marina", "Peter L.", "Melissa", "Franzi", "Lea"] },
+                { t: "Tisch 7", n: ["Kira", "Joanna", "Vanessa", "Bernd", "Maria", "Selina", "Marie", "Sebastian W."] },
                 { t: "Tisch 8", n: ["Musik", "Zeremonie", "Last Minute"] },
-                { t: "Tisch 9", n: ["Sonja", "Steffi", "Martina", "Martin", "Sabrina", "Boris", "Stefan"] },
-                { t: "Tisch 10", n: ["Sonja", "Amy", "Katja", "Maja", "Moni", "Astrid"] },
+                { t: "Tisch 9", n: ["Katharina", "Alina", "Florian", "Sebastian G.", "Daniel R.", "Christoph", "Hannes", "Bianca"] },
+                { t: "Tisch 10", n: ["Sonja W.", "Amy", "Katja", "Maja", "Moni", "Astrid", "Sebastian M."] },
                 { t: "Tisch 11", n: ["Ines", "Tina", "Martina", "Alex", "Corina", "Naomi", "Christian"] },
-                { t: "Tisch 12", n: ["Katharina", "Bernd", "Maria", "Alina", "Florian", "Sebastian", "Daniel", "Christoph", "Sebastian"] },
-                { t: "Tisch 13", n: ["Peter", "Melissa", "Sebastian", "Franzi", "Lea", "Kira", "Joanna", "Vanessa"] }
+                { t: "Tisch 12", n: ["Gerlinde", "Roland", "Thomas", "Melanie", "Moritz", "Marie", "Martin"] },
+                { t: "Tisch 13", n: ["Sonja S.", "Steffi", "Martina", "Martin", "Sabrina", "Boris", "Stefan"] }
             ]
         };
 
@@ -617,7 +617,6 @@
                     
                     <img src="image_2.png" alt="Herz" class="deco-heart">
                     
-                    <!-- KARTE 1: DAS MENÜ -->
                     <div class="card text-center">
                         <h3 class="cursive-text menu-header">Menü</h3>
 
@@ -661,7 +660,6 @@
                         <p class="cursive-text menu-footer">Guten Appetit</p>
                     </div>
 
-                    <!-- KARTE 2: GETRÄNKE -->
                     <div class="card text-center">
                         <h3 class="cursive-text menu-header">Getränke</h3>
 
@@ -691,7 +689,6 @@
                         </div>
                     </div>
 
-                    <!-- KARTE 3: COCKTAILS -->
                     <div class="card text-center">
                         <h3 class="cursive-text menu-header">Cocktails</h3>
                         
@@ -748,7 +745,6 @@
                         <div id="qActiveScreen" class="mt-20" style="display:none;"></div>
                     </div>
 
-                    <!-- FUSSBALL TIPPSPIEL -->
                     <div class="card" id="tippCard">
                         <h3>Tippspiel</h3>
                         <p class="text-center mt-0">
@@ -768,14 +764,12 @@
                     <div class="card">
                         <h3>Bingo</h3>
                         
-                        <!-- NEU: Beschreibung für das Bingo -->
                         <p class="text-center mt-0 mb-15" style="font-size: 0.85rem;">
                             Beobachte die Feier gut! Klicke auf ein Feld, sobald du das Ereignis siehst. Hast du 3 Felder in einer Reihe (horizontal, vertikal oder diagonal), gibt es eine Überraschung!
                         </p>
                         
                         <div id="bGrid"></div>
                         
-                        <!-- NEU: Gewinnmeldung (Standardmäßig unsichtbar) -->
                         <div id="bingo-prize" style="display: none; text-align: center; margin-top: 20px; font-size: 1.2rem; font-weight: 500; color: var(--accent);">
                             BINGO! 🎉 Gewinn: 1x Shot an der Bar! 🥃
                         </div>
@@ -851,7 +845,7 @@
                         
                             <div class="info-block">
                                 <p class="info-label">WLAN</p>
-                                <p class="info-value">Netz: ${CONFIG.wlan.ssid}<br>Passwort: ${CONFIG.wlan.pw}</p>
+                                <p class="info-value">Netz: ${CONFIG.wlan.ssid}<br>Benutzer: ${CONFIG.wlan.user}<br>Passwort: ${CONFIG.wlan.pw}</p>
                             </div>
                             
                             <button class="btn-action mt-15" onclick="location.href='tel:${CONFIG.taxi}'">
